@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Ambulong">
+<meta name="description" content="VulnSpy privides materials allowing anyone to gain practical hands-on experience with cyber security.">
+<meta name="keywords" content="security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>VULNSPY - GET STARTED IN SECURITY</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<link rel="stylesheet" href="/css/custom.css" />
+<script src="/js/functions.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+</script>
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108901411-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108901411-2');
+</script>
+</head>
+<body>
+<div class="view-header" style="z-index: 999;">
+    <ul>
+    	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
+        <li><a href="/">VULNSPY</a></li>
+        <!--<div class="pull-right">
+            <li><a href="/about">ABOUT</a></li>
+        </div>-->
+    </ul>
+</div>
+<script>
+if(GetQueryString('u') != null){
+	window.location='https://www.vulnspy.com/'+GetQueryString('u');
+}
+</script>
+<style>
+.list{
+	margin: 0 auto;
+	margin-top: 8em;
+	max-width: 80em;
+	width: 95%;
+}
+.list h1{
+	padding: 0;
+}
+.list ul{
+	margin: 3em 0 0 0;
+	list-style: none;
+	padding: 0 0.2em;
+	font-size: 120%;
+}
+.list li{
+	margin: 0.5em 0;
+}
+.list ul .time{
+	width: 7em;
+	float: left;
+	font-weight: bold;
+}
+.list ul a{
+	margin: 0 0.2em;
+}
+</style>
+<div class="list">
+	<h1>Security's Demos Archive</h1>
+	<ul>
+		<li><div class="time">Jun 11, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/PMASA-2017-9" target="_blank" title="Launch Demo Directly">[>]</a><a href="/pmasa-2017-9/phpmyadmin_4.7.x_xsrf/csrf_vulnerability_(pmasa-2017-9)" target="_blank">phpMyAdmin 4.7.x XSRF/CSRF vulnerability (PMASA-2017-9)</a></li><li><div class="time">Jun 07, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/FiyoCMS" target="_blank" title="Launch Demo Directly">[>]</a><a href="/fiyocms/fiyo_cms" target="_blank">Fiyo CMS</a></li><li><div class="time">Jun 05, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/juice-shop" target="_blank" title="Launch Demo Directly">[>]</a><a href="/juice-shop/owasp_juice_shop_project" target="_blank">OWASP Juice Shop Project</a></li><li><div class="time">Jun 05, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/typecho1.1" target="_blank" title="Launch Demo Directly">[>]</a><a href="/tyecho1.1/typecho_blogging_platform_1.1" target="_blank">Typecho Blogging Platform 1.1</a></li><li><div class="time">Jun 05, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/WebGoat-8" target="_blank" title="Launch Demo Directly">[>]</a><a href="/webgoat-8/webgoat_8:_a_deliberately_insecure_web_application" target="_blank">WebGoat 8: A deliberately insecure Web Application</a></li><li><div class="time">Jun 04, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/CrossSiteContentHijacking" target="_blank" title="Launch Demo Directly">[>]</a><a href="/cross_site_content_hijacking/cross-site_content_(data)_hijacking_(xsch)_poc_project" target="_blank">Cross-Site Content (Data) Hijacking (XSCH) PoC Project</a></li><li><div class="time">Jun 04, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.8" target="_blank" title="Launch Demo Directly">[>]</a><a href="/wordpress-4.8/wordpress_4.8" target="_blank">Wordpress 4.8</a></li><li><div class="time">Jun 04, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/phpaudit-XXE" target="_blank" title="Launch Demo Directly">[>]</a><a href="/phpaudit-xxe/xml_external_entity_(xxe)" target="_blank">XML External Entity (XXE)</a></li><li><div class="time">Jun 04, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/DVWA-WooYun" target="_blank" title="Launch Demo Directly">[>]</a><a href="/dvwa-wooyun/dvwa-wooyun(乌云靶场)" target="_blank">DVWA-WooYun(乌云靶场)</a></li><li><div class="time">Jun 04, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank" title="Launch Demo Directly">[>]</a><a href="/dvwa/damn_vulnerable_web_application_(dvwa)" target="_blank">Damn Vulnerable Web Application (DVWA)</a></li><li><div class="time">Jun 04, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/sqli-labs" target="_blank" title="Launch Demo Directly">[>]</a><a href="/sqli-labs/sqli_labs" target="_blank">SQLI labs</a></li>	</ul>
+</div>
+</body>
+</html>

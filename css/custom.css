@@ -1,0 +1,141 @@
+@CHARSET "UTF-8";
+
+html,body{
+	background: #FFF;
+	color: #444;
+        height: 100%;
+        font-family: tahoma,'microsoft yahei',Helvetica,helvetica,arial,sans-serif;
+        min-width: 50em;
+}
+
+.view-header div, .view-header span, .view-header a, .view-header ul, .view-header li, .view-header p, .view-header img, .view-header button, .view-header input {
+	transition-property: all;
+	transition-duration: 300ms;
+	transition-timing-function: linear;
+	-moz-transition-property: all;
+	-moz-transition-duration: 300ms;
+	-moz-transition-timing-function: linear;
+	-webkit-transition-property: all;
+	-webkit-transition-duration: 300ms;
+	-webkit-transition-timing-function: linear;
+	-o-transition-property: all;
+	-o-transition-duration: 300ms;
+	-o-transition-timing-function: linear;
+}
+
+.nlink {
+    cursor: pointer;
+}
+
+.divlink {
+        cursor: pointer;
+}
+
+.hidden {
+	display: none;
+}
+
+a.disabled {
+        color:#666;
+        cursor:default;
+        text-decoration:none;
+}
+
+.view-header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 4em;
+    min-width: 50em;
+    background: #2C3844;
+    color: #FFF;
+    padding: 0 2em;
+}
+
+.view-header a{
+    float: left;
+    text-decoration: none;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.view-header h1{
+    font-size: 1.6em;
+    font-weight: 600;
+    line-height: 2.5em;
+    padding: 0;
+    margin: 0;
+}
+
+.view-header ul{
+    float: left;
+    list-style-type: none;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 3em;
+}
+
+.view-header ul li{
+    font-size: 1em;
+    float: left;
+    height: 100%;
+    line-height: 4em;
+    letter-spacing: 0.1em;
+    padding: 0 1em;
+    color: #9e9e9e;
+}
+
+.view-header ul li:hover{
+    background: #202931;
+}
+
+.footer{
+	padding: 5em 0;
+	text-align:center;
+}
+
+.footer a{
+	margin: 0 0.5em;
+}
+
+#modal-login .login-btn{
+	font-size: 150%;
+	color: #FFF;
+	background: #202931;
+	padding: 0.8em 1em 0.8em 1em;
+	max-width: 18em;
+	margin: 0.5em auto;
+}
+
+#modal-login .login-btn span{
+	background: no-repeat left center;
+	background-size: auto 55%;
+	padding: 1em;
+	margin-right: 0.7em;
+}
+
+#loading {
+	display: none;
+	position: fixed;
+	z-index: 9999;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0.88;
+	background: #000;
+	text-align: center;
+}
+
+#loading img{
+	margin-top: 20%;
+	width: 8em;
+	opacity: 1;
+}
+
+#loading h4{
+	font-size: 150%;
+	color: #FFF;
+	margin-top: 1em;
+}
