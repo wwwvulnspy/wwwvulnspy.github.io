@@ -31,6 +31,11 @@ function GetQueryString(name)
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 }
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="chs";
+}
 </script>
 <!--[if lt IE 9]>
 	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -50,9 +55,11 @@ function GetQueryString(name)
     <ul>
     	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
         <li><a href="/">VULNSPY</a></li>
-        <!--<div class="pull-right">
-            <li><a href="/about">ABOUT</a></li>
-        </div>-->
+        <li><a href="/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
     </ul>
 </div>
 <style>
@@ -117,7 +124,7 @@ function GetQueryString(name)
 			<a class="pull-right" href="https://www.vsplate.com/" target="_blank">Powered by VSPlate</a>
 		</div>
 	</div>
-	<p style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
 	<div class="content"><p style="text-indent:2em;">OWASP Juice Shop is an intentionally insecure web application written entirely in JavaScript which encompasses the entire range of OWASP Top Ten and other severe security flaws.</p>
 
 <p style="text-indent:2em;">The application contains a vast number of hacking challenges of varying difficulty where the user is supposed to exploit the underlying vulnerabilities. The hacking progress is tracked on a score board. Finding this score board is actually one of the (easy) challenges!</p>
@@ -139,5 +146,10 @@ bkimminich/juice-shop - <a href="https://github.com/bkimminich/juice-shop">https
 OWASP Juice Shop Tool Project - <a href="https://www.owasp.org/index.php/OWASP_Juice_Shop_Project">https://www.owasp.org/index.php/OWASP_Juice_Shop_Project</a><br>
 </p></div>
 </div>
+<script>
+if(lang == 'chs'){
+	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
+}
+</script>
 </body>
 </html>

@@ -31,6 +31,11 @@ function GetQueryString(name)
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 }
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="chs";
+}
 </script>
 <!--[if lt IE 9]>
 	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -50,9 +55,11 @@ function GetQueryString(name)
     <ul>
     	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
         <li><a href="/">VULNSPY</a></li>
-        <!--<div class="pull-right">
-            <li><a href="/about">ABOUT</a></li>
-        </div>-->
+        <li><a href="/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
     </ul>
 </div>
 <style>
@@ -117,7 +124,7 @@ function GetQueryString(name)
 			<a class="pull-right" href="https://www.vsplate.com/" target="_blank">Powered by VSPlate</a>
 		</div>
 	</div>
-	<p style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
 	<div class="content"><p style="text-indent:2em;">It may take a few seconds to startup WebGoat.  After launching the project, <b>visit <font color="red">http://***.vsplate.me/WebGoat/</font> to start the lesson.</b></p>
 
 <p style="text-indent:2em;">WebGoat is a deliberately insecure web application maintained by OWASP designed to teach web application security lessons. You can install and practice with WebGoat. There are other 'goats' such as WebGoat for .Net. In each lesson, users must demonstrate their understanding of a security issue by exploiting a real vulnerability in the WebGoat applications. For example, in one of the lessons the user must use SQL injection to steal fake credit card numbers. The application aims to provide a realistic teaching environment, providing users with hints and code to further explain the lesson.</p>
@@ -139,5 +146,10 @@ WebGoat/WebGoat - <a href="https://github.com/WebGoat/WebGoat">https://github.co
 Category:OWASP WebGoat Project - <a href="https://www.owasp.org/index.php/Category:OWASP_WebGoat_Project">https://www.owasp.org/index.php/Category:OWASP_WebGoat_Project</a><br>
 </p></div>
 </div>
+<script>
+if(lang == 'chs'){
+	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
+}
+</script>
 </body>
 </html>

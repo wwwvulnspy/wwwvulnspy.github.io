@@ -31,6 +31,11 @@ function GetQueryString(name)
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 }
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="chs";
+}
 </script>
 <!--[if lt IE 9]>
 	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
@@ -50,9 +55,11 @@ function GetQueryString(name)
     <ul>
     	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
         <li><a href="/">VULNSPY</a></li>
-        <!--<div class="pull-right">
-            <li><a href="/about">ABOUT</a></li>
-        </div>-->
+        <li><a href="/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
     </ul>
 </div>
 <style>
@@ -117,7 +124,7 @@ function GetQueryString(name)
 			<a class="pull-right" href="https://www.vsplate.com/" target="_blank">Powered by VSPlate</a>
 		</div>
 	</div>
-	<p style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
 	<div class="content"><p style="text-indent:2em;">WordPress is a free and open-source content management system (CMS) based on PHP and MySQL. To function, WordPress has to be installed on a web server, which would either be part of an Internet hosting service or a network host in its own right. </p>
 
 <h3 style="margin-top:1.5em;">GitHub Source</h3>
@@ -133,5 +140,10 @@ Wordpress SQL注入分析（一） - <a href="http://blog.vulnspy.com/2017/09/02
 Wordpress SQL注入分析（二） - <a href="http://blog.vulnspy.com/2017/09/03/Wordpress-SQL-Injection-Analysis-2/">http://blog.vulnspy.com/2017/09/03/Wordpress-SQL-Injection-Analysis-2/</a><br>
 </p></div>
 </div>
+<script>
+if(lang == 'chs'){
+	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
+}
+</script>
 </body>
 </html>

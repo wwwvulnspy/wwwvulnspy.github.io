@@ -4,9 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Ambulong">
-<meta name="description" content="SQLI labs to test error based, Blind boolean based, Time based.">
-<meta name="keywords" content="sqli,sqlilab,sqlilabs,sqli labs,sqli lab,sql injection,SQL注入,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
-<title>SQLI labs | VULNSPY</title>
+<meta name="description" content="DVWA是用PHP+MySQL编写的一套用于常规Web漏洞教学和检测的Web脆弱性测试程序，包含了SQL注入、XSS、盲注等常见的一些安全漏洞。旨在为安全专业人员测试自己的专业技能和工具提供合法的环境，帮助web开发者更好的理解web应用安全防范的过程。">
+<meta name="keywords" content="DVWA,DVWA Online,DVWA在线,Damn Vulnerable Web Application,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>Damn Vulnerable Web Application (DVWA) 漏洞环境 | VULNSPY</title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <script src="/js/jquery-1.11.3.min.js"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js"></script>
@@ -114,85 +114,30 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 }
 </style>
 <div class="lab">
-	<h1>SQLI labs</h1>
+	<h1>Damn Vulnerable Web Application (DVWA) 漏洞环境</h1>
 	<div class="demo">
 		<div class="demo-btn">
-			<a target="_blank" href="https://www.vsplate.com/?github=vulnspy/sqli-labs"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
+			<a target="_blank" href="https://www.vsplate.com/?github=vulnspy/DVWA"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
 		</div>
 		<div class="demo-link">
-			<a href="https://www.vsplate.com/?github=vulnspy/sqli-labs" target="_blank">https://www.vsplate.com/?github=vulnspy/sqli-labs</a>
+			<a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank">https://www.vsplate.com/?github=vulnspy/DVWA</a>
 			<a class="pull-right" href="https://www.vsplate.com/" target="_blank">Powered by VSPlate</a>
 		</div>
 	</div>
 	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
-	<div class="content"><p style="text-indent:2em;">SQLI-LABS is a platform to learn SQLI Following labs are covered for GET and POST scenarios:</p>
+	<div class="content"><p style="text-indent:2em;">DVWA是用PHP+MySQL编写的一套用于常规Web漏洞教学和检测的Web脆弱性测试程序，包含了SQL注入、XSS、盲注等常见的一些安全漏洞。旨在为安全专业人员测试自己的专业技能和工具提供合法的环境，帮助web开发者更好的理解web应用安全防范的过程。</p>
 
-<ol>
-<li>
-<p>Error Based Injections (Union Select)</p>
-<ol>
-<li>String</li>
-<li>Intiger</li>
-</ol>
-</li>
-<li>
-<p>Error Based Injections (Double Injection Based)</p>
-</li>
-<li>
-<p>BLIND Injections:
-1.Boolian Based
-2.Time Based</p>
-</li>
-<li>
-<p>Update Query Injection.</p>
-</li>
-<li>
-<p>Insert Query Injections.</p>
-</li>
-<li>
-<p>Header Injections.
-1.Referer based.
-2.UserAgent based.
-3.Cookie based.</p>
-</li>
-<li>
-<p>Second Order Injections</p>
-</li>
-<li>
-<p>Bypassing WAF</p>
-<ol>
-<li>Bypassing Blacklist filters
-Stripping comments
-Stripping OR &amp; AND
-Stripping SPACES and COMMENTS
-Stripping UNION &amp; SELECT</li>
-<li>Impidence mismatch</li>
-</ol>
-</li>
-<li>
-<p>Bypass addslashes()</p>
-</li>
-<li>
-<p>Bypassing mysql_real_escape_string. (under special conditions)</p>
-</li>
-<li>
-<p>Stacked SQL injections.</p>
-</li>
-<li>
-<p>Secondary channel extraction</p>
-</li>
-</ol>
+<p style="text-indent:2em;">DVWA的代码分为四种安全级别：Low，Medium，High，Impossible。初学者可以通过比较四种级别的代码，接触到一些PHP代码审计的内容。</p>
 
-<h3 style="margin-top:1.5em;">GitHub Source</h3>
+<h3 style="margin-top:1.5em;">GitHuby源码地址</h3>
 
-<p><a href="https://github.com/vulnspy/sqli-labs" target="_blank">https://github.com/vulnspy/sqli-labs</a></p>
+<p><a href="https://github.com/vulnspy/DVWA" target="_blank">https://github.com/vulnspy/DVWA</a></p>
 
-<h3 style="margin-top:1.5em;">Reference</h3>
+<h3 style="margin-top:1.5em;">参考</h3>
 
 <p style="text-align:left;">
-Audi-1/sqli-labs - <a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>
-AUDI'S Sqli-Labs Series - <a href="http://www.securitytube.net/user/Audi">http://www.securitytube.net/user/Audi</a><br>
-SQLi-LABS on Facebook - <a href="https://www.facebook.com/sqlilabs">https://www.facebook.com/sqlilabs</a><br>
+DVWA - Damn Vulnerable Web Application - <a href="http://www.dvwa.co.uk/">http://www.dvwa.co.uk/</a><br>
+DVWA中学习PHP常见漏洞及修复方法 - <a href="http://drops.xmd5.com/static/drops/papers-483.html">http://drops.xmd5.com/static/drops/papers-483.html</a><br>
 </p></div>
 </div>
 <script>
