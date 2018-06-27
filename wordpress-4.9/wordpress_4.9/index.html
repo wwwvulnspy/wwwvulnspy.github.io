@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Ambulong">
+<meta name="description" content="WordPress is a free and open-source content management system (CMS) based on PHP and MySQL. To function, WordPress has to be installed on a web server, which would either be part of an Internet hosting service or a network host in its own right.">
+<meta name="keywords" content="Wordpress,4.9,Sqli,wpdb,sql injection,SQL注入,wp4.9,4.9.6,wpdb file delete,Wordpress文件删除,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>Wordpress 4.9 | VULNSPY</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<link rel="stylesheet" href="/css/custom.css" />
+<script src="/js/functions.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="chs";
+}
+</script>
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108901411-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108901411-2');
+</script>
+</head>
+<body>
+<div class="view-header" style="z-index: 999;">
+    <ul>
+    	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
+        <li><a href="/">VULNSPY</a></li>
+        <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
+    </ul>
+</div>
+<style>
+.lab{
+	margin: 0 auto;
+	margin-top: 8em;
+	max-width: 80em;
+	width: 95%;
+}
+.lab h1{
+	padding: 0;
+	font-size: 190%;
+	text-align: center;
+}
+
+.lab .demo{
+	font-size: 115%;
+	line-height: 2em;
+	border: 1px solid #ccc;
+	background: #2C3844;
+	margin: 1.8em 0 1em 0;
+}
+.lab .demo .demo-btn{
+	text-align: center;
+	font-size: 150%;
+	margin: 0.3em 0;
+	color: #FFF;
+}
+.lab .demo .demo-btn a{
+	background: transparent;
+	padding: 1em;
+	font-size: 100%;
+	display: block;
+	
+}
+.lab .demo .demo-link{
+	background: rgba(0,0,0,.25);
+}
+.lab .demo a{
+	font-size: 50%;
+	text-transform: uppercase;
+	padding: 0 0.5em;
+	color: #FFF;
+}
+.lab .content{
+	font-size: 120%;
+	line-height: 2em;
+}
+.lab .content p{
+	margin: 1em 0;
+	text-align: justify;
+}
+</style>
+<div class="lab">
+	<h1>Wordpress 4.9</h1>
+	<div class="demo">
+		<div class="demo-btn">
+			<a target="_blank" href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
+		</div>
+		<div class="demo-link">
+			<a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank">http://www.vsplate.com/?github=vulnspy/wordpress-4.9</a>
+			<a class="pull-right" href="https://www.vsplate.com/" target="_blank">Powered by VSPlate</a>
+		</div>
+	</div>
+	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<div class="content"><p style="text-indent:2em;">WordPress is a free and open-source content management system (CMS) based on PHP and MySQL. To function, WordPress has to be installed on a web server, which would either be part of an Internet hosting service or a network host in its own right. </p>
+
+<h3 style="margin-top:1.5em;">GitHub Source</h3>
+
+<p><a href="https://github.com/vulnspy/wordpress-4.9" target="_blank">https://github.com/vulnspy/wordpress-4.9</a></p>
+
+<h3 style="margin-top:1.5em;">Reference</h3>
+
+<p style="text-align:left;">
+WARNING: WordPress File Delete to Code Execution - <a href="https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/">https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/</a><br>
+Wordpress <= 4.9.6 Arbitrary File Delection Vulnerbility Exploit
+ - <a href="http://blog.vulnspy.com/2018/06/27/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility-Exploit/">http://blog.vulnspy.com/2018/06/27/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility-Exploit/</a><br>
+Wordpress <= 4.9.6 任意文件删除漏洞 - <a href="http://blog.vulnspy.com/2018/06/27/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility/">http://blog.vulnspy.com/2018/06/27/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility/</a><br>
+</p></div>
+</div>
+<script>
+if(lang == 'chs'){
+	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
+}
+</script>
+</body>
+</html>
