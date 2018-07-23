@@ -34,7 +34,7 @@ function GetQueryString(name)
 var lang="en";
 var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
 if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
-	lang="chs";
+	lang="cn";
 }
 </script>
 <!--[if lt IE 9]>
@@ -63,16 +63,20 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
     </ul>
 </div>
 <style>
+img{
+	max-width: 100%;
+}
 .lab{
 	margin: 0 auto;
-	margin-top: 8em;
+	margin-top: 7em;
 	max-width: 80em;
 	width: 95%;
 }
 .lab h1{
 	padding: 0;
-	font-size: 190%;
+	font-size: 200%;
 	text-align: center;
+	font-weight: bold;
 }
 
 .lab .demo{
@@ -115,6 +119,7 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 </style>
 <div class="lab">
 	<h1>Cross-Site Content (Data) Hijacking (XSCH) PoC Project</h1>
+	<hr/>
 	<div class="demo">
 		<div class="demo-btn">
 			<a target="_blank" href="http://www.vsplate.com/?github=vulnspy/CrossSiteContentHijacking"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
@@ -125,19 +130,16 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 		</div>
 	</div>
 	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<hr/>
 	<div class="content"><p>This project can be used to provide a proof of concept for:</p>
-
 <ul>
 <li>Exploiting websites with insecure policy files (crossdomain.xml or clientaccesspolicy.xml) by reading their contents.</li>
 <li>Exploiting insecure file upload functionalities which do not check the file contents properly or allow to upload SWF or PDF files without having Content-Disposition header during the download process. In this scenario, the created SWF, XAP, or PDF file should be uploaded with any extension such as .JPG to the target website. Then, the "Object File" value should be set to the URL of the uploaded file to read the target website's contents.</li>
 <li>Exploiting CVE-2011-2461 (see the references for more details)</li>
 <li>Exploiting websites with insecure HTML5 cross-origin resource sharing (CORS) headers</li>
 </ul>
-
 <p>Note: .XAP files can be renamed to any other extension but they cannot be load cross-domain anymore. It seems Silverlight finds the file extension based on the provided URL and ignores it if it is not .XAP. This can still be exploited if a website allows users to use ";" or "/" after the actual file name to add a ".XAP" extension.</p>
-
 <h3 style="margin-top:1.5em;">Usage</h3>
-
 <ul>
 <li>Exploiting an insecure policy file:
 <ol>
@@ -164,13 +166,9 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 </ol>
 </li>
 </ul>
-
 <h3 style="margin-top:1.5em;">GitHub Source</h3>
-
 <p><a href="https://github.com/vulnspy/CrossSiteContentHijacking" target="_blank">https://github.com/vulnspy/CrossSiteContentHijacking</a></p>
-
 <h3 style="margin-top:1.5em;">Reference</h3>
-
 <p style="text-align:left;">
 nccgroup/CrossSiteContentHijacking - <a href="https://github.com/nccgroup/CrossSiteContentHijacking">https://github.com/nccgroup/CrossSiteContentHijacking</a><br>
 Even uploading a JPG file can lead to Cross-Site Content Hijacking (client-side attack)! - <a href="https://soroush.secproject.com/blog/2014/05/even-uploading-a-jpg-file-can-lead-to-cross-domain-data-hijacking-client-side-attack/">https://soroush.secproject.com/blog/2014/05/even-uploading-a-jpg-file-can-lead-to-cross-domain-data-hijacking-client-side-attack/</a><br>
@@ -178,7 +176,7 @@ Flash it baby! - <a href="https://www.slideshare.net/SoroushDalili/flash-it-baby
 </p></div>
 </div>
 <script>
-if(lang == 'chs'){
+if(lang == 'cn'){
 	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
 }
 </script>

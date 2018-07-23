@@ -34,7 +34,7 @@ function GetQueryString(name)
 var lang="en";
 var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
 if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
-	lang="chs";
+	lang="cn";
 }
 </script>
 <!--[if lt IE 9]>
@@ -70,7 +70,7 @@ if(GetQueryString('u') != null){
 <style>
 .list{
 	margin: 0 auto;
-	margin-top: 8em;
+	margin-top: 6em;
 	max-width: 80em;
 	width: 95%;
 }
@@ -78,7 +78,7 @@ if(GetQueryString('u') != null){
 	padding: 0;
 }
 .list ul{
-	margin: 3em 0 0 0;
+	margin: 1em 0 0 0;
 	list-style: none;
 	padding: 0 0.2em;
 	font-size: 120%;
@@ -86,19 +86,50 @@ if(GetQueryString('u') != null){
 .list li{
 	margin: 0.5em 0;
 }
-.list ul .time{
+.list ul li .time{
 	width: 7em;
-	float: left;
-	font-weight: bold;
+	float: right;
+}
+.list ul li .title{
+	font-weight: lighter;
 }
 .list ul a{
 	margin: 0 0.2em;
 }
+.list .desc{
+	margin-top: 1.5em;
+	font-size: 120%;
+}
+.list .desc label{
+	min-width: 7em;
+	font-weight:bold;
+}
+.list .lang{
+	margin-top: 1.5em;
+	font-size: 120%;
+}
+.list .lang a {
+	color: #444;
+	padding: 0 0.3em;
+}
+.list .lang a.selected{
+	font-weight: bold;
+}
+.list .lang label{
+	width: 6em;
+	font-weight:bold;
+}
 </style>
 <div class="list">
-	<h1>Security's Demos Archive</h1>
+	<p class="lang">
+		<label>LANGUAGE</label>
+		<a class="selected" href="/">ALL</a> | 
+		<a  href="/en">ENGLISH</a> | 
+		<a  href="/cn">中文</a>
+	</p>
+	<hr/>
 	<ul>
-		<li><div class="time">Jun 27, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank" title="Launch Demo Directly">[>]</a><a href="/wordpress-4.9/wordpress_4.9" target="_blank">Wordpress 4.9</a></li><li><div class="time">Jun 21, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1" target="_blank" title="Launch Demo Directly">[>]</a><a href="/phpmyadmin-4.8.1/phpmyadmin_4.8.1_lfi_to_rce_vulnerability" target="_blank">phpMyAdmin 4.8.1 LFI to RCE Vulnerability</a></li><li><div class="time">Jun 11, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/PMASA-2017-9" target="_blank" title="Launch Demo Directly">[>]</a><a href="/pmasa-2017-9/phpmyadmin_4.7.x_xsrf/csrf_vulnerability_(pmasa-2017-9)" target="_blank">phpMyAdmin 4.7.x XSRF/CSRF vulnerability (PMASA-2017-9)</a></li><li><div class="time">Jun 07, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/FiyoCMS" target="_blank" title="Launch Demo Directly">[>]</a><a href="/fiyocms/fiyo_cms" target="_blank">Fiyo CMS</a></li><li><div class="time">Jun 05, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/juice-shop" target="_blank" title="Launch Demo Directly">[>]</a><a href="/juice-shop/owasp_juice_shop_project" target="_blank">OWASP Juice Shop Project</a></li><li><div class="time">Jun 05, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/typecho1.1" target="_blank" title="Launch Demo Directly">[>]</a><a href="/tyecho1.1/typecho_blogging_platform_1.1" target="_blank">Typecho Blogging Platform 1.1</a></li><li><div class="time">Jun 05, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/WebGoat-8" target="_blank" title="Launch Demo Directly">[>]</a><a href="/webgoat-8/webgoat_8:_a_deliberately_insecure_web_application" target="_blank">WebGoat 8: A deliberately insecure Web Application</a></li><li><div class="time">Jun 04, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/CrossSiteContentHijacking" target="_blank" title="Launch Demo Directly">[>]</a><a href="/cross_site_content_hijacking/cross-site_content_(data)_hijacking_(xsch)_poc_project" target="_blank">Cross-Site Content (Data) Hijacking (XSCH) PoC Project</a></li><li><div class="time">Jun 04, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.8" target="_blank" title="Launch Demo Directly">[>]</a><a href="/wordpress-4.8/wordpress_4.8" target="_blank">Wordpress 4.8</a></li><li><div class="time">Jun 04, 2018</div><a href="http://www.vsplate.com/?github=vulnspy/phpaudit-XXE" target="_blank" title="Launch Demo Directly">[>]</a><a href="/phpaudit-xxe/xml_external_entity_(xxe)" target="_blank">XML External Entity (XXE)</a></li><li><div class="time">Jun 04, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/DVWA-WooYun" target="_blank" title="Launch Demo Directly">[>]</a><a href="/dvwa-wooyun/dvwa-wooyun(乌云靶场)" target="_blank">DVWA-WooYun(乌云靶场)</a></li><li><div class="time">Jun 04, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank" title="Launch Demo Directly">[>]</a><a href="/dvwa/damn_vulnerable_web_application_(dvwa)" target="_blank">Damn Vulnerable Web Application (DVWA)</a></li><li><div class="time">Jun 04, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/sqli-labs" target="_blank" title="Launch Demo Directly">[>]</a><a href="/sqli-labs/sqli_labs" target="_blank">SQLI labs</a></li><li><div class="time">Jun 04, 2018</div><a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank" title="Launch Demo Directly">[>]</a><a href="/dvwa-chs/damn_vulnerable_web_application_(dvwa)_漏洞环境" target="_blank">Damn Vulnerable Web Application (DVWA) 漏洞环境</a></li>	</ul>
+		<li><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility-Exploit/wordpress_&lt;=_4.9.6_arbitrary_file_deletion_vulnerability_exploit">Wordpress &lt;= 4.9.6 Arbitrary File Deletion Vulnerability Exploit</a><div class="time">Jun 27, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/cn-Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility/wordpress_&lt;=_4.9.6_任意文件删除漏洞">Wordpress &lt;= 4.9.6 任意文件删除漏洞</a><div class="time">Jun 27, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/wordpress-4.9/wordpress_4.9">Wordpress 4.9</a><div class="time">Jun 27, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/phpmyadmin-4.8.1/phpmyadmin_4.8.1_lfi_to_rce_vulnerability">phpMyAdmin 4.8.1 LFI to RCE Vulnerability</a><div class="time">Jun 21, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/cn-phpmyadmin-4.8.1-lfi-to-rce/phpmyadmin_4.8.x_本地文件包含漏洞利用">phpMyAdmin 4.8.x 本地文件包含漏洞利用</a><div class="time">Jun 21, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/PMASA-2017-9" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/pmasa-2017-9/phpmyadmin_4.7.x_xsrf/csrf_vulnerability_(pmasa-2017-9)">phpMyAdmin 4.7.x XSRF/CSRF vulnerability (PMASA-2017-9)</a><div class="time">Jun 11, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/PMASA-2017-9" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/cn-phpMyAdmin-4-7-x-XSRF-CSRF-vulnerability-exploit/phpmyadmin_4.7.x_csrf_漏洞利用">phpMyAdmin 4.7.x CSRF 漏洞利用</a><div class="time">Jun 10, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/FiyoCMS" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/fiyocms/fiyo_cms">Fiyo CMS</a><div class="time">Jun 07, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/juice-shop" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/juice-shop/owasp_juice_shop_project">OWASP Juice Shop Project</a><div class="time">Jun 05, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/typecho1.1" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/tyecho1.1/typecho_blogging_platform_1.1_反序列化漏洞">Typecho Blogging Platform 1.1 反序列化漏洞</a><div class="time">Jun 05, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/WebGoat-8" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/webgoat-8/webgoat_8:_a_deliberately_insecure_web_application">WebGoat 8: A deliberately insecure Web Application</a><div class="time">Jun 05, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/CrossSiteContentHijacking" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/cross_site_content_hijacking/cross-site_content_(data)_hijacking_(xsch)_poc_project">Cross-Site Content (Data) Hijacking (XSCH) PoC Project</a><div class="time">Jun 04, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.8" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/wordpress-4.8/wordpress_4.8">Wordpress 4.8</a><div class="time">Jun 04, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/phpaudit-XXE" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/phpaudit-xxe/xml_external_entity_(xxe)">XML External Entity (XXE)</a><div class="time">Jun 04, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/DVWA-WooYun" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/dvwa-wooyun/dvwa-wooyun(乌云靶场)">DVWA-WooYun(乌云靶场)</a><div class="time">Jun 04, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/dvwa/damn_vulnerable_web_application_(dvwa)">Damn Vulnerable Web Application (DVWA)</a><div class="time">Jun 04, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/sqli-labs" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/sqli-labs/sqli_labs">SQLI labs</a><div class="time">Jun 04, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/dvwa-chs/damn_vulnerable_web_application_(dvwa)_漏洞环境">Damn Vulnerable Web Application (DVWA) 漏洞环境</a><div class="time">Jun 04, 2018</div></li>	</ul>
 </div>
 </body>
 </html>

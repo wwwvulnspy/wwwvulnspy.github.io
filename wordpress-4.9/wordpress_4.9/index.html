@@ -34,7 +34,7 @@ function GetQueryString(name)
 var lang="en";
 var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
 if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
-	lang="chs";
+	lang="cn";
 }
 </script>
 <!--[if lt IE 9]>
@@ -63,16 +63,20 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
     </ul>
 </div>
 <style>
+img{
+	max-width: 100%;
+}
 .lab{
 	margin: 0 auto;
-	margin-top: 8em;
+	margin-top: 7em;
 	max-width: 80em;
 	width: 95%;
 }
 .lab h1{
 	padding: 0;
-	font-size: 190%;
+	font-size: 200%;
 	text-align: center;
+	font-weight: bold;
 }
 
 .lab .demo{
@@ -115,6 +119,7 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 </style>
 <div class="lab">
 	<h1>Wordpress 4.9</h1>
+	<hr/>
 	<div class="demo">
 		<div class="demo-btn">
 			<a target="_blank" href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
@@ -125,14 +130,11 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 		</div>
 	</div>
 	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<hr/>
 	<div class="content"><p style="text-indent:2em;">WordPress is a free and open-source content management system (CMS) based on PHP and MySQL. To function, WordPress has to be installed on a web server, which would either be part of an Internet hosting service or a network host in its own right. </p>
-
 <h3 style="margin-top:1.5em;">GitHub Source</h3>
-
 <p><a href="https://github.com/vulnspy/wordpress-4.9" target="_blank">https://github.com/vulnspy/wordpress-4.9</a></p>
-
 <h3 style="margin-top:1.5em;">Reference</h3>
-
 <p style="text-align:left;">
 WARNING: WordPress File Delete to Code Execution - <a href="https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/">https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/</a><br>
 Wordpress <= 4.9.6 Arbitrary File Delection Vulnerbility Exploit
@@ -141,7 +143,7 @@ Wordpress <= 4.9.6 任意文件删除漏洞 - <a href="http://blog.vulnspy.com/2
 </p></div>
 </div>
 <script>
-if(lang == 'chs'){
+if(lang == 'cn'){
 	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
 }
 </script>

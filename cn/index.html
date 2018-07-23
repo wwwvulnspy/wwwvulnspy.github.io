@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Ambulong">
+<meta name="description" content="VulnSpy privides materials allowing anyone to gain practical hands-on experience with cyber security.">
+<meta name="keywords" content="security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>VULNSPY - GET STARTED IN SECURITY</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<link rel="stylesheet" href="/css/custom.css" />
+<script src="/js/functions.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="cn";
+}
+</script>
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108901411-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108901411-2');
+</script>
+</head>
+<body>
+<div class="view-header" style="z-index: 999;">
+    <ul>
+    	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
+        <li><a href="/">VULNSPY</a></li>
+        <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
+    </ul>
+</div>
+<script>
+if(GetQueryString('u') != null){
+	window.location='https://www.vulnspy.com/'+GetQueryString('u');
+}
+</script>
+<style>
+.list{
+	margin: 0 auto;
+	margin-top: 6em;
+	max-width: 80em;
+	width: 95%;
+}
+.list h1{
+	padding: 0;
+}
+.list ul{
+	margin: 1em 0 0 0;
+	list-style: none;
+	padding: 0 0.2em;
+	font-size: 120%;
+}
+.list li{
+	margin: 0.5em 0;
+}
+.list ul li .time{
+	width: 7em;
+	float: right;
+}
+.list ul li .title{
+	font-weight: lighter;
+}
+.list ul a{
+	margin: 0 0.2em;
+}
+.list .desc{
+	margin-top: 1.5em;
+	font-size: 120%;
+}
+.list .desc label{
+	min-width: 7em;
+	font-weight:bold;
+}
+.list .lang{
+	margin-top: 1.5em;
+	font-size: 120%;
+}
+.list .lang a {
+	color: #444;
+	padding: 0 0.3em;
+}
+.list .lang a.selected{
+	font-weight: bold;
+}
+.list .lang label{
+	width: 6em;
+	font-weight:bold;
+}
+</style>
+<div class="list">
+	<p class="lang">
+		<label>LANGUAGE</label>
+		<a  href="/">ALL</a> | 
+		<a  href="/en">ENGLISH</a> | 
+		<a class="selected" href="/cn">中文</a>
+	</p>
+	<hr/>
+	<ul>
+		<li><a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/cn-Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility/wordpress_&lt;=_4.9.6_任意文件删除漏洞">Wordpress &lt;= 4.9.6 任意文件删除漏洞</a><div class="time">Jun 27, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/cn-phpmyadmin-4.8.1-lfi-to-rce/phpmyadmin_4.8.x_本地文件包含漏洞利用">phpMyAdmin 4.8.x 本地文件包含漏洞利用</a><div class="time">Jun 21, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/PMASA-2017-9" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/cn-phpMyAdmin-4-7-x-XSRF-CSRF-vulnerability-exploit/phpmyadmin_4.7.x_csrf_漏洞利用">phpMyAdmin 4.7.x CSRF 漏洞利用</a><div class="time">Jun 10, 2018</div></li><li><a href="http://www.vsplate.com/?github=vulnspy/typecho1.1" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/tyecho1.1/typecho_blogging_platform_1.1_反序列化漏洞">Typecho Blogging Platform 1.1 反序列化漏洞</a><div class="time">Jun 05, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/DVWA-WooYun" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/dvwa-wooyun/dvwa-wooyun(乌云靶场)">DVWA-WooYun(乌云靶场)</a><div class="time">Jun 04, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/sqli-labs" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/sqli-labs/sqli_labs">SQLI labs</a><div class="time">Jun 04, 2018</div></li><li><a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank" title="Launch Demo Directly">[>]</a><a class="title" href="/dvwa-chs/damn_vulnerable_web_application_(dvwa)_漏洞环境">Damn Vulnerable Web Application (DVWA) 漏洞环境</a><div class="time">Jun 04, 2018</div></li>	</ul>
+</div>
+</body>
+</html>

@@ -6,7 +6,7 @@
 <meta name="author" content="Ambulong">
 <meta name="description" content="Typecho is a PHP Blogging Platform. Simple and Powerful. Typecho是一个简单，轻巧的博客程序。基于PHP，使用多种数据库（Mysql，PostgreSQL，SQLite）储存数据。">
 <meta name="keywords" content="Typecho,unserialize,反序列化漏洞,反序列化,序列化,代码执行,RCE,漏洞,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
-<title>Typecho Blogging Platform 1.1 | VULNSPY</title>
+<title>Typecho Blogging Platform 1.1 反序列化漏洞 | VULNSPY</title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <script src="/js/jquery-1.11.3.min.js"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js"></script>
@@ -34,7 +34,7 @@ function GetQueryString(name)
 var lang="en";
 var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
 if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
-	lang="chs";
+	lang="cn";
 }
 </script>
 <!--[if lt IE 9]>
@@ -63,16 +63,20 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
     </ul>
 </div>
 <style>
+img{
+	max-width: 100%;
+}
 .lab{
 	margin: 0 auto;
-	margin-top: 8em;
+	margin-top: 7em;
 	max-width: 80em;
 	width: 95%;
 }
 .lab h1{
 	padding: 0;
-	font-size: 190%;
+	font-size: 200%;
 	text-align: center;
+	font-weight: bold;
 }
 
 .lab .demo{
@@ -114,7 +118,8 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 }
 </style>
 <div class="lab">
-	<h1>Typecho Blogging Platform 1.1</h1>
+	<h1>Typecho Blogging Platform 1.1 反序列化漏洞</h1>
+	<hr/>
 	<div class="demo">
 		<div class="demo-btn">
 			<a target="_blank" href="http://www.vsplate.com/?github=vulnspy/typecho1.1"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
@@ -125,16 +130,12 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 		</div>
 	</div>
 	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<hr/>
 	<div class="content"><p style="text-indent:2em;">Typecho是一个简单，轻巧的博客程序。基于PHP，使用多种数据库（Mysql，PostgreSQL，SQLite）储存数据。Typecho 是由两个单词 type 和 echo 组成的，在发音的时候也发这两个音 /taɪpˌ'ekoʊ/</p>
-
 <p style="text-indent:2em;">Typecho的前身是Magike，一个开源博客程序，由Typecho项目的发起人70开发的。该团队的最初形成，是在wordcamp china的活动上，后来有更多成员加入了这个项目，之后改名为Typecho。</p>
-
 <h3 style="margin-top:1.5em;">GitHub Source</h3>
-
 <p><a href="https://github.com/vulnspy/typecho1.1" target="_blank">https://github.com/vulnspy/typecho1.1</a></p>
-
 <h3 style="margin-top:1.5em;">Reference</h3>
-
 <p style="text-align:left;">
 typecho/typecho - <a href="https://github.com/typecho/typecho">https://github.com/typecho/typecho</a><br>
 Typecho 前台 getshell 漏洞分析 - <a href="https://paper.seebug.org/424/">https://paper.seebug.org/424/</a><br>
@@ -142,7 +143,7 @@ Typecho install.php 反序列化导致任意代码执行 - <a href="http://p0sec
 </p></div>
 </div>
 <script>
-if(lang == 'chs'){
+if(lang == 'cn'){
 	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
 }
 </script>

@@ -34,7 +34,7 @@ function GetQueryString(name)
 var lang="en";
 var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
 if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
-	lang="chs";
+	lang="cn";
 }
 </script>
 <!--[if lt IE 9]>
@@ -63,16 +63,20 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
     </ul>
 </div>
 <style>
+img{
+	max-width: 100%;
+}
 .lab{
 	margin: 0 auto;
-	margin-top: 8em;
+	margin-top: 7em;
 	max-width: 80em;
 	width: 95%;
 }
 .lab h1{
 	padding: 0;
-	font-size: 190%;
+	font-size: 200%;
 	text-align: center;
+	font-weight: bold;
 }
 
 .lab .demo{
@@ -115,6 +119,7 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 </style>
 <div class="lab">
 	<h1>Damn Vulnerable Web Application (DVWA) 漏洞环境</h1>
+	<hr/>
 	<div class="demo">
 		<div class="demo-btn">
 			<a target="_blank" href="https://www.vsplate.com/?github=vulnspy/DVWA"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
@@ -125,23 +130,19 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 		</div>
 	</div>
 	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<hr/>
 	<div class="content"><p style="text-indent:2em;">DVWA是用PHP+MySQL编写的一套用于常规Web漏洞教学和检测的Web脆弱性测试程序，包含了SQL注入、XSS、盲注等常见的一些安全漏洞。旨在为安全专业人员测试自己的专业技能和工具提供合法的环境，帮助web开发者更好的理解web应用安全防范的过程。</p>
-
 <p style="text-indent:2em;">DVWA的代码分为四种安全级别：Low，Medium，High，Impossible。初学者可以通过比较四种级别的代码，接触到一些PHP代码审计的内容。</p>
-
 <h3 style="margin-top:1.5em;">GitHuby源码地址</h3>
-
 <p><a href="https://github.com/vulnspy/DVWA" target="_blank">https://github.com/vulnspy/DVWA</a></p>
-
 <h3 style="margin-top:1.5em;">参考</h3>
-
 <p style="text-align:left;">
 DVWA - Damn Vulnerable Web Application - <a href="http://www.dvwa.co.uk/">http://www.dvwa.co.uk/</a><br>
 DVWA中学习PHP常见漏洞及修复方法 - <a href="http://drops.xmd5.com/static/drops/papers-483.html">http://drops.xmd5.com/static/drops/papers-483.html</a><br>
 </p></div>
 </div>
 <script>
-if(lang == 'chs'){
+if(lang == 'cn'){
 	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
 }
 </script>

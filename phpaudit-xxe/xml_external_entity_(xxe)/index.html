@@ -34,7 +34,7 @@ function GetQueryString(name)
 var lang="en";
 var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
 if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
-	lang="chs";
+	lang="cn";
 }
 </script>
 <!--[if lt IE 9]>
@@ -63,16 +63,20 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
     </ul>
 </div>
 <style>
+img{
+	max-width: 100%;
+}
 .lab{
 	margin: 0 auto;
-	margin-top: 8em;
+	margin-top: 7em;
 	max-width: 80em;
 	width: 95%;
 }
 .lab h1{
 	padding: 0;
-	font-size: 190%;
+	font-size: 200%;
 	text-align: center;
+	font-weight: bold;
 }
 
 .lab .demo{
@@ -115,6 +119,7 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 </style>
 <div class="lab">
 	<h1>XML External Entity (XXE)</h1>
+	<hr/>
 	<div class="demo">
 		<div class="demo-btn">
 			<a target="_blank" href="http://www.vsplate.com/?github=vulnspy/phpaudit-XXE"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
@@ -125,14 +130,11 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 		</div>
 	</div>
 	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<hr/>
 	<div class="content"><p style="text-indent:2em;">An XML External Entity attack is a type of attack against an application that parses XML input. This attack occurs when XML input containing a reference to an external entity is processed by a weakly configured XML parser. This attack may lead to the disclosure of confidential data, denial of service, server side request forgery, port scanning from the perspective of the machine where the parser is located, and other system impacts.</p>
-
 <h3 style="margin-top:1.5em;">GitHub Source</h3>
-
 <p><a href="https://github.com/vulnspy/phpaudit-XXE" target="_blank">https://github.com/vulnspy/phpaudit-XXE</a></p>
-
 <h3 style="margin-top:1.5em;">Reference</h3>
-
 <p style="text-align:left;">
 XML External Entity (XXE) Processing - <a href="https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing">https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing</a><br>
 未知攻焉知防——XXE漏洞攻防- 博客- 腾讯安全应急响应中心 - <a href="https://security.tencent.com/index.php/blog/msg/69">https://security.tencent.com/index.php/blog/msg/69</a><br>
@@ -140,7 +142,7 @@ What is XML External Entity (XXE)? - <a href="https://www.acunetix.com/blog/arti
 </p></div>
 </div>
 <script>
-if(lang == 'chs'){
+if(lang == 'cn'){
 	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
 }
 </script>

