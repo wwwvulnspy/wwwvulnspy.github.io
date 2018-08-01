@@ -4,8 +4,9 @@ html,body{
 	background: #FFF;
 	color: #444;
         height: 100%;
-        font-family: tahoma,'microsoft yahei',Helvetica,helvetica,arial,sans-serif;
-        min-width: 50em;
+        /*font-family: tahoma,Helvetica,helvetica,arial,sans-serif;*/
+        font-family: Roboto,"raleway",'microsoft yahei',Helvetica Neue,Helvetica,Arial,sans-serif;
+        min-width: 70em;
 }
 
 .view-header div, .view-header span, .view-header a, .view-header ul, .view-header li, .view-header p, .view-header img, .view-header button, .view-header input {
@@ -46,7 +47,7 @@ a.disabled {
     top: 0;
     width: 100%;
     height: 4em;
-    min-width: 50em;
+    min-width: 70em;
     background: #2C3844;
     color: #FFF;
     padding: 0 2em;

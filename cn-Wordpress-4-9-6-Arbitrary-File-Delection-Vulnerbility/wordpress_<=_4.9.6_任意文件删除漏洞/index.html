@@ -63,20 +63,22 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
     </ul>
 </div>
 <style>
-img{
-	max-width: 100%;
-}
-.lab{
+.main{
+	
 	margin: 0 auto;
 	margin-top: 7em;
-	max-width: 80em;
+	max-width: 90em;
 	width: 95%;
+}
+.lab{
+	float:left;
+	width: 77%;
 }
 .lab h1{
 	padding: 0;
-	font-size: 200%;
-	text-align: center;
-	font-weight: bold;
+	font-size: 230%;
+	margin: 20px 0;
+	line-height: 1.5em;
 }
 
 .lab .demo{
@@ -109,36 +111,84 @@ img{
 	color: #FFF;
 }
 .lab .content{
-	font-size: 120%;
-	line-height: 2em;
+	font-size: 130%;
+	line-height: 1.5em;
 }
 .lab .content p{
 	margin: 1em 0;
-	text-align: justify;
+}
+.lab .content img{
+	max-width: 100%;
+	margin: 1em 0;
+}
+.sidebar{
+	width: 23%;
+	float: left;
+	padding-left: 2em;
+	margin-top: 20px;
+}
+.sidebar .sth-btn {
+	width: 100%;
+	margin-left: 1em;
+}
+#sth {
+	display: block;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 0.8em 1em;
+	font-size:123%;
+	border: none;
+	border-radius: 0;
+	background: #337ab7;
+	color: #FFF;
+	font-weight: bold;
+}
+#demo-notice {
+	width: 100%;
+	margin: 0.8em 0;
+	font-size: 90%;
+	text-align: center;
+	color: #777;
+	word-break:break-all;
+}
+.sidebar ul{
+	margin: 2em 0;
+	padding: 0;
+}
+.sidebar ul ul{
+	margin: 0;
+	margin-left: 1em;
+}
+.sidebar li{
+	margin: 0 0 0.5em 0;
+	font-size: 110%;
+	list-style: none;
+	color: #767676;
+	border-left: solid 0.1em #FFF;
+	padding-left: 1em;
+	margin-left: 1em;
+	cursor: pointer;
+}
+.sidebar li.selected{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
+}
+.sidebar li:hover{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
 }
 </style>
-<div class="lab">
-	<h1>Wordpress &lt;= 4.9.6 任意文件删除漏洞</h1>
-	<hr/>
-	<div class="demo">
-		<div class="demo-btn">
-			<a target="_blank" href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;&nbsp;START TO HACK</a>
-		</div>
-		<div class="demo-link">
-			<a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank">http://www.vsplate.com/?github=vulnspy/wordpress-4.9</a>
-			<a class="pull-right" href="https://www.vsplate.com/" target="_blank">Powered by VSPlate</a>
-		</div>
-	</div>
-	<p id="demo-notice" style="padding: 0.5em 0.5em;color:#fff;text-align:center;background:#2c3844;text-transform:uppercase;">VulnSpy provides the online environment for security testing, click '<b>START TO HACK</b>' to start the playing.</p>
-	<hr/>
-	<div class="content"><p>WordPress是如今使用最为广泛的一套内容管理系统。根据 w3tech 统计，全世界大概有30%的网站运行着WordPress程序。</p>
+<div class="main">
+	<div class="lab">
+		<h1>Wordpress &lt;= 4.9.6 任意文件删除漏洞</h1>
+		<hr/>
+		<div class="content"><p>WordPress是如今使用最为广泛的一套内容管理系统。根据 w3tech 统计，全世界大概有30%的网站运行着WordPress程序。</p>
 <p>昨日RIPS团队公开了一个Wordpress的<a href="https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/">任意文件删除漏洞</a>（需要登录），目前该漏洞仍然未修复（2018年06月27日），该漏洞影响 Wordpress 最新版 4.9.6.</p>
 <p>本文我们将结合 VulnSpy 的<a href="http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/">在线 WordPress 环境</a>来演示该漏洞的利用。</p>
 <p>VulnSpy Wordpress 4.9 在线环境: <a href="http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/">http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/</a></p>
-<h2>漏洞分析</h2>
-<ol>
-<li>文件wp-includes/post.php中：</li>
-</ol>
+<hr />
+<h3>漏洞分析</h3>
+<p>1.文件wp-includes/post.php中：</p>
 <pre><code class="language-php">function wp_delete_attachment( $post_id, $force_delete = false ) {
     ...
     $meta = wp_get_attachment_metadata( $post_id );
@@ -155,9 +205,7 @@ img{
     ...
 }</code></pre>
 <p><code>$meta['thumb']</code>来自与数据库，是图片的属性之一。代码未检查<code>$meta['thumb']</code>的内容，直接带入<code>unlink</code>函数，如果<code>$meta['thumb']</code>可控则可导致文件删除。</p>
-<ol start="2">
-<li>文件/wp-admin/post.php中：</li>
-</ol>
+<p>2.文件/wp-admin/post.php中：</p>
 <pre><code class="language-php">...
 switch($action) {
 ...
@@ -172,7 +220,8 @@ switch($action) {
 ...</code></pre>
 <p><code>$newmeta['thumb']</code>来自于$_POST['thumb']，未经过滤直接将其存入数据库，即上一步的<code>$meta['thumb']</code>可控。</p>
 <p>详细分析可见：WARNING: WordPress File Delete to Code Execution - <a href="https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/">https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/</a></p>
-<h2>漏洞利用</h2>
+<hr />
+<h3>漏洞利用</h3>
 <p><strong>1. 使用VSPlate安装你的Wordpress 4.9</strong></p>
 <p>Wordpress 4.9 在线环境: <a href="http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/">http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/</a></p>
 <p><img src="/images/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility/1.1.png" alt="Wordpress AFD" title="Wordpress AFD" /></p>
@@ -196,11 +245,97 @@ switch($action) {
 <p><strong>5. 刷新网页</strong></p>
 <p>已经可以重装网站。</p>
 <p><img src="/images/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility/5.1.png" alt="Wordpress AFD" title="Wordpress AFD" /></p></div>
+	</div>
+	<div class="sidebar">
+		<div class="sth-btn">
+			<a id="sth" target="_blank" href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9">start to hack</a>
+			<p id="demo-notice">Click the button and start the playing.</p>
+		</div>
+		<ul>
+			<li href="#" class="nlink selected"># TOP</li>
+		</ul>
+	</div>
 </div>
 <script>
 if(lang == 'cn'){
-	$("#demo-notice").html("VulnSpy 提供了一系列在线测试环境, 点击上方的 '<b>START TO HACK</b>' 开启实验.");
+	$("#demo-notice").html("点击上方按钮开启实验.");
 }
+$(document).ready(function(){
+
+$.extend({
+	genMenu: function() {
+		var html = '';
+		var prevH = 'h0';
+		var toClose = 0;
+		$(".content").children("h1,h2,h3,h4,h5").each(function(i,e){
+			var tagName = $(e)[0].tagName.toLowerCase();
+			//var menuName = 'M-'+window.btoa($(e).text());
+			var menuName = 'M-'+randomString(6)+'-'+$(e).text().replace(/\ +/g,"-");
+			$(e).attr('id',menuName);
+			if(tagName > prevH){
+				html = html+'<ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose + 1;
+			}else if(tagName == prevH){
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+			}else if(tagName < prevH){
+				html = html+'</ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose - 1;
+			}
+			prevH = tagName;
+		});
+		while(toClose > 0){
+			html = html+'</ul>';
+			toClose = toClose - 1;
+		}
+		$(".sidebar ul").remove();
+		$(".sidebar").append(html);
+		$(".sidebar ul:first").prepend('<li class="menu-item nlink selected" href="#"># TOP</li>');
+		return html;
+	}
+});
+$.extend({
+	selectMenu: function() {
+		var mintoTop = 20;
+		var menu = [];
+		$("li.menu-item").each(function(i,e){
+			id = $(e);
+			if(id && id != '#'){
+				menu.push(id);
+			}
+		});
+		for(var i=menu.length;i>0;i--){
+			mid = menu[i-1].attr('href');
+			var toTop = $(mid).offset().top-$(document).scrollTop();
+			if(toTop <= mintoTop){
+				$("li.menu-item").removeClass('selected');
+				menu[i-1].addClass('selected');
+				break;
+			}
+		}
+		return mid;
+	}
+});
+$.extend({
+	fixSidebar: function() {
+		var sidebarTop = $(".sidebar").offset().top-$(document).scrollTop();
+		if($(document).scrollTop() < 120){
+			$(".sidebar").css("margin-top", "20px");
+		}else if(sidebarTop < 20){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}else if(sidebarTop > 20 && $(document).scrollTop() > 120){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}
+	}
+});
+$.genMenu();
+$(window).scroll(function(){
+	$.fixSidebar();
+	$.selectMenu();
+});
+
+});
 </script>
 </body>
 </html>
