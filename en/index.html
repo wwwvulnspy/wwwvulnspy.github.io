@@ -54,19 +54,14 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 <div class="view-header" style="z-index: 999;">
     <ul>
     	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
-        <li><a href="/">VULNSPY</a></li>
+        <li class="selected"><a href="/">VULNSPY</a></li>
         <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
         <div class="pull-right">
-            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">REDDIT</a></li>
             <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
         </div>
     </ul>
 </div>
-<script>
-if(GetQueryString('u') != null){
-	window.location='https://www.vulnspy.com/'+GetQueryString('u');
-}
-</script>
 <style>
 .list{
 	margin: 0 auto;
@@ -78,32 +73,57 @@ if(GetQueryString('u') != null){
 	padding: 0;
 }
 .list ul{
-	margin: 1em 0 0 0;
+	margin: 0;
 	list-style: none;
 	padding: 0 0.2em;
 	font-size: 130%;
 }
 .list li{
-	margin: 0.5em 0;
+	float: left;
+	width: 100%;
+	padding: 1em 0;
+	height: 6em;
+	border-bottom: 1px solid #eee;
+}
+.list li .img{
+	width: 15%;
+	background: #FFF;
+	height: 100%;
+	float: left;
+	margin-right: 1em;
+	overflow: hidden;
+}
+.list li .img img{
+	width: 100%;
+	height: auto;
+}
+.list ul li .author{
+	font-size: 80%;
+	color: #808080;
+	float: left;
 }
 .list ul li .time{
-	width: 7em;
-	float: right;
+	font-size: 80%;
+	color: #808080;
+	float: left;
 }
 .list ul li .title{
 	font-weight: lighter;
 	text-transform: uppercase;
-}
-.list ul a{
-	margin: 0 0.2em;
-}
-.list .desc{
-	margin-top: 1.5em;
 	font-size: 120%;
 }
-.list .desc label{
-	min-width: 7em;
-	font-weight:bold;
+.list ul li .desc{
+	/*display:block;*/
+	display: none;
+	float: left;
+	padding-top: 0.5em;
+	font-size: 95%;
+	width: 66%;
+	line-height: 1.5em;
+	height: 6em;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
 }
 .list .lang{
 	margin-top: 1.5em;
@@ -132,49 +152,82 @@ if(GetQueryString('u') != null){
 	<ul>
 		</li>
 		<li>
-			<a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.9" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility-Exploit/wordpress_&lt;=_4.9.6_arbitrary_file_deletion_vulnerability_exploit">Wordpress &lt;= 4.9.6 Arbitrary File Deletion Vulnerability Exploit</a>
-			<div class="time">Jun 27, 2018</div>
+			<div class="img"><img src="/images/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility-Exploit/1.1.png" /></div>
+			<h4><a class="title" href="/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility-Exploit/wordpress_&lt;=_4.9.6_arbitrary_file_deletion_vulnerability_exploit">Wordpress &lt;= 4.9.6 Arbitrary File Deletion Vulnerability Exploit</a></h4>
+			<div class="time">Last Updated:  Jun 27, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">WordPress is the most popular CMS on the web. According to w3tech, it is used by approximately 30% of all websites. This wide adoption makes it an interesting target for cyber criminals. RIPS Team disclosed an Arbitrary File Deletion Vulnerability at Jun. 26, 2018: WARNING: WordPress File Delete to Code Execution</div>
 			</li><li>
-			<a href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.1" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/phpmyadmin-4.8.1/phpmyadmin_4.8.1_lfi_to_rce_vulnerability">phpMyAdmin 4.8.1 LFI to RCE Vulnerability</a>
-			<div class="time">Jun 21, 2018</div>
+			<div class="img"><img src="/images/phpMyAdmin-4-8-x-Authorited-CLI-to-RCE/exp_1.png" /></div>
+			<h4><a class="title" href="/phpmyadmin-4.8.1/phpmyadmin_4.8.1_lfi_to_rce_vulnerability">phpMyAdmin 4.8.1 LFI to RCE Vulnerability</a></h4>
+			<div class="time">Last Updated:  Jun 21, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">A new Critical CSRF Vulnerability discovered in widely used phpMyAdmin open source admin tool allows an attacker perform harmful database operation such as DROP TABLE, MODIFY PASSWORD.</div>
 			</li><li>
-			<a href="https://www.vsplate.com/?github=vulnspy/PMASA-2017-9" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/pmasa-2017-9/phpmyadmin_4.7.x_xsrf/csrf_vulnerability_(pmasa-2017-9)">phpMyAdmin 4.7.x XSRF/CSRF vulnerability (PMASA-2017-9)</a>
-			<div class="time">Jun 11, 2018</div>
+			<div class="img"><img src="/images/cn-phpMyAdmin-4-7-x-XSRF-CSRF-vulnerability-exploit/2.1.1.png" /></div>
+			<h4><a class="title" href="/pmasa-2017-9/phpmyadmin_4.7.x_xsrf/csrf_vulnerability_(pmasa-2017-9)">phpMyAdmin 4.7.x XSRF/CSRF vulnerability (PMASA-2017-9)</a></h4>
+			<div class="time">Last Updated:  Jun 11, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">A new Critical CSRF Vulnerability discovered in widely used phpMyAdmin open source admin tool allows an attacker perform harmful database operation such as DROP TABLE, MODIFY PASSWORD.</div>
 			</li><li>
-			<a href="https://www.vsplate.com/?github=vulnspy/FiyoCMS" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/fiyocms/fiyo_cms">Fiyo CMS</a>
-			<div class="time">Jun 07, 2018</div>
+			<div class="img"><img src="/images/fiyocms/default.jpeg" /></div>
+			<h4><a class="title" href="/fiyocms/fiyo_cms">Fiyo CMS</a></h4>
+			<div class="time">Last Updated:  Jun 07, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">Fiyo CMS, Fix It Your Own~. Fiyo CMS is one of hundreds Content Management System available on the internet. Fiyo CMS is a software that allows a person to add and / or manipulating (changing) the content of a Web site.</div>
 			</li><li>
-			<a href="https://www.vsplate.com/?github=vulnspy/juice-shop" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/juice-shop/owasp_juice_shop_project">OWASP Juice Shop Project</a>
-			<div class="time">Jun 05, 2018</div>
+			<div class="img"><img src="/images/juice-shop/default.png" /></div>
+			<h4><a class="title" href="/juice-shop/owasp_juice_shop_project">OWASP Juice Shop Project</a></h4>
+			<div class="time">Last Updated:  Jun 05, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">OWASP Juice Shop is an intentionally insecure webapp for security trainings written entirely in Javascript which encompasses the entire OWASP Top Ten and other severe security flaws.</div>
 			</li><li>
-			<a href="http://www.vsplate.com/?github=vulnspy/WebGoat-8" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/webgoat-8/webgoat_8:_a_deliberately_insecure_web_application">WebGoat 8: A deliberately insecure Web Application</a>
-			<div class="time">Jun 05, 2018</div>
+			<div class="img"><img src="/images/webgoat-8/default.png" /></div>
+			<h4><a class="title" href="/webgoat-8/webgoat_8:_a_deliberately_insecure_web_application">WebGoat 8: A deliberately insecure Web Application</a></h4>
+			<div class="time">Last Updated:  Jun 05, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">WebGoat is a deliberately insecure web application maintained by OWASP designed to teach web application security lessons.</div>
 			</li><li>
-			<a href="http://www.vsplate.com/?github=vulnspy/CrossSiteContentHijacking" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/cross_site_content_hijacking/cross-site_content_(data)_hijacking_(xsch)_poc_project">Cross-Site Content (Data) Hijacking (XSCH) PoC Project</a>
-			<div class="time">Jun 04, 2018</div>
+			<div class="img"><img src="/images/cross_site_content_hijacking/default.png" /></div>
+			<h4><a class="title" href="/cross_site_content_hijacking/cross-site_content_(data)_hijacking_(xsch)_poc_project">Cross-Site Content (Data) Hijacking (XSCH) PoC Project</a></h4>
+			<div class="time">Last Updated:  Jun 04, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">Content hijacking proof-of-concept using Flash, PDF and Silverlight.</div>
 			</li><li>
-			<a href="http://www.vsplate.com/?github=vulnspy/wordpress-4.8" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/wordpress-4.8/wordpress_4.8">Wordpress 4.8</a>
-			<div class="time">Jun 04, 2018</div>
+			<div class="img"><img src="/images/wordpress_4.8/default.png" /></div>
+			<h4><a class="title" href="/wordpress-4.8/wordpress_4.8">Wordpress 4.8</a></h4>
+			<div class="time">Last Updated:  Jun 04, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">WordPress is a free and open-source content management system (CMS) based on PHP and MySQL. To function, WordPress has to be installed on a web server, which would either be part of an Internet hosting service or a network host in its own right.</div>
 			</li><li>
-			<a href="http://www.vsplate.com/?github=vulnspy/phpaudit-XXE" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/phpaudit-xxe/xml_external_entity_(xxe)">XML External Entity (XXE)</a>
-			<div class="time">Jun 04, 2018</div>
+			<div class="img"><img src="/images/phpaudit-xxe/default.png" /></div>
+			<h4><a class="title" href="/phpaudit-xxe/xml_external_entity_(xxe)">XML External Entity (XXE)</a></h4>
+			<div class="time">Last Updated:  Jun 04, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">An XML External Entity attack is a type of attack against an application that parses XML input. This attack occurs when XML input containing a reference to an external entity is processed by a weakly configured XML parser.</div>
 			</li><li>
-			<a href="https://www.vsplate.com/?github=vulnspy/DVWA" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/dvwa/damn_vulnerable_web_application_(dvwa)">Damn Vulnerable Web Application (DVWA)</a>
-			<div class="time">Jun 04, 2018</div>
+			<div class="img"><img src="/images/dvwa/default.png" /></div>
+			<h4><a class="title" href="/dvwa/damn_vulnerable_web_application_(dvwa)">Damn Vulnerable Web Application (DVWA)</a></h4>
+			<div class="time">Last Updated:  Jun 04, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">Damn Vulnerable Web App (DVWA) is a PHP/MySQL web application that is damn vulnerable. Its main goals are to be an aid for security professionals to test their skills and tools in a legal environment, help web developers better understand the processes of securing web applications and aid teachers/students to teach/learn web application security in a class room environment.</div>
 			</li><li>
-			<a href="https://www.vsplate.com/?github=vulnspy/sqli-labs" target="_blank" title="Launch Demo Directly">[>]</a>
-			<a class="title" href="/sqli-labs/sqli_labs">SQLI labs</a>
-			<div class="time">Jun 04, 2018</div>
+			<div class="img"><img src="/images/sqli-labs/default.png" /></div>
+			<h4><a class="title" href="/sqli-labs/sqli_labs">SQLI labs</a></h4>
+			<div class="time">Last Updated:  Jun 04, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">SQLI labs to test error based, Blind boolean based, Time based.</div>
 			</li>	</ul>
 </div>
 </body>

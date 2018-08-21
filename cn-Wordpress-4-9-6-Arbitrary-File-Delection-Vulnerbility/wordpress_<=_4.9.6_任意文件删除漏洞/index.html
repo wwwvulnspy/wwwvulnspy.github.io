@@ -54,10 +54,10 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 <div class="view-header" style="z-index: 999;">
     <ul>
     	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
-        <li><a href="/">VULNSPY</a></li>
+        <li ><a href="/">VULNSPY</a></li>
         <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
         <div class="pull-right">
-            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">DISCUSS ON REDDIT</a></li>
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">REDDIT</a></li>
             <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
         </div>
     </ul>
@@ -183,9 +183,9 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 		<h1>Wordpress &lt;= 4.9.6 任意文件删除漏洞</h1>
 		<hr/>
 		<div class="content"><p>WordPress是如今使用最为广泛的一套内容管理系统。根据 w3tech 统计，全世界大概有30%的网站运行着WordPress程序。</p>
-<p>昨日RIPS团队公开了一个Wordpress的<a href="https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/">任意文件删除漏洞</a>（需要登录），目前该漏洞仍然未修复（2018年06月27日），该漏洞影响 Wordpress 最新版 4.9.6.</p>
-<p>本文我们将结合 VulnSpy 的<a href="http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/">在线 WordPress 环境</a>来演示该漏洞的利用。</p>
-<p>VulnSpy Wordpress 4.9 在线环境: <a href="http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/">http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/</a></p>
+<p>RIPS团队于2018年06月26日公开了Wordpress的一个<a href="https://blog.ripstech.com/2018/wordpress-file-delete-to-code-execution/">任意文件删除漏洞</a>（需要登录），该漏洞影响 Wordpress 4.9.6及以下版本。</p>
+<p>本文我们将结合 VulnSpy 的<a href="https://github.com/vulnspy/wordpress-4.9">在线 WordPress 环境</a>来演示该漏洞的利用。</p>
+<p>VulnSpy Wordpress 4.9 在线环境: <a href="https://github.com/vulnspy/wordpress-4.9">https://github.com/vulnspy/wordpress-4.9</a></p>
 <hr />
 <h3>漏洞分析</h3>
 <p>1.文件wp-includes/post.php中：</p>
@@ -223,7 +223,7 @@ switch($action) {
 <hr />
 <h3>漏洞利用</h3>
 <p><strong>1. 使用VSPlate安装你的Wordpress 4.9</strong></p>
-<p>Wordpress 4.9 在线环境: <a href="http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/">http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/</a></p>
+<p>Wordpress 4.9 在线环境: <a href="http://www.vulnspy.com/wordpress-4.9/wordpress_4.9/">https://github.com/vulnspy/wordpress-4.9</a></p>
 <p><img src="/images/Wordpress-4-9-6-Arbitrary-File-Delection-Vulnerbility/1.1.png" alt="Wordpress AFD" title="Wordpress AFD" /></p>
 <p><strong>2. 登录后台，添加媒体</strong></p>
 <p>访问 <a href="http://9c9b.vsplate.me/wp-admin/upload.php">http://9c9b.vsplate.me/wp-admin/upload.php</a>,  上传任意图片.</p>

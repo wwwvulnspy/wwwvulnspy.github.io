@@ -91,6 +91,10 @@ a.disabled {
     background: #202931;
 }
 
+.view-header ul li.selected{
+    background: #202931;
+}
+
 .footer{
 	padding: 5em 0;
 	text-align:center;
@@ -98,45 +102,4 @@ a.disabled {
 
 .footer a{
 	margin: 0 0.5em;
-}
-
-#modal-login .login-btn{
-	font-size: 150%;
-	color: #FFF;
-	background: #202931;
-	padding: 0.8em 1em 0.8em 1em;
-	max-width: 18em;
-	margin: 0.5em auto;
-}
-
-#modal-login .login-btn span{
-	background: no-repeat left center;
-	background-size: auto 55%;
-	padding: 1em;
-	margin-right: 0.7em;
-}
-
-#loading {
-	display: none;
-	position: fixed;
-	z-index: 9999;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	opacity: 0.88;
-	background: #000;
-	text-align: center;
-}
-
-#loading img{
-	margin-top: 20%;
-	width: 8em;
-	opacity: 1;
-}
-
-#loading h4{
-	font-size: 150%;
-	color: #FFF;
-	margin-top: 1em;
 }
