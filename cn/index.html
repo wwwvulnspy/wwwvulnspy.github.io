@@ -22,6 +22,7 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="/js/ie10-viewport-bug-workaround.js"></script>
 <link rel="stylesheet" href="/css/custom.css" />
+<link rel="stylesheet" href="css/prism.css" />
 <script src="/js/functions.js"></script>
 <script src="/js/custom.js"></script>
 <script>
@@ -152,6 +153,13 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 	<ul>
 		</li>
 		<li>
+			<div class="img"><img src="/images/en-ripstech-presents-php-security-calendar-2017/default.png" /></div>
+			<h4><a class="title" href="/cn-ripstech-presents-php-security-calendar-2017/rips_2017_php代码安全审计挑战在线测试环境/writeup">RIPS 2017 PHP代码安全审计挑战在线测试环境/Writeup</a></h4>
+			<div class="time">Last Updated:  Aug 30, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">RIPSTECH PRESENTS PHP SECURITY CALENDAR 是由 RIPS 团队出品的PHP代码安全审计挑战系列题目，RIPSTECH PRESENTS PHP SECURITY CALENDAR 2017 共包含24道题目，每道题目将包含一个较新颖的知识点供大家学习。该教程将使用 VULNSPY 的在线测试环境来演示这系列题目漏洞利用演示。</div>
+			</li><li>
 			<div class="img"><img src="/images/cn-cve-2017-8295-unauthorized-password-reset-vulnerability/default.png" /></div>
 			<h4><a class="title" href="/cn-cve-2017-8295-unauthorized-password-reset-vulnerability/cve-2017-8295:_wordpress_2.3-4.8.3_任意密码重置/host头注入漏洞利用">CVE-2017-8295: WordPress 2.3-4.8.3 任意密码重置/HOST头注入漏洞利用</a></h4>
 			<div class="time">Last Updated:  Aug 23, 2018</div>
@@ -219,5 +227,11 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 <div style="float:left;width:100%;text-align:center;margin-top:5em;background: #000;color: #FFF;">
 	<div style="margin:0 auto;width:95%;max-width:90em;padding:1em 0;">All rights reserved. &copy; 2018 VULNSPY</div>
 </div>
+<script>
+$(function () {
+	$("pre code").closest("pre").addClass("line-numbers ");
+});
+</script>
+<script src="/js/prism.js"></script>
 </body>
 </html>

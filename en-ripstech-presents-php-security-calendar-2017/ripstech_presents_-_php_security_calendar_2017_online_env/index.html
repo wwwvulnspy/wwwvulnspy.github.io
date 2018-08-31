@@ -1,0 +1,995 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Ambulong">
+<meta name="description" content="RIPSTECH PHP security challenges, each challenge consists of a new PHP code snippet for your review. Within these code snippets a different security vulnerability is hidden. Sometimes the security risk is obvious but seems to be patched, sometimes a rather unknown vulnerability type affects the code. Different types of security vulnerabilities, sanitization approaches, and user input origins are used in each challenge for a great learning experience. The solution is available at the end of each post. Specifically developers that are new to the security field can learn about various pitfalls and tricks of PHP that are exploited by attackers. You can use our daily challenge to train your security skills and to get fit for 2018.">
+<meta name="keywords" content="php security,rips,ripstech,calendar,2017,online,在线环境,演示,exp,exploit,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>RIPSTECH PRESENTS - PHP SECURITY CALENDAR 2017 ONLINE ENV | VULNSPY</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<link rel="stylesheet" href="/css/custom.css" />
+<link rel="stylesheet" href="css/prism.css" />
+<script src="/js/functions.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="cn";
+}
+</script>
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108901411-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108901411-2');
+</script>
+</head>
+<body>
+<div class="view-header" style="z-index: 999;">
+    <ul>
+    	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
+        <li ><a href="/">VULNSPY</a></li>
+        <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="https://www.reddit.com/r/jiuwu/">REDDIT</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
+    </ul>
+</div>
+<style>
+.main{
+	
+	margin: 0 auto;
+	margin-top: 7em;
+	max-width: 90em;
+	width: 95%;
+}
+.lab{
+	float:left;
+	width: 77%;
+}
+.lab h1{
+	padding: 0;
+	font-size: 230%;
+	margin: 20px 0;
+	line-height: 1.5em;
+}
+
+.lab .demo{
+	font-size: 115%;
+	line-height: 2em;
+	border: 1px solid #ccc;
+	background: #2C3844;
+	margin: 1.8em 0 1em 0;
+}
+.lab .demo .demo-btn{
+	text-align: center;
+	font-size: 150%;
+	margin: 0.3em 0;
+	color: #FFF;
+}
+.lab .demo .demo-btn a{
+	background: transparent;
+	padding: 1em;
+	font-size: 100%;
+	display: block;
+	
+}
+.lab .demo .demo-link{
+	background: rgba(0,0,0,.25);
+}
+.lab .demo a{
+	font-size: 50%;
+	text-transform: uppercase;
+	padding: 0 0.5em;
+	color: #FFF;
+}
+.lab .content{
+	font-size: 130%;
+	line-height: 1.5em;
+}
+.lab .content p{
+	margin: 1em 0;
+}
+.lab .content img{
+	max-width: 100%;
+	margin: 1em 0;
+}
+.sidebar{
+	width: 23%;
+	float: left;
+	padding-left: 2em;
+	margin-top: 20px;
+}
+.sidebar .sth-btn {
+	width: 100%;
+	margin-left: 1em;
+}
+#sth {
+	display: block;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 0.8em 1em;
+	font-size:123%;
+	border: none;
+	border-radius: 0;
+	background: #337ab7;
+	color: #FFF;
+	font-weight: bold;
+}
+#demo-notice {
+	width: 100%;
+	margin: 0.8em 0;
+	font-size: 90%;
+	text-align: center;
+	color: #777;
+	word-break:break-all;
+}
+.sidebar ul{
+	margin: 2em 0;
+	padding: 0;
+}
+.sidebar ul ul{
+	margin: 0;
+	margin-left: 1em;
+}
+.sidebar li{
+	margin: 0 0 0.5em 0;
+	font-size: 110%;
+	list-style: none;
+	color: #767676;
+	border-left: solid 0.1em #FFF;
+	padding-left: 1em;
+	margin-left: 1em;
+	cursor: pointer;
+}
+.sidebar li.selected{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
+}
+.sidebar li:hover{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
+}
+</style>
+<div class="main">
+	<div class="lab">
+		<h1>RIPSTECH PRESENTS - PHP SECURITY CALENDAR 2017 ONLINE ENV</h1>
+		<hr/>
+		<div class="content"><p><img src="/images/en-ripstech-presents-php-security-calendar-2017/default.png" alt="" /></p>
+<p>Source: PHP Security Advent Calendar 2017 - <a href="https://www.ripstech.com/php-security-calendar-2017/">https://www.ripstech.com/php-security-calendar-2017/</a></p>
+<blockquote>
+<p>&quot;Each challenge consists of a new PHP code snippet for your review. Within these code snippets a different security vulnerability is hidden. Sometimes the security risk is obvious but seems to be patched, sometimes a rather unknown vulnerability type affects the code. Different types of security vulnerabilities, sanitization approaches, and user input origins are used in each challenge for a great learning experience. The solution is available at the end of each post. Specifically developers that are new to the security field can learn about various pitfalls and tricks of PHP that are exploited by attackers. You can use our daily challenge to train your security skills and to get fit for 2018.&quot;<br />
+—— <a href="https://blog.ripstech.com/2017/php-security-advent-calendar/">PHP Security Advent Calendar 2017 Announcement</a></p>
+</blockquote>
+<p>In this article, we will use VulnSpy's <a href="https://github.com/vulnspy/ripstech-php-security-calendar-2017">online environment</a> to demonstrate the exploit of those challenges.</p>
+<hr />
+<h3>Day 1 - Wish List</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class Challenge {
+    const UPLOAD_DIRECTORY = './solutions/';
+    private $file;
+    private $whitelist;
+
+    public function __construct($file) {
+        $this-&gt;file = $file;
+        $this-&gt;whitelist = range(1, 24);
+    }
+
+    public function __destruct() {
+        if (in_array($this-&gt;file['name'], $this-&gt;whitelist)) {
+            move_uploaded_file(
+                $this-&gt;file['tmp'],
+                self::UPLOAD_DIRECTORY . $this-&gt;file['name']
+            );
+        }
+    }
+}
+
+$challenge = new Challenge($_FILES['solution']);</code></pre>
+<p>The challenge contains an arbitrary file upload vulnerability in line 13. The operation in_array() is used in line 12 to check if the file name is a number. However, it is type-unsafe because the third parameter is not set to 'true'. Hence, PHP will try to type-cast the file name to an integer value when comparing it to the array $whitelist (line 8). As a result it is possible to bypass the whitelist by prepending a value in the range of 1 and 24 to the file name, for example &quot;5backdoor.php&quot;. The uploaded PHP file then leads to code execution on the web server.</p>
+<h3>Day 2 - Twig</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">// composer require "twig/twig"
+require 'vendor/autoload.php';
+
+class Template {
+    private $twig;
+
+    public function __construct() {
+        $indexTemplate = '&lt;img ' .
+            'src="https://loremflickr.com/320/240"&gt;' .
+            '&lt;a href="{{link|escape}}"&gt;Next slide »&lt;/a&gt;';
+
+        // Default twig setup, simulate loading
+        // index.html file from disk
+        $loader = new Twig\Loader\ArrayLoader([
+            'index.html' =&gt; $indexTemplate
+        ]);
+        $this-&gt;twig = new Twig\Environment($loader);
+    }
+
+    public function getNexSlideUrl() {
+        $nextSlide = $_GET['nextSlide'];
+        return filter_var($nextSlide, FILTER_VALIDATE_URL);
+    }
+
+    public function render() {
+        echo $this-&gt;twig-&gt;render(
+            'index.html',
+            ['link' =&gt; $this-&gt;getNexSlideUrl()]
+        );
+    }
+}
+
+(new Template())-&gt;render();</code></pre>
+<p>The challenge contains a cross-site scripting vulnerability in line 26. There are two filters that try to assure that the link that is passed to the <code>&lt;a&gt;</code> tag is a genuine URL. First, the filter_var() function in line 22 checks if it is a valid URL. Then, Twig's template escaping is used in line 10 that avoids breaking out of the href attribute.</p>
+<p>The vulnerability can still be exploited with the following URL: ?nextSlide=javascript://comment%250aalert(1).
+The payload does not involve any markup characters that would be affected by Twig's escaping. At the same time, it is a valid URL for filter_var(). We used a JavaScript protocol handler, followed by a JavaScript comment introduced with // and then the actual JS payload follows on a newline. When the link is clicked, the JavaScript payload is executed in the browser of the victim.</p>
+<h3>Day 3 - Snow Flake</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">function __autoload($className) {
+    include $className;
+}
+
+$controllerName = $_GET['c'];
+$data = $_GET['d'];
+
+if (class_exists($controllerName)) {
+    $controller = new $controllerName($data);
+    $controller-&gt;render();
+} else {
+    echo 'There is no page with this name';
+}
+
+class HomeController {
+    private $data;
+
+    public function __construct($data) {
+        $this-&gt;data = $data;
+    }
+
+    public function render() {
+        if ($this-&gt;data['new']) {
+            echo 'controller rendering new response';
+        } else {
+            echo 'controller rendering old response';
+        }
+    }
+}</code></pre>
+<p>In this code are two security bugs. A file inclusion vulnerability is triggered by the call of class_exists() in line 8. Here, the existance of a user supplied class name is checked. This automatically invokes the custom autoloader in line 1 in case the class name is unknown which will try to include unknown classes. An attacker can abuse this file inclusion by using a path traversal attack. The lookup for the class name ../../../../etc/passwd will leak the passwd file. The attack only works until version 5.3 of PHP.</p>
+<p>But there is a second bug that also works in recent PHP versions. In line 9, the class name is used for a new object instantiation. The first argument of its constructor is under the attackers control as well. Arbitrary constructors of the PHP code base can be called. Even if the code itself does not contain a vulnerable constructor, PHP's built-in class SimpleXMLElement can be used for an XXE attack that also leads to the exposure of files. A real world example of this exploit can be found in our blog post.</p>
+<p><a href="https://blog.ripstech.com/2017/shopware-php-object-instantiation-to-blind-xxe/">https://blog.ripstech.com/2017/shopware-php-object-instantiation-to-blind-xxe/</a></p>
+<h3>Day 4 - False Beard</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class Login {
+    public function __construct($user, $pass) {
+        $this-&gt;loginViaXml($user, $pass);
+    }
+
+    public function loginViaXml($user, $pass) {
+        if (
+            (!strpos($user, '&lt;') || !strpos($user, '&gt;')) &amp;&amp;
+            (!strpos($pass, '&lt;') || !strpos($pass, '&gt;'))
+        ) {
+            $format = '&lt;xml&gt;&lt;user="%s"/&gt;&lt;pass="%s"/&gt;&lt;/xml&gt;';
+            $xml = sprintf($format, $user, $pass);
+            $xmlElement = new SimpleXMLElement($xml);
+            // Perform the actual login.
+            $this-&gt;login($xmlElement);
+        }
+    }
+}
+
+new Login($_POST['username'], $_POST['password']);</code></pre>
+<p>This challenge suffers from an XML injection vulnerability in line 13. An attacker can manipulate the XML structure and hence bypass the authentication. There is an attempt to prevent exploitation in lines 8 and 9 by searching for angle brackets but the check can be bypassed with a specifically crafted payload. The bug in this code is the automatic casting of variables in PHP. The PHP built-in function strpos() returns the numeric position of the looked up character. This can be 0 if the first character is the one searched for. The 0 is then type-casted to a boolean false for the if comparison which renders the overall constraint to true. A possible payload could look like user=&lt;&quot;&gt;&lt;injected-tag%20property=&quot;&amp;pass=<injected-tag>.</p>
+<h3>Day 5 - Postcard</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class Mailer {
+    private function sanitize($email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return '';
+        }
+
+        return escapeshellarg($email);
+    }
+
+    public function send($data) {
+        if (!isset($data['to'])) {
+            $data['to'] = 'none@vulnspy.com';
+        } else {
+            $data['to'] = $this-&gt;sanitize($data['to']);
+        }
+
+        if (!isset($data['from'])) {
+            $data['from'] = 'none@vulnspy.com';
+        } else {
+            $data['from'] = $this-&gt;sanitize($data['from']);
+        }
+
+        if (!isset($data['subject'])) {
+            $data['subject'] = 'No Subject';
+        }
+
+        if (!isset($data['message'])) {
+            $data['message'] = '';
+        }
+
+        mail($data['to'], $data['subject'], $data['message'],
+             '', "-f" . $data['from']);
+    }
+}
+
+$mailer = new Mailer();
+$mailer-&gt;send($_POST);</code></pre>
+<p>This challenge suffers from a command execution vulnerability in line 31. The fifth parameter of mail, in this case the variable <code>$_POST['from']</code>, is appended to the sendmail command that is executed to send out the email. It is not possible to execute arbitrary commands here but it is possible to append arbitrary new parameters to sendmail. This can be abused to create a PHP backdoor in the web directory through the log files of sendmail.
+There are 2 insufficient protections in place that try to prevent successful exploitation. The method <code>sanitize()</code> first checks in line 3 if the e-mail address is valid. However, not all characters that are necessary to exploit the security issue in <code>mail()</code> are forbidden by this filter. It allows the usage of escaped whitespaces nested in double quotes. In line 7 the e-mail address gets sanitized with <code>escapeshellarg()</code>. This would be sufficient if PHP would not escape the fifth parameter internally with <code>escapeshellcmd()</code>. Since it does escape the parameter again, the <code>escapeshellcmd()</code> allows an attacker to break out of the <code>escapeshellarg()</code>. More information, details, and a PoC can be found in our blog post “Why mail() is dangerous in PHP”.</p>
+<h3>Day 6 - Frost Pattern</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class TokenStorage {
+    public function performAction($action, $data) {
+        switch ($action) {
+            case 'create':
+                $this-&gt;createToken($data);
+                break;
+            case 'delete':
+                $this-&gt;clearToken($data);
+                break;
+            default:
+                throw new Exception('Unknown action');
+        }
+    }
+
+    public function createToken($seed) {
+        $token = md5($seed);
+        file_put_contents('/tmp/tokens/' . $token, '...data');
+    }
+
+    public function clearToken($token) {
+        $file = preg_replace("/[^a-z.-_]/", "", $token);
+        unlink('/tmp/tokens/' . $file);
+    }
+}
+
+$storage = new TokenStorage();
+$storage-&gt;performAction($_GET['action'], $_GET['data']);</code></pre>
+<p>This challenge contains a file delete vulnerability. The bug causing this issue is a non-escaped hyphen character (-) in the regular expression that is used in the preg_replace() call in line 21. If the hyphen is not escaped, it is used as a range indicator, leading to a replacement of any character that is not a-z or an ASCII character in the range between dot (46) and underscore (95). Thus dot and slash can be used for directory traversal and (almost) arbitrary files can be deleted, for example with the query parameters action=delete&amp;data=../../config.php.</p>
+<h3>Day 7 - Bells</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">function getUser($id) {
+    global $config, $db;
+    if (!is_resource($db)) {
+        $db = new MySQLi(
+            $config['dbhost'],
+            $config['dbuser'],
+            $config['dbpass'],
+            $config['dbname']
+        );
+    }
+    $sql = "SELECT username FROM users WHERE id = ?";
+    $stmt = $db-&gt;prepare($sql);
+    $stmt-&gt;bind_param('i', $id);
+    $stmt-&gt;bind_result($name);
+    $stmt-&gt;execute();
+    $stmt-&gt;fetch();
+    return $name;
+}
+
+$var = parse_url($_SERVER['HTTP_REFERER']);
+parse_str($var['query']);
+$currentUser = getUser($id);
+echo '&lt;h1&gt;'.htmlspecialchars($currentUser).'&lt;/h1&gt;';</code></pre>
+<p>This challenge suffers from a connection string injection vulnerability in line 4. It occurs because of the parse_str() call in line 21 that behaves very similar to register globals. Query parameters from the referrer are extracted to variables in the current scope, thus we can control the global variable $config inside of getUser() in lines 5 to 8. To exploit this vulnerability we can connect to our own MySQL server and return arbitrary values for username, for example with the referrer <a href="http://host/?config[dbhost]=10.0.0.5&amp;config[dbuser]=root&amp;config[dbpass]=root&amp;config[dbname]=malicious&amp;id=1">http://host/?config[dbhost]=10.0.0.5&amp;config[dbuser]=root&amp;config[dbpass]=root&amp;config[dbname]=malicious&amp;id=1</a></p>
+<h3>Day 8 - Candle</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">header("Content-Type: text/plain");
+
+function complexStrtolower($regex, $value) {
+    return preg_replace(
+        '/(' . $regex . ')/ei',
+        'strtolower("\\1")',
+        $value
+    );
+}
+
+foreach ($_GET as $regex =&gt; $value) {
+    echo complexStrtolower($regex, $value) . "\n";
+}</code></pre>
+<p>This challenge contains a code injection vulnerability in line 4. Prior to PHP 7 the operation preg_replace() contained an eval modifier, short e. If the modifier is set, the second parameter (replacement) is treated as PHP code. We do not have a direct injection point into the second parameter but we can control the value of \1, as it references the matched regular expression. It is not possible to escape out of the strtolower() call but since the referenced value is inside of double quotes, we can use PHP’s curly syntax to inject other function calls. An attack could look like this: /?.*={${phpinfo()}}.</p>
+<h3>Day 9 - Rabbit</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class LanguageManager
+{
+    public function loadLanguage()
+    {
+        $lang = $this-&gt;getBrowserLanguage();
+        $sanitizedLang = $this-&gt;sanitizeLanguage($lang);
+        require_once("/lang/$sanitizedLang");
+    }
+
+    private function getBrowserLanguage()
+    {
+        $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en';
+        return $lang;
+    }
+
+    private function sanitizeLanguage($language)
+    {
+        return str_replace('../', '', $language);
+    }
+}
+
+(new LanguageManager())-&gt;loadLanguage();</code></pre>
+<p>This challenge contains a file inclusion vulnerability that can allow an attacker to execute arbitrary code on the server or to leak sensitive files. The bug is in the sanitization function in line 18. The replacement of the ../ string is not executed recursively. This allows the attacker to simply use the character sequence ....// or ..././ that after replacement will end in ../ again. Thus, changing the path to the included language file via path traversal is possible. For example, the system's passwd file can be leaked by setting the following payload in the Accept-Language HTTP request header: .//....//....//etc/passwd.</p>
+<h3>Day 10 - Anticipation</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">extract($_POST);
+
+function goAway() {
+    error_log("Hacking attempt.");
+    header('Location: /error/');
+}
+
+if (!isset($pi) || !is_numeric($pi)) {
+    goAway();
+}
+
+if (!assert("(int)$pi == 3")) {
+    echo "This is not pi.";
+} else {
+    echo "This might be pi.";
+}</code></pre>
+<p>This challenge contains a code injection vulnerability in line 12 that can be used by an attacker to execute arbitrary PHP code on the web server. The operation assert() evaluates PHP code and it contains user input. In line 1, all POST parameters are instantiated as global variables by PHP's built-in function extract(). This can lead to severe problems itself but in this challenge it is only used for a variety of sources. It enables the attacker to set the $pi variable directly via POST Parameter. In line 8 there is a check to verify if the input is numeric and if not the user is redirected to an error page via the goAway() function. However, after the redirect in line 5 the PHP script continues running because there is no exit() call. Thus, user provided PHP code in the pi parameter is always executed, e.g. pi=phpinfo().</p>
+<h3>Day 11 - Pumpkin Pie</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class Template {
+    public $cacheFile = '/tmp/cachefile';
+    public $template = '&lt;div&gt;Welcome back %s&lt;/div&gt;';
+
+    public function __construct($data = null) {
+        $data = $this-&gt;loadData($data);
+        $this-&gt;render($data);
+    }
+
+    public function loadData($data) {
+        if (substr($data, 0, 2) !== 'O:' 
+        &amp;&amp; !preg_match('/O:\d:\{/', $data)) {
+            return unserialize($data);
+        }
+        return [];
+    }
+
+    public function createCache($file = null, $tpl = null) {
+        $file = $file ?? $this-&gt;cacheFile;
+        $tpl = $tpl ?? $this-&gt;template;
+        file_put_contents($file, $tpl);
+    }
+
+    public function render($data) {
+        echo sprintf(
+            $this-&gt;template,
+            htmlspecialchars($data['name'])
+        );
+    }
+
+    public function __destruct() {
+        $this-&gt;createCache();
+    }
+}
+
+new Template($_COOKIE['data']);</code></pre>
+<p>This challenge contains an PHP object injection vulnerability. In line 13 an attacker is able to pass user input into the unserialize() function by altering his cookie data. There are two checks in line 11 and 12 that try to prevent the deserialization of objects. The first check can be easily circumvented, for example by injecting an object into an array, leading to a payload string beginning with a:1: instead of O:. The second check can be bypassed by abusing PHP's flexible serialization syntax. It is possible to use the syntax O:+1: to bypass this regex. Finally, this means an attacker can inject an object of class Template into the application. After the serialized form is deserialized and the Template object is instantiated, its destructor is called when the script terminates (line 31). Now, the attacker controlled properties cacheFile and template of the injected object are used to write to a file in line 21. Thus, the attacker can create arbitraries files on the file system, for example a PHP shell in the document root: a:1:{i:0;O:%2b8:&quot;Template&quot;:2:{s:9:&quot;cacheFile&quot;;s:14:&quot;/var/www/a.php&quot;;s:8:&quot;template&quot;;s:16:&quot;&lt;?php%20phpinfo();&quot;;}} More information about this attack can be found in our blog posts.</p>
+<p><a href="https://blog.ripstech.com/tags/php-object-injection/">https://blog.ripstech.com/tags/php-object-injection/</a></p>
+<h3>Day 12 - String Lights</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">$sanitized = [];
+
+foreach ($_GET as $key =&gt; $value) {
+    $sanitized[$key] = intval($value);
+}
+
+$queryParts = array_map(function ($key, $value) {
+    return $key . '=' . $value;
+}, array_keys($sanitized), array_values($sanitized));
+
+$query = implode('&amp;', $queryParts);
+
+echo "&lt;a href='/images/size.php?" .
+    htmlentities($query) . "'&gt;link&lt;/a&gt;";</code></pre>
+<p>There is a cross-site scripting vulnerability in line 13. This bug depends on the fact that the keys of the $_GET array (the GET parameter names) are not sufficiently sanitized in the code. Both the keys and the sanitized GET values are passed to the href attribute of the <code>&lt;a&gt;</code> tag as a concatenated string. The sanitizer htmlentities() is used, however, single quotes are not affected by default by this built-in function. Hence, an attacker is able to perform an XSS attack against the user, for example using the following query parameter that breaks the href attribute and appends an eventhandler with JavaScript code: /?a'onclick%3dalert(1)%2f%2f=c. Note that the payload is within the parameter name, not the parameter value.</p>
+<h3>Day 13 - Turkey Baster</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class LoginManager {
+    private $em;
+    private $user;
+    private $password;
+
+    public function __construct($user, $password) {
+        $this-&gt;em = DoctrineManager::getEntityManager();
+        $this-&gt;user = $user;
+        $this-&gt;password = $password;
+    }
+
+    public function isValid() {
+        $user = $this-&gt;sanitizeInput($this-&gt;user);
+        $pass = $this-&gt;sanitizeInput($this-&gt;password);
+
+        $queryBuilder = $this-&gt;em-&gt;createQueryBuilder()
+            -&gt;select("COUNT(p)")
+            -&gt;from("User", "u")
+            -&gt;where("user = '$user' AND password = '$pass'");
+        $query = $queryBuilder-&gt;getQuery();
+        return boolval($query-&gt;getSingleScalarResult());
+    }
+
+    public function sanitizeInput($input, $length = 20) {
+        $input = addslashes($input);
+        if (strlen($input) &gt; $length) {
+            $input = substr($input, 0, $length);
+        }
+        return $input;
+    }
+}
+
+$auth = new LoginManager($_POST['user'], $_POST['passwd']);
+if (!$auth-&gt;isValid()) {
+    exit;
+}</code></pre>
+<p>Today's challenge contains a DQL (Doctrine Query Language) injection vulnerability in line 19. A DQL injection is similar to a SQL injection but more limited, nonetheless the where() method of Doctrine is vulnerable. In line 13 and 14 sanitization is added to the input, however, the sanitizeInput() method has a bug. First, it uses addslashes() for escaping relevant characters by adding a backslash \ infront of them. In this case if we pass a \ as input, it get escaped to \. But then, the substr() function is used to truncate the escaped string. This enables an attacker to send a string that is long enough that the escaped backslash is cut off and we are left with a single \ at the end of the string. This will then break the WHERE statement and allows the injection of own DQL syntax, for example the condition OR 1=1 that is always true and bypasses the authentication: user=1234567890123456789\&amp;passwd=%20OR%201=1-. The resulting WHERE statement will look like user = '1234567890123456789\' AND password = ' OR 1=1-' in DQL. Note how the backslash confuses the quotes and allows to inject DQL into the password value. The resulting query does not look valid because of the trailing slash. Fortunately, Doctrine closes the last single quote on its own, so the resulting query looks like OR 1=1-''.
+To avoid DQL injections always use bound parameters for dynamic conditions. Never try to secure a DQL query with addslashes() or similar functions. Additionally, the password should be stored hashed in the database, for example in the BCrypt format.</p>
+<h3>Day 14 - Snowman</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class Carrot {
+    const EXTERNAL_DIRECTORY = '/tmp/';
+    private $id;
+    private $lost = 0;
+    private $bought = 0;
+
+    public function __construct($input) {
+        $this-&gt;id = rand(1, 1000);
+
+        foreach ($input as $field =&gt; $count) {
+            $this-&gt;$field = $count++;
+        }
+    }
+
+    public function __destruct() {
+        file_put_contents(
+            self::EXTERNAL_DIRECTORY . $this-&gt;id,
+            var_export(get_object_vars($this), true)
+        );
+    }
+}
+
+$carrot = new Carrot($_GET);</code></pre>
+<p>This class is vulnerable to directory traversal because of mass assignment. The constructor can be used to set arbitrary class attributes (line 11). By overwriting the attribute $id you gain control over the first parameter of file_put_contents() in line 16. With the help of ../ it is possible to target arbitrary files on the system that are writable, for example it can be used to create a PHP shell in the document root. The values that are send to the class are incremented in line 11 and thus an integer after the operation is done. The incrementation happens after the assignment though, so the class attribute contains the original value of $count.
+To avoid this security issue be vary careful when using reflection based on user input to set variables. It is recommended to implement a white-list verfication that contains the names of all variables that can be modified. A real world example of a vulnerability that is caused by mass assignment can be found in our blog:</p>
+<p><a href="https://blog.ripstech.com/2016/the-state-of-wordpress-security/#podlove-publisher">https://blog.ripstech.com/2016/the-state-of-wordpress-security/#podlove-publisher</a></p>
+<h3>Day 15 - Sleigh Ride</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class Redirect {
+    private $websiteHost = 'www.vulnspy.com';
+
+    private function setHeaders($url) {
+        $url = urldecode($url);
+        header("Location: $url");
+    }
+
+    public function startRedirect($params) {
+        $parts = explode('/', $_SERVER['PHP_SELF']);
+        $baseFile = end($parts);
+        $url = sprintf(
+            "%s?%s",
+            $baseFile,
+            http_build_query($params)
+        );
+        $this-&gt;setHeaders($url);
+    }
+}
+
+if ($_GET['redirect']) {
+    (new Redirect())-&gt;startRedirect($_GET['params']);
+}</code></pre>
+<p>This challenge contains an open redirect vulnerability in line 6. The code takes the input from the super global $_SERVER[‘PHP_SELF’] and splits it at the slash character (line 10). Then the last part is taken and used to build the new URL that is passed into the header() function. An attacker is able to inject his own URL by using url-encoded characters that are decoded in line 5. A possible payload could look like /index.php/http:%252f%252fwww.vulnspy.com?redirect=1.
+This bug allows an attacker to redirect the user from the original site to a site of the attackers will. The attacker then could do phishing, for example he could present a forged login screen to grab the credentials of the user for the original site.</p>
+<h3>Day 16 - Poem</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class FTP {
+    public $sock;
+
+    public function __construct($host, $port, $user, $pass) {
+        $this-&gt;sock = fsockopen($host, $port);
+
+        $this-&gt;login($user, $pass);
+        $this-&gt;cleanInput();
+        $this-&gt;mode($_REQUEST['mode']);
+        $this-&gt;send($_FILES['file']);
+    }
+
+    private function cleanInput() {
+        array_filter($_GET, 'intval');
+        array_filter($_POST, 'intval');
+        array_filter($_COOKIE, 'intval');
+    }
+
+    public function login($username, $password) {
+        fwrite($this-&gt;sock, "USER " . $username);
+        fwrite($this-&gt;sock, "PASS " . $password);
+    }
+
+    public function mode($mode) {
+        if ($mode == 1 || $mode == 2 || $mode == 3) {
+            fputs($this-&gt;sock, "MODE $mode");
+        }
+    }
+
+    public function send($data) {
+        fputs($this-&gt;sock, $data);
+    }
+}
+
+new FTP('localhost', 21, 'user', 'password');</code></pre>
+<p>This challenge contains two bugs that can be used together to inject data into the open FTP connection. The first bug is the usage of $_REQUEST in line 9 while only sanitizing $_GET and $_POST in lines 14 to 16. $_REQUEST is the combination of $_GET, $_POST, and $_COOKIE but it is only a copy of the values, not a reference. Therefore the sanitization of $_GET, $_POST, and $_COOKIE alone is not sufficient. A real world example of a vulnerability that is caused by a similar confusion can be found in our blog.</p>
+<p>The second bug is the usage of the type-unsafe comparison == instead of === in line 25. This enables an attacker to inject and execute new commands in the existing connection, for example a delete command with the query string <code>?mode=1%0a%0dDELETE%20test.file</code></p>
+<h3>Day 17 - Mistletoe</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class RealSecureLoginManager {
+    private $em;
+    private $user;
+    private $password;
+
+    public function __construct($user, $password) {
+        $this-&gt;em = DoctrineManager::getEntityManager();
+        $this-&gt;user = $user;
+        $this-&gt;password = $password;
+    }
+
+    public function isValid() {
+        $pass = md5($this-&gt;password, true);
+        $user = $this-&gt;sanitizeInput($this-&gt;user);
+
+        $queryBuilder = $this-&gt;em-&gt;createQueryBuilder()
+            -&gt;select("COUNT(p)")
+            -&gt;from("User", "u")
+            -&gt;where("password = '$pass' AND user = '$user'");
+        $query = $queryBuilder-&gt;getQuery();
+        return boolval($query-&gt;getSingleScalarResult());
+    }
+
+    public function sanitizeInput($input) {
+        return addslashes($input);
+    }
+}
+
+$auth = new RealSecureLoginManager(
+    $_POST['user'],
+    $_POST['passwd']
+);
+if (!$auth-&gt;isValid()) {
+    exit;
+}</code></pre>
+<p>This challenge is supposed to be a fixed version of day 13 but it introduces new vulnerabilities instead. The author tried to fix the DQL injection by applying addslashes() without substr() on the user name, and by hashing the password in line 13 using md5(). Besides the fact that md5 should not be used to hash passwords and that password hashes should not be compared this way, the second parameter is set to true. This returns the hash in binary format. The binary hash can contain ASCII characters that are interpreted by Doctrine. In this case an attacker could use the value 128 as the password, resulting in <code>v�an���l���q��\</code> as hash. With the backslash at the end the single quote gets escaped leading to an injection. A possible payload could be ?user=%20OR%201=1-&amp;passwd=128.</p>
+<p>To avoid DQL injections always use bound parameters for dynamic conditions. Never try to secure a DQL query with addslashes() or similar functions. Additionally, the password should be stored in a secure hashing format, for example BCrypt.</p>
+<h3>Day 18 - Sign</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class JWT {
+    public function verifyToken($data, $signature) {
+        $pub = openssl_pkey_get_public("file://pub_key.pem");
+        $signature = base64_decode($signature);
+        if (openssl_verify($data, $signature, $pub)) {
+            $object = json_decode(base64_decode($data));
+            $this-&gt;loginAsUser($object);
+        }
+    }
+}
+
+(new JWT())-&gt;verifyToken($_GET['d'], $_GET['s']);</code></pre>
+<p>This challenge contains a bug in the usage of the openssl_verify() function in line 5 that leads to an authentication bypass in line 7. The function has three return values: 1 if the signature is correct, 0 if the signature verification failed, and -1 if there was an error while performing the verification. So if an attacker generates a valid signature for the data using another algorithm than the one pub_key.pem is using, the openssl_verify() function returns -1 which is casted to true automatically. To avoid this problem use the type-safe comparison === to validate the return value of openssl_verify(), or consider using a different library for cryptography (<a href="https://paragonie.com/blog/2015/11/choosing-right-cryptography-library-for-your-php-project-guide">https://paragonie.com/blog/2015/11/choosing-right-cryptography-library-for-your-php-project-guide</a>).</p>
+<h3>Day 19 - Birch</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class ImageViewer {
+    private $file;
+
+    function __construct($file) {
+        $this-&gt;file = "images/$file";
+        $this-&gt;createThumbnail();
+    }
+
+    function createThumbnail() {
+        $e = stripcslashes(
+            preg_replace(
+                '/[^0-9\\\]/',
+                '',
+                isset($_GET['size']) ? $_GET['size'] : '25'
+            )
+        );
+        system("/usr/bin/convert {$this-&gt;file} --resize $e
+                ./thumbs/{$this-&gt;file}");
+    }
+
+    function __toString() {
+        return "&lt;a href={$this-&gt;file}&gt;
+                &lt;img src=./thumbs/{$this-&gt;file}&gt;&lt;/a&gt;";
+    }
+}
+
+echo (new ImageViewer("image.png"));</code></pre>
+<p>The ImageViewer class is prone to remote command execution through the size parameter in line 17. The preg_replace() call will purge almost any non-digit characters. This is not sufficient though because the function stripcslashes() will not only strip slashes but it will also replace C literal escape sequences with their actual byte representation. The backslash character is untouched by the preg_replace() call allowing an attacker to inject an octal byte escape sequence similar to 0\073\163\154\145\145\160\0405\073. The stripcslashes() function will evaluate this input to 0;sleep 5; which is concatenated into the system command and finally executed in the attackers favor.</p>
+<h3>Day 20 - Stocking</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">set_error_handler(function ($no, $str, $file, $line) {
+    throw new ErrorException($str, 0, $no, $file, $line);
+}, E_ALL);
+
+class ImageLoader
+{
+    public function getResult($uri)
+    {
+        if (!filter_var($uri, FILTER_VALIDATE_URL)) {
+            return '&lt;p&gt;Please enter valid uri&lt;/p&gt;';
+        }
+
+        try {
+            $image = file_get_contents($uri);
+            $path = "./images/" . uniqid() . '.jpg';
+            file_put_contents($path, $image);
+            if (mime_content_type($path) !== 'image/jpeg') {
+                unlink($path);
+                return '&lt;p&gt;Only .jpg files allowed&lt;/p&gt;';
+            }
+        } catch (Exception $e) {
+            return '&lt;p&gt;There was an error: ' .
+                $e-&gt;getMessage() . '&lt;/p&gt;';
+        }
+
+        return '&lt;img src="' . $path . '" width="100"/&gt;';
+    }
+}
+
+echo (new ImageLoader())-&gt;getResult($_GET['img']);</code></pre>
+<p>This challenge contains a server-side request forgery vulnerability. It allows an attacker to perform requests on behalf of the attacked web server. Thus, servers can be reached that would otherwise be not reachable for an external attacker. For example, this can be abused to perform a port scan and to grab banners (e.g., version of the server) on an internal network that the web server is part of. The exploitable parts are the usage of file_get_contents() with unfiltered user input in line 14 and the printing of the error message to the user in line 23. An attacker can request an internal URI like ?img=<a href="http://internal:22">http://internal:22</a> and would get a response such as failed to open stream: HTTP request failed! SSH-2.0-OpenSSH_7.2p2 Ubuntu-4ubuntu2.2 if OpenSSH is running. Information like this can be used to prepare further attacks. Another popular exploit scenario is the retrieval of sensitive AWS credentials when attacking an AWS cloud instance. Besides that, filter_var() also accepts file:// URLs, enabling an attacker to load local files.</p>
+<h3>Day 21 - Gift Wrap</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">declare(strict_types=1);
+
+class ParamExtractor {
+    private $validIndices = [];
+
+    private function indices($input) {
+        $validate = function (int $value, $key) {
+            if ($value &gt; 0) {
+                $this-&gt;validIndices[] = $key;
+            }
+        };
+
+        try {
+            array_walk($input, $validate, 0);
+        } catch (TypeError $error) {
+            echo "Only numbers are allowed as input";
+        }
+
+        return $this-&gt;validIndices;
+    }
+
+    public function getCommand($parameters) {
+        $indices = $this-&gt;indices($parameters);
+        $params = [];
+        foreach ($indices as $index) {
+            $params[] = $parameters[$index];
+        }
+        return implode($params, ' ');
+    }
+}
+
+$cmd = (new ParamExtractor())-&gt;getCommand($_GET['p']);
+system('resizeImg image.png ' . $cmd);</code></pre>
+<p>This challenge contains a command injection vulnerability in line 33. The developer declared strict_types=1 in line 1 to ensure the the type hint in the validate function in line 7 throws a TypeError exception if a non-int is passed to the class. Even with strict types enabled there is an bug with the usage of array_walk() which ignores the strict typing and uses the default weak typing of PHP instead. An attacker can therefore just append a command to the last parameter that is executed in the system call. A possible payload could look like ?p[1]=1&amp;p[2]=2;%20ls%20-la.</p>
+<h3>Day 22 - Chimney</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">if (isset($_POST['password'])) {
+    setcookie('hash', md5($_POST['password']));
+    header("Refresh: 0");
+    exit;
+}
+
+$password = '0e836584205638841937695747769655';
+if (!isset($_COOKIE['hash'])) {
+    echo '&lt;form&gt;&lt;input type="password" name="password" /&gt;'
+       . '&lt;input type="submit" value="Login" &gt;&lt;/form &gt;';
+    exit;
+} elseif (md5($_COOKIE['hash']) == $password) {
+    echo 'Login succeeded';
+} else {
+    echo 'Login failed';
+}
+</code></pre>
+<p>The code snippet suffers from 4 vulnerabilities. First, the type-unsafe comparison operator is used in line 12 to compare the hashed password to a string. The string has the form of the scientific notation and as a result it is interpreted as “zero to the power of X”, which is zero. So if we are able to generate a zero-string for the hashed user input as well, the check compares zero to zero and succeeds. This hashes are called “Magic Hashes” and a Google search reveals that the MD5 hash of the value 240610708 results in the desired properties. The code snippet calculates the MD5 hash of the password twice though, so it is not possible to directly submit the value. Instead you have to exploit the second vulnerability: the first hash is calculated on the server side but stored in a cookie on the client side. Thus the value 240610708 simply has to be directly injected into the password cookie.</p>
+<p>There are two more vulnerabilities but they are not relevant for this challenge. First, the comparison of the hashes is vulnerable to timing attacks. To prevent this issue, the PHP function hash_equals() should be used for comparison. Second, the PHP function md5() is used to hash the password. The MD5 algorithm is considered broken and it was not designed for password hashing. Instead a secure password hashing algorithm like BCrypt should be used. It should be noted that passwords also should not be hard coded but separated into a configuration file.</p>
+<h3>Day 23 - Cookies</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">class LDAPAuthenticator {
+    public $conn;
+    public $host;
+
+    function __construct($host = "localhost") {
+        $this-&gt;host = $host;
+    }
+
+    function authenticate($user, $pass) {
+        $result = [];
+        $this-&gt;conn = ldap_connect($this-&gt;host);    
+        ldap_set_option(
+            $this-&gt;conn,
+            LDAP_OPT_PROTOCOL_VERSION,
+            3
+        );
+        if (!@ldap_bind($this-&gt;conn))
+            return -1;
+        $user = ldap_escape($user, null, LDAP_ESCAPE_DN);
+        $pass = ldap_escape($pass, null, LDAP_ESCAPE_DN);
+        $result = ldap_search(
+            $this-&gt;conn,
+            "",
+            "(&amp;(uid=$user)(userPassword=$pass))"
+        );
+        $result = ldap_get_entries($this-&gt;conn, $result);
+        return ($result["count"] &gt; 0 ? 1 : 0);
+    }
+}
+
+if(isset($_GET["u"]) &amp;&amp; isset($_GET["p"])) {
+    $ldap = new LDAPAuthenticator();
+    if ($ldap-&gt;authenticate($_GET["u"], $_GET["p"])) {
+        echo "You are now logged in!";
+    } else {
+        echo "Username or password unknown!";
+    }
+}</code></pre>
+<p>The LDAPAuthenticator class is prone to an LDAP injection in line 24. By injecting special characters into the username it is possible to alternate the result set of the LDAP query. Although the ldap_escape() function is used to sanitize the input in lines 19 and 20, a wrong flag has been passed to the sanitize-calls resulting in insufficient/incorrect sanitization. Therefore, in this particular example, the LDAP injection results in an unauthenticated adversary bypassing the authentication mechanism by injecting the asterisk-wildcard * character as username and password to successfully login as an arbitrary user.</p>
+<h3>Day 24 - Nutcracker</h3>
+<p>Can you spot the vulnerability?</p>
+<pre><code class="language-php">@$GLOBALS=$GLOBALS{next}=next($GLOBALS{'GLOBALS'})
+[$GLOBALS['next']['next']=next($GLOBALS)['GLOBALS']]
+[$next['GLOBALS']=next($GLOBALS[GLOBALS]['GLOBALS'])
+[$next['next']]][$next['GLOBALS']=next($next['GLOBALS'])]
+[$GLOBALS[next]['next']($GLOBALS['next']{'GLOBALS'})]=
+next(neXt(${'next'}['next']));</code></pre>
+<p>This challenge consists of a code snippet that was created by one of our team members for the Hack.lu CTF Tournament. It makes heavy use of the next() function and the $GLOBALS array. The next() function moves the internal array pointer up by one. Combined with the $GLOBALS array this allows us to execute arbitrary code.
+The payload has to be split up into 2 segments: First, a PHP function to execute, passed in via $_COOKIE[‘GLOBALS’]. Second, parameters for the injected function, passed in via the file type of a sent file with the same name as the called PHP function. A more detailed write-up of the solution can be found here:
+<a href="https://github.com/ctfs/write-ups-2014/tree/master/hack-lu-ctf-2014/next-global-backdoor">https://github.com/ctfs/write-ups-2014/tree/master/hack-lu-ctf-2014/next-global-backdoor</a></p>
+<h3>REFERENCE</h3>
+<ul>
+<li><a href="https://github.com/bl4de/security_whitepapers/blob/master/RIPS_PHP_Security_Calendar_2017.md">bl4de/security_whitepapers</a></li>
+<li><a href="https://www.ripstech.com/php-security-calendar-2017/">PHP SECURITY CALENDAR 2017</a></li>
+<li><a href="https://blog.ripstech.com/2017/php-security-advent-calendar/">PHP Security Advent Calendar 2017 Announcement</a></li>
+</ul></div>
+	</div>
+	<div class="sidebar">
+		<div class="sth-btn">
+			<a id="sth" target="_blank" href="https://www.vsplate.com/?github=vulnspy/ripstech-php-security-calendar-2017&amp;autogo=1">start to hack</a>
+			<p id="demo-notice">Click the button and start the playing.</p>
+		</div>
+		<ul>
+			<li href="#" class="nlink selected"># TOP</li>
+		</ul>
+	</div>
+</div>
+<script>
+if(lang == 'cn'){
+	$("#demo-notice").html("点击上方按钮开启实验.");
+}
+$(document).ready(function(){
+
+$.extend({
+	genMenu: function() {
+		var html = '';
+		var prevH = 'h0';
+		var toClose = 0;
+		$(".content").children("h1,h2,h3,h4,h5").each(function(i,e){
+			var tagName = $(e)[0].tagName.toLowerCase();
+			//var menuName = 'M-'+window.btoa($(e).text());
+			var menuName = 'M-'+randomString(6)+'-'+$(e).text().replace(/\ +/g,"-");
+			$(e).attr('id',menuName);
+			if(tagName > prevH){
+				html = html+'<ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose + 1;
+			}else if(tagName == prevH){
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+			}else if(tagName < prevH){
+				html = html+'</ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose - 1;
+			}
+			prevH = tagName;
+		});
+		while(toClose > 0){
+			html = html+'</ul>';
+			toClose = toClose - 1;
+		}
+		$(".sidebar ul").remove();
+		$(".sidebar").append(html);
+		$(".sidebar ul:first").prepend('<li class="menu-item nlink selected" href="#"># TOP</li>');
+		return html;
+	}
+});
+$.extend({
+	selectMenu: function() {
+		var mintoTop = 20;
+		var menu = [];
+		$("li.menu-item").each(function(i,e){
+			id = $(e);
+			if(id && id != '#'){
+				menu.push(id);
+			}
+		});
+		for(var i=menu.length;i>0;i--){
+			mid = menu[i-1].attr('href');
+			var toTop = $(mid).offset().top-$(document).scrollTop();
+			if(toTop <= mintoTop){
+				$("li.menu-item").removeClass('selected');
+				menu[i-1].addClass('selected');
+				break;
+			}
+		}
+		return mid;
+	}
+});
+$.extend({
+	fixSidebar: function() {
+		var sidebarTop = $(".sidebar").offset().top-$(document).scrollTop();
+		if($(document).scrollTop() < 120){
+			$(".sidebar").css("margin-top", "20px");
+		}else if(sidebarTop < 20){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}else if(sidebarTop > 20 && $(document).scrollTop() > 120){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}
+	}
+});
+$.genMenu();
+$(window).scroll(function(){
+	$.fixSidebar();
+	$.selectMenu();
+});
+
+});
+</script>
+<div style="float:left;width:100%;text-align:center;margin-top:5em;background: #000;color: #FFF;">
+	<div style="margin:0 auto;width:95%;max-width:90em;padding:1em 0;">All rights reserved. &copy; 2018 VULNSPY</div>
+</div>
+<script>
+$(function () {
+	$("pre code").closest("pre").addClass("line-numbers ");
+});
+</script>
+<script src="/js/prism.js"></script>
+</body>
+</html>
