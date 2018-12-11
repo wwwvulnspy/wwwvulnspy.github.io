@@ -197,6 +197,7 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 $controller       = strip_tags($result[1] ?: $this-&gt;rule-&gt;getConfig('default_controller'));</code></pre>
 <p>在修复之前程序未对控制器进行过滤，导致攻击者可以通过引入<code>\</code>符号来调用任意类方法。</p>
 <h3>漏洞利用</h3>
+<p>漏洞环境源码：<a href="https://github.com/vulnspy/thinkphp-5.1.29">https://github.com/vulnspy/thinkphp-5.1.29</a></p>
 <p><strong>1. 点击右上角的 <code>START TO HACK</code> 按钮创建实验环境</strong></p>
 <p><img src="/images/thinkphp-5.1.29/1.1.png" alt="" /></p>
 <p><strong>2. 进入实验环境</strong></p>
