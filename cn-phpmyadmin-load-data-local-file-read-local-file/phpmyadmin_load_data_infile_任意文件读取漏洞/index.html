@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Ambulong">
+<meta name="description" content="有许多文章指出一个恶意的 MySQL 服务器可以利用LOAD DATA LOCAL命令来读取MYSQL客户端的任意文件。根据这篇公开的文章phpMyAdmin开启远程登陆导致本地文件读取，我们知道 phpMyAdmin 在AllowArbitraryServer开启（允许连接到任意MySQL服务器）的情况下（如云主机/云数据库提供商），可以利用该缺陷来读取phpMyAdmin服务器上的文件。">
+<meta name="keywords" content="pma,LOAD DATA INFILE,任意文件读取,phar,反序列化,phpMyAdmin,文件包含,漏洞,fli,lfi,Local File Inclusion,vulnerability,security,security,practict,在线靶场,黑客技术,网络安全,信息安全,漏洞测试,CTF在线,渗透测试,在线练习,演练,实验,pentest,online">
+<title>phpMyAdmin LOAD DATA INFILE 任意文件读取漏洞 | VULNSPY</title>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+<!--[if lt IE 9]><script src="/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script src="/js/ie-emulation-modes-warning.js"></script>
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+<script src="/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+<link rel="stylesheet" href="/css/custom.css" />
+<link rel="stylesheet" href="/css/prism.css" />
+<script src="/js/functions.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+var lang="en";
+var la=(navigator.language) ? navigator.language.toLowerCase() : navigator.userLanguage.toLowerCase();
+if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
+	lang="cn";
+}
+</script>
+<!--[if lt IE 9]>
+	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108901411-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108901411-2');
+</script>
+</head>
+<body>
+<div class="view-header" style="z-index: 999;">
+    <ul>
+    	<li><a href="/"><h1><img style="width:1.5em;height: auto;margin-top: -0.3em;" src="/images/owl2.png" /></h1></a></li>
+        <li ><a href="/">VULNSPY</a></li>
+        <li><a href="https://blog.vulnspy.com/">BlOG</a></li>
+        <div class="pull-right">
+            <li><a target="_blank" href="/images/qqun.jpeg">QQ 群</a></li>
+            <li><a target="_blank" href="https://t.me/vulnspy">TELEGRAM GROUP</a></li>
+            <li><a target="_blank" href="https://www.youtube.com/channel/UCnqjUDkrZ0OFwZvxxiC47gw">YOUTUBE CHANNEL</a></li>
+        </div>
+    </ul>
+</div>
+<style>
+.main{
+	
+	margin: 0 auto;
+	margin-top: 7em;
+	max-width: 90em;
+	width: 95%;
+}
+.lab{
+	float:left;
+	width: 77%;
+}
+.lab h1{
+	padding: 0;
+	font-size: 230%;
+	margin: 20px 0;
+	line-height: 1.5em;
+}
+
+.lab .demo{
+	font-size: 115%;
+	line-height: 2em;
+	border: 1px solid #ccc;
+	background: #2C3844;
+	margin: 1.8em 0 1em 0;
+}
+.lab .demo .demo-btn{
+	text-align: center;
+	font-size: 150%;
+	margin: 0.3em 0;
+	color: #FFF;
+}
+.lab .demo .demo-btn a{
+	background: transparent;
+	padding: 1em;
+	font-size: 100%;
+	display: block;
+	
+}
+.lab .demo .demo-link{
+	background: rgba(0,0,0,.25);
+}
+.lab .demo a{
+	font-size: 50%;
+	text-transform: uppercase;
+	padding: 0 0.5em;
+	color: #FFF;
+}
+.lab .content{
+	font-size: 130%;
+	line-height: 1.5em;
+}
+.lab .content p{
+	margin: 1em 0;
+	word-wrap: break-word;
+}
+.lab .content img{
+	max-width: 100%;
+	margin: 1em 0;
+}
+.sidebar{
+	width: 23%;
+	float: left;
+	padding-left: 2em;
+	margin-top: 20px;
+}
+.sidebar .sth-btn {
+	width: 100%;
+	margin-left: 1em;
+}
+#sth {
+	display: block;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 0.8em 1em;
+	font-size:123%;
+	border: none;
+	border-radius: 0;
+	background: #337ab7;
+	color: #FFF;
+	font-weight: bold;
+}
+#demo-notice {
+	width: 100%;
+	margin: 0.8em 0;
+	font-size: 90%;
+	text-align: center;
+	color: #777;
+	word-break:break-all;
+}
+.sidebar ul{
+	margin: 2em 0;
+	padding: 0;
+}
+.sidebar ul ul{
+	margin: 0;
+	margin-left: 1em;
+}
+.sidebar li{
+	margin: 0 0 0.5em 0;
+	font-size: 110%;
+	list-style: none;
+	color: #767676;
+	border-left: solid 0.1em #FFF;
+	padding-left: 1em;
+	margin-left: 1em;
+	cursor: pointer;
+}
+.sidebar li.selected{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
+}
+.sidebar li:hover{
+	color: #2C3844;
+	border-left: solid 0.1em #2C3844;
+}
+</style>
+<div class="main">
+	<div class="lab">
+		<h1>phpMyAdmin LOAD DATA INFILE 任意文件读取漏洞</h1>
+		<hr/>
+		<div class="content"><blockquote>
+<p>有许多文章指出一个恶意的 MySQL 服务器可以<a href="https://dev.mysql.com/doc/refman/8.0/en/load-data-local.html">利用LOAD DATA LOCAL命令</a>来读取MYSQL客户端的任意文件。根据这篇公开的文章 (<a href="http://aq.mk/index.php/archives/23/">phpMyAdmin开启远程登陆导致本地文件读取</a>)，我们知道 phpMyAdmin 在AllowArbitraryServer开启（允许连接到任意MySQL服务器）的情况下（如云主机/云数据库提供商），可以利用该缺陷来读取phpMyAdmin服务器上的文件。</p>
+</blockquote>
+<p><img src="/images/phpmyadmin-load-data-local-file/default.png" alt="" /></p>
+<p>VulnSpy 已为大家提供在线 phpMyAdmin 环境地址：<a href="https://github.com/vulnspy/phpmyadmin-4.8.4-allowarbitraryserver">https://github.com/vulnspy/phpmyadmin-4.8.4-allowarbitraryserver</a></p>
+<h2>漏洞细节</h2>
+<p><code>LOAD DATA LOCAL</code>导致的任意文件读取是个由来已久的问题，根据前人们的研究：</p>
+<ul>
+<li><a href="https://lightless.me/archives/read-mysql-client-file.html">Read MySQL Client's File</a></li>
+<li><a href="http://russiansecurity.expert/2016/04/20/mysql-connect-file-read/">MySQL connect file read</a></li>
+</ul>
+<p>我们知道下列的下列情况都存在该问题：</p>
+<ul>
+<li>MySQL Client</li>
+<li>PHP + mysql/mysqli</li>
+<li>PHP + PDO (MYSQL_ATTR_LOCAL_INFILE)</li>
+<li>Python + MySQLdb</li>
+<li>Python3 + mysqlclient</li>
+<li>Java + JDBC Driver</li>
+<li>...</li>
+</ul>
+<p>phpMyAdmin 属于典型的 php+mysqli 组合，当 AllowArbitraryServer 开启的情况下（默认关闭），我们可以让phpMyAdmin连接到恶意的MySQL服务器来触发任意文件读取漏洞。</p>
+<h2>漏洞利用</h2>
+<p>EXP: <a href="https://github.com/Gifts/Rogue-MySql-Server/blob/master/rogue_mysql_server.py">https://github.com/Gifts/Rogue-MySql-Server/blob/master/rogue_mysql_server.py</a></p>
+<p>此处我们使用 VulnSpy 的在线 phpMyAdmin 环境作演示： </p>
+<p><strong>1. 点击右上角 <code>START TO HACK</code> 创建实验环境</strong></p>
+<p>创建成功后会自动生成2个虚拟环境：</p>
+<ul>
+<li>phpmyadmin：运行phpmyadmin，目标主机</li>
+<li>mysql：运行mysql，假设为黑客的服务器</li>
+</ul>
+<p><img src="/images/phpmyadmin-load-data-local-file/1.png" alt="" /></p>
+<p><strong>2. 登录mysql的终端</strong></p>
+<p>1). 点击控制栏终端图标，选择<code>db</code></p>
+<p><img src="/images/phpmyadmin-load-data-local-file/2.1.png" alt="" /></p>
+<p>2). 点击右上角<code>Connect</code>按钮，登录终端</p>
+<p><img src="/images/phpmyadmin-load-data-local-file/2.2.png" alt="" /></p>
+<p>3). 终端下运行 <code>cd /root/exp/</code>进入<code>/root/exp/</code>目录</p>
+<p>4). 使用vim编辑<code>rogue_mysql_server.py</code>文件，将<code>PORT = 3306</code>修改为<code>PORT = 3307</code></p>
+<p><em>PORT为监听端口，filelist为要读取的文件</em></p>
+<p><img src="/images/phpmyadmin-load-data-local-file/4.png" alt="" /></p>
+<p>5). 运行<code>python rogue_mysql_server.py</code>，启动服务</p>
+<p>6). 打开phpMyAdmin的登录页面，地址输入<code>db:3307</code>、用户名<code>vulnspy</code>、密码<code>vulnspy</code>，提交登录。</p>
+<p><img src="/images/phpmyadmin-load-data-local-file/6.1.png" alt="" /></p>
+<p><img src="/images/phpmyadmin-load-data-local-file/6.2.png" alt="" /></p>
+<p>7). 回到<code>db</code>的终端，如果文件读取成功会将文件内容记录到<code>mysql.log</code>文件中</p>
+<p><em>在该演示中成功读取/etc/passwd文件</em></p>
+<p><img src="/images/phpmyadmin-load-data-local-file/7.1.png" alt="" /></p>
+<p><img src="/images/phpmyadmin-load-data-local-file/7.2.png" alt="" /></p>
+<h2>参考</h2>
+<ul>
+<li><a href="http://aq.mk/index.php/archives/23/">phpMyAdmin开启远程登陆导致本地文件读取</a></li>
+<li><a href="https://lightless.me/archives/read-mysql-client-file.html">Read MySQL Client's File</a></li>
+<li><a href="http://russiansecurity.expert/2016/04/20/mysql-connect-file-read/">MySQL connect file read</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/load-data-local.html">Security Issues with LOAD DATA LOCAL</a></li>
+</ul></div>
+	</div>
+	<div class="sidebar">
+		<div class="sth-btn">
+			<a id="sth" target="_blank" href="https://www.vsplate.com/?github=vulnspy/phpmyadmin-4.8.4-allowarbitraryserver&amp;autogo=1">start to hack</a>
+			<p id="demo-notice">Click the button and start the playing.</p>
+		</div>
+		<ul>
+			<li href="#" class="nlink selected"># TOP</li>
+		</ul>
+	</div>
+</div>
+<script>
+if(lang == 'cn'){
+	$("#demo-notice").html("点击上方按钮开启实验.");
+}
+$(document).ready(function(){
+
+$.extend({
+	genMenu: function() {
+		var html = '';
+		var prevH = 'h0';
+		var toClose = 0;
+		$(".content").children("h1,h2,h3,h4,h5").each(function(i,e){
+			var tagName = $(e)[0].tagName.toLowerCase();
+			//var menuName = 'M-'+window.btoa($(e).text());
+			var menuName = 'M-'+randomString(32);//+'-'+$(e).text().replace(/\ +/g,"-");
+			$(e).attr('id',menuName);
+			if(tagName > prevH){
+				html = html+'<ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose + 1;
+			}else if(tagName == prevH){
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+			}else if(tagName < prevH){
+				html = html+'</ul>';
+				html = html+'<li class="menu-item nlink" href="#'+$.escapeHtml(menuName)+'">'+$.escapeHtml($(e).text())+'</li>';
+				toClose = toClose - 1;
+			}
+			prevH = tagName;
+		});
+		while(toClose > 0){
+			html = html+'</ul>';
+			toClose = toClose - 1;
+		}
+		$(".sidebar ul").remove();
+		$(".sidebar").append(html);
+		$(".sidebar ul:first").prepend('<li class="menu-item nlink selected" href="#"># TOP</li>');
+		return html;
+	}
+});
+$.extend({
+	selectMenu: function() {
+		var mintoTop = 20;
+		var menu = [];
+		$("li.menu-item").each(function(i,e){
+			id = $(e);
+			if(id && id != '#'){
+				menu.push(id);
+			}
+		});
+		for(var i=menu.length;i>0;i--){
+			mid = menu[i-1].attr('href');
+			var toTop = $(mid).offset().top-$(document).scrollTop();
+			if(toTop <= mintoTop){
+				$("li.menu-item").removeClass('selected');
+				menu[i-1].addClass('selected');
+				break;
+			}
+		}
+		return mid;
+	}
+});
+$.extend({
+	fixSidebar: function() {
+		var sidebarTop = $(".sidebar").offset().top-$(document).scrollTop();
+		if($(document).scrollTop() < 120){
+			$(".sidebar").css("margin-top", "20px");
+		}else if(sidebarTop < 20){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}else if(sidebarTop > 20 && $(document).scrollTop() > 120){
+			$(".sidebar").css("margin-top", ($(document).scrollTop()-80)+"px");
+		}
+	}
+});
+$.genMenu();
+$(window).scroll(function(){
+	$.fixSidebar();
+	$.selectMenu();
+});
+
+});
+</script>
+<div style="float:left;width:100%;text-align:center;margin-top:5em;background: #000;color: #FFF;">
+	<div style="margin:0 auto;width:95%;max-width:90em;padding:1em 0;">All rights reserved. &copy; 2018 VULNSPY</div>
+</div>
+<script>
+$(function () {
+	$("pre code").closest("pre").addClass("line-numbers ");
+});
+</script>
+<script src="/js/prism.js"></script>
+</body>
+</html>
