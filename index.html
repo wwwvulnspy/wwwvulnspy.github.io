@@ -168,6 +168,20 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 			<br/>
 			<div class="desc">有许多文章指出一个恶意的 MySQL 服务器可以利用LOAD DATA LOCAL命令来读取MYSQL客户端的任意文件。根据这篇公开的文章phpMyAdmin开启远程登陆导致本地文件读取，我们知道 phpMyAdmin 在AllowArbitraryServer开启（允许连接到任意MySQL服务器）的情况下（如云主机/云数据库提供商），可以利用该缺陷来读取phpMyAdmin服务器上的文件。</div>
 			</li><li>
+			<div class="img"><img src="/images/phpmyadmin-pmasa-2018-6/default.png" /></div>
+			<h4><a class="title" href="/en-phpmyadmin-pmasa-2018-6/phpmyadmin_4.8.0~4.8.3_local_file_inclusion_in_transformation_feature_(pmasa-2018-6/cve-2018-19968)">phpMyAdmin 4.8.0~4.8.3 Local File Inclusion in Transformation Feature (PMASA-2018-6/CVE-2018-19968)</a></h4>
+			<div class="time">Last Updated:  Dec 13, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">On December 07, 2018, phpMyAdmin released a security bulletin PMASA-2018-6 to fix a local file reading vulnerability caused by the Transformation feature. The transformation feature from PHPMyAdmin allows to have a specific display for some columns when selecting them from a table. For example, it can transform links in text format to clickable links when rendering them.</div>
+			</li><li>
+			<div class="img"><img src="/images/phpmyadmin-pmasa-2018-6/default.png" /></div>
+			<h4><a class="title" href="/cn-phpmyadmin-pmasa-2018-6/phpmyadmin_4.8.0~4.8.3_transformation_任意文件包含/远程代码执行漏洞_(需登录/pmasa-2018-6/cve-2018-19968)">phpMyAdmin 4.8.0~4.8.3 Transformation 任意文件包含/远程代码执行漏洞 (需登录/PMASA-2018-6/CVE-2018-19968)</a></h4>
+			<div class="time">Last Updated:  Dec 13, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">2018年12月07日 phpMyAdmin 发布安全公告PMASA-2018-6修复了一个由Transformation特性引起的本地文件读取漏洞，影响4.8.0~4.8.3版本，CVE编号CVE-2018-19968。Transformation是phpMyAdmin中的一个高级功能，通过Transformation可以对每个字段的内容使用不同的转换，每个字段中的内容将被预定义的规则所转换。比如我们有一个存有文件名的字段 ‘Filename’，正常情况下 phpMyAdmin 只会将路径显示出来。但是通过Transformation我们可以将该字段转换成超链接，我们就能直接在 phpMyAdmin 中点击并在浏览器的新窗口中看到这个文件。</div>
+			</li><li>
 			<div class="img"><img src="/images/thinkphp-5.1.29/default.png" /></div>
 			<h4><a class="title" href="/cn-thinkphp-5.x-rce/thinkphp_5.x_(v5.0.23及v5.1.31以下版本)_远程命令执行漏洞利用（getshell）">ThinkPHP 5.x (v5.0.23及v5.1.31以下版本) 远程命令执行漏洞利用（GetShell）</a></h4>
 			<div class="time">Last Updated:  Dec 11, 2018</div>
@@ -238,13 +252,6 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 			<br/>
 			<div class="desc">2018年9月1日，阿里云态势感知发布预警，近日利用ECShop全系列版本的远程代码执行漏洞进行批量化攻击量呈上升趋势，该漏洞可直接导致网站服务器沦陷，黑客可通过WEB攻击直接获得服务器权限，利用简单且危害较大。</div>
 			</li><li>
-			<div class="img"><img src="/images/en-CVE-2018-14729-discuz-x1.5-to-x2.5-getshell-rce/discuz1.png" /></div>
-			<h4><a class="title" href="/en-cve-2018-14729-discuz-x1.5-to-x2.5-getshell-rce/cve-2018-14729:_discuz!_x1.5_to_x2.5_database_backup_rce_(administrative_privileges_required)">CVE-2018-14729: Discuz! X1.5 to X2.5 Database Backup RCE (Administrative Privileges Required)</a></h4>
-			<div class="time">Last Updated:  Aug 31, 2018</div>
-			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
-			<br/>
-			<div class="desc">Discuz! X1.5 to X2.5's database backup function in file source/admincp/admincp_db.php allows remote attackers to execute arbitrary PHP code.</div>
-			</li><li>
 			<div class="img"><img src="/images/cn-cve-2018-14729-discuz-x1.5-to-x2.5-getshell-rce/t018398d32cd00241b1.jpg" /></div>
 			<h4><a class="title" href="/cn-cve-2018-14729-discuz-x1.5-to-x2.5-getshell-rce/cve-2018-14729:_discuz!_x1.5_~_x2.5_后台数据库备份功能远程命令执行_getshell">CVE-2018-14729: Discuz! X1.5 ~ X2.5 后台数据库备份功能远程命令执行 Getshell</a></h4>
 			<div class="time">Last Updated:  Aug 31, 2018</div>
@@ -252,12 +259,12 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 			<br/>
 			<div class="desc">Discuz! X1.5 to X2.5 数据库备份功能文件 source/admincp/admincp_db.php 存在命令注入漏洞，允许攻击者通过该漏洞执行任意系统命令。</div>
 			</li><li>
-			<div class="img"><img src="/images/en-ripstech-presents-php-security-calendar-2017/default.png" /></div>
-			<h4><a class="title" href="/cn-ripstech-presents-php-security-calendar-2017/rips_2017_php代码安全审计挑战在线测试环境/writeup">RIPS 2017 PHP代码安全审计挑战在线测试环境/Writeup</a></h4>
-			<div class="time">Last Updated:  Aug 30, 2018</div>
+			<div class="img"><img src="/images/en-CVE-2018-14729-discuz-x1.5-to-x2.5-getshell-rce/discuz1.png" /></div>
+			<h4><a class="title" href="/en-cve-2018-14729-discuz-x1.5-to-x2.5-getshell-rce/cve-2018-14729:_discuz!_x1.5_to_x2.5_database_backup_rce_(administrative_privileges_required)">CVE-2018-14729: Discuz! X1.5 to X2.5 Database Backup RCE (Administrative Privileges Required)</a></h4>
+			<div class="time">Last Updated:  Aug 31, 2018</div>
 			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
 			<br/>
-			<div class="desc">RIPSTECH PRESENTS PHP SECURITY CALENDAR 是由 RIPS 团队出品的PHP代码安全审计挑战系列题目，RIPSTECH PRESENTS PHP SECURITY CALENDAR 2017 共包含24道题目，每道题目将包含一个较新颖的知识点供大家学习。该教程将使用 VULNSPY 的在线测试环境来演示这系列题目漏洞利用演示。</div>
+			<div class="desc">Discuz! X1.5 to X2.5's database backup function in file source/admincp/admincp_db.php allows remote attackers to execute arbitrary PHP code.</div>
 			</li><li>
 			<div class="img"><img src="/images/en-ripstech-presents-php-security-calendar-2017/default.png" /></div>
 			<h4><a class="title" href="/en-ripstech-presents-php-security-calendar-2017/ripstech_presents_-_php_security_calendar_2017_online_env">RIPSTECH PRESENTS - PHP SECURITY CALENDAR 2017 ONLINE ENV</a></h4>
@@ -266,12 +273,12 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 			<br/>
 			<div class="desc">RIPSTECH PHP security challenges, each challenge consists of a new PHP code snippet for your review. Within these code snippets a different security vulnerability is hidden. Sometimes the security risk is obvious but seems to be patched, sometimes a rather unknown vulnerability type affects the code. Different types of security vulnerabilities, sanitization approaches, and user input origins are used in each challenge for a great learning experience. The solution is available at the end of each post. Specifically developers that are new to the security field can learn about various pitfalls and tricks of PHP that are exploited by attackers. You can use our daily challenge to train your security skills and to get fit for 2018.</div>
 			</li><li>
-			<div class="img"><img src="/images/cn-cve-2017-8295-unauthorized-password-reset-vulnerability/default.png" /></div>
-			<h4><a class="title" href="/cn-cve-2017-8295-unauthorized-password-reset-vulnerability/cve-2017-8295:_wordpress_2.3-4.8.3_任意密码重置/host头注入漏洞利用">CVE-2017-8295: WordPress 2.3-4.8.3 任意密码重置/HOST头注入漏洞利用</a></h4>
-			<div class="time">Last Updated:  Aug 23, 2018</div>
+			<div class="img"><img src="/images/en-ripstech-presents-php-security-calendar-2017/default.png" /></div>
+			<h4><a class="title" href="/cn-ripstech-presents-php-security-calendar-2017/rips_2017_php代码安全审计挑战在线测试环境/writeup">RIPS 2017 PHP代码安全审计挑战在线测试环境/Writeup</a></h4>
+			<div class="time">Last Updated:  Aug 30, 2018</div>
 			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
 			<br/>
-			<div class="desc">WordPress 2.3-4.8.3 的找回密码功能在发送找回密码邮件的过程中直接使用 Host 地址作为邮件请求头的一部分，攻击者可利用该功能窃取找回密码邮件内容。</div>
+			<div class="desc">RIPSTECH PRESENTS PHP SECURITY CALENDAR 是由 RIPS 团队出品的PHP代码安全审计挑战系列题目，RIPSTECH PRESENTS PHP SECURITY CALENDAR 2017 共包含24道题目，每道题目将包含一个较新颖的知识点供大家学习。该教程将使用 VULNSPY 的在线测试环境来演示这系列题目漏洞利用演示。</div>
 			</li><li>
 			<div class="img"><img src="/images/cn-cve-2017-8295-unauthorized-password-reset-vulnerability/default.png" /></div>
 			<h4><a class="title" href="/en-cve-2017-8295-unauthorized-password-reset-vulnerability/cve-2017-8295:_wordpress_2.3-4.8.3_unauthorized_password_reset/host_header_injection_vulnerability_exploit">CVE-2017-8295: WordPress 2.3-4.8.3 Unauthorized Password Reset/Host Header Injection Vulnerability Exploit</a></h4>
@@ -279,6 +286,13 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
 			<br/>
 			<div class="desc">WordPress 2.3-4.8.3 password reset function directly uses the HTTP_HOST as part of the password reset mail's header, which can be exploited by an attacker to steal the content of the password reset mail.</div>
+			</li><li>
+			<div class="img"><img src="/images/cn-cve-2017-8295-unauthorized-password-reset-vulnerability/default.png" /></div>
+			<h4><a class="title" href="/cn-cve-2017-8295-unauthorized-password-reset-vulnerability/cve-2017-8295:_wordpress_2.3-4.8.3_任意密码重置/host头注入漏洞利用">CVE-2017-8295: WordPress 2.3-4.8.3 任意密码重置/HOST头注入漏洞利用</a></h4>
+			<div class="time">Last Updated:  Aug 23, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">WordPress 2.3-4.8.3 的找回密码功能在发送找回密码邮件的过程中直接使用 Host 地址作为邮件请求头的一部分，攻击者可利用该功能窃取找回密码邮件内容。</div>
 			</li><li>
 			<div class="img"><img src="/images/cn-cve-2018-6389-wordpress-denial-of-service-dos-vulnerability/default.png" /></div>
 			<h4><a class="title" href="/en-cve-2018-6389-wordpress-denial-of-service-dos-vulnerability/cve-2018-6389:_wordpress_&lt;=_4.9.x_denial_of_service_(dos)_vulnerability_exploit">CVE-2018-6389: WordPress &lt;= 4.9.x Denial of Service (DOS) Vulnerability Exploit</a></h4>
@@ -308,19 +322,19 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 			<br/>
 			<div class="desc">WordPress是如今使用最为广泛的一套内容管理系统。根据 w3tech 统计，全世界大概有30%的网站运行着WordPress程序。昨日RIPS团队公开了一个Wordpress的任意文件删除漏洞（需要登录），目前该漏洞仍然未修复（2018年06月27日），该漏洞影响 Wordpress 最新版 4.9.6.</div>
 			</li><li>
-			<div class="img"><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_1.png" /></div>
-			<h4><a class="title" href="/cn-phpmyadmin-4.8.1-lfi-to-rce/phpmyadmin_4.8.x_本地文件包含漏洞利用">phpMyAdmin 4.8.x 本地文件包含漏洞利用</a></h4>
-			<div class="time">Last Updated:  Jun 21, 2018</div>
-			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
-			<br/>
-			<div class="desc">ChaMd5安全团队公开了一个phpMyAdmin最新版中的本地文件包含漏洞。该漏洞利用不要求root帐号，只需能够登录 phpMyAdmin 便能够利用。在这篇文章中我们将使用VulnSpy[在线 phpMyAdmin 环境来演示该漏洞的利用。</div>
-			</li><li>
 			<div class="img"><img src="/images/phpMyAdmin-4-8-x-Authorited-CLI-to-RCE/exp_1.png" /></div>
 			<h4><a class="title" href="/phpmyadmin-4.8.1/phpmyadmin_4.8.1_lfi_to_rce_vulnerability">phpMyAdmin 4.8.1 LFI to RCE Vulnerability</a></h4>
 			<div class="time">Last Updated:  Jun 21, 2018</div>
 			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
 			<br/>
 			<div class="desc">A new Critical CSRF Vulnerability discovered in widely used phpMyAdmin open source admin tool allows an attacker perform harmful database operation such as DROP TABLE, MODIFY PASSWORD.</div>
+			</li><li>
+			<div class="img"><img src="/images/phpMyAdmin-4-8-x-LFI-Exploit/exp_1.png" /></div>
+			<h4><a class="title" href="/cn-phpmyadmin-4.8.1-lfi-to-rce/phpmyadmin_4.8.x_本地文件包含漏洞利用">phpMyAdmin 4.8.x 本地文件包含漏洞利用</a></h4>
+			<div class="time">Last Updated:  Jun 21, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">ChaMd5安全团队公开了一个phpMyAdmin最新版中的本地文件包含漏洞。该漏洞利用不要求root帐号，只需能够登录 phpMyAdmin 便能够利用。在这篇文章中我们将使用VulnSpy[在线 phpMyAdmin 环境来演示该漏洞的利用。</div>
 			</li><li>
 			<div class="img"><img src="/images/cn-phpMyAdmin-4-7-x-XSRF-CSRF-vulnerability-exploit/2.1.1.png" /></div>
 			<h4><a class="title" href="/pmasa-2017-9/phpmyadmin_4.7.x_xsrf/csrf_vulnerability_(pmasa-2017-9)">phpMyAdmin 4.7.x XSRF/CSRF vulnerability (PMASA-2017-9)</a></h4>

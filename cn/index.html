@@ -161,6 +161,13 @@ if(la=='zh-cn' || la=='zh-tw' || la=='zh-hk'){
 			<br/>
 			<div class="desc">有许多文章指出一个恶意的 MySQL 服务器可以利用LOAD DATA LOCAL命令来读取MYSQL客户端的任意文件。根据这篇公开的文章phpMyAdmin开启远程登陆导致本地文件读取，我们知道 phpMyAdmin 在AllowArbitraryServer开启（允许连接到任意MySQL服务器）的情况下（如云主机/云数据库提供商），可以利用该缺陷来读取phpMyAdmin服务器上的文件。</div>
 			</li><li>
+			<div class="img"><img src="/images/phpmyadmin-pmasa-2018-6/default.png" /></div>
+			<h4><a class="title" href="/cn-phpmyadmin-pmasa-2018-6/phpmyadmin_4.8.0~4.8.3_transformation_任意文件包含/远程代码执行漏洞_(需登录/pmasa-2018-6/cve-2018-19968)">phpMyAdmin 4.8.0~4.8.3 Transformation 任意文件包含/远程代码执行漏洞 (需登录/PMASA-2018-6/CVE-2018-19968)</a></h4>
+			<div class="time">Last Updated:  Dec 13, 2018</div>
+			<div class="author">&nbsp;-&nbsp;by <span>VulnSpy Labs</span></div>
+			<br/>
+			<div class="desc">2018年12月07日 phpMyAdmin 发布安全公告PMASA-2018-6修复了一个由Transformation特性引起的本地文件读取漏洞，影响4.8.0~4.8.3版本，CVE编号CVE-2018-19968。Transformation是phpMyAdmin中的一个高级功能，通过Transformation可以对每个字段的内容使用不同的转换，每个字段中的内容将被预定义的规则所转换。比如我们有一个存有文件名的字段 ‘Filename’，正常情况下 phpMyAdmin 只会将路径显示出来。但是通过Transformation我们可以将该字段转换成超链接，我们就能直接在 phpMyAdmin 中点击并在浏览器的新窗口中看到这个文件。</div>
+			</li><li>
 			<div class="img"><img src="/images/thinkphp-5.1.29/default.png" /></div>
 			<h4><a class="title" href="/cn-thinkphp-5.x-rce/thinkphp_5.x_(v5.0.23及v5.1.31以下版本)_远程命令执行漏洞利用（getshell）">ThinkPHP 5.x (v5.0.23及v5.1.31以下版本) 远程命令执行漏洞利用（GetShell）</a></h4>
 			<div class="time">Last Updated:  Dec 11, 2018</div>
